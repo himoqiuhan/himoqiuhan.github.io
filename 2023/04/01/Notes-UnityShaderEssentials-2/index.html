@@ -1,0 +1,496 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>《Unity Shader入门精要》笔记（二） | 楸涵の小窝</title><meta name="author" content="楸涵"><meta name="copyright" content="楸涵"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="光照进阶、纹理进阶">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Unity Shader入门精要》笔记（二）">
+<meta property="og:url" content="https://himoqiuhan.github.io/2023/04/01/Notes-UnityShaderEssentials-2/index.html">
+<meta property="og:site_name" content="楸涵の小窝">
+<meta property="og:description" content="光照进阶、纹理进阶">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/41TN3CwhyZL._SY346_.jpg">
+<meta property="article:published_time" content="2023-03-31T16:00:01.000Z">
+<meta property="article:modified_time" content="2024-07-27T15:13:59.655Z">
+<meta property="article:author" content="楸涵">
+<meta property="article:tag" content="TA">
+<meta property="article:tag" content="Unity">
+<meta property="article:tag" content="Shader">
+<meta property="article:tag" content="《UnityShader入门精要》">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/41TN3CwhyZL._SY346_.jpg"><link rel="shortcut icon" href="/images/favicon.png"><link rel="canonical" href="https://himoqiuhan.github.io/2023/04/01/Notes-UnityShaderEssentials-2/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '《Unity Shader入门精要》笔记（二）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-27 23:13:59'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="css/resources.css"><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="css/progress_bar.css"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="楸涵の小窝" type="application/atom+xml">
+</head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="/css/progress_bar.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/images/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">50</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fab fa-facebook-messenger"></i><span> Links</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-meteor"></i><span> AboutMe</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/100789898_p0_master1200.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="楸涵の小窝"><span class="site-name">楸涵の小窝</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fab fa-facebook-messenger"></i><span> Links</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-meteor"></i><span> AboutMe</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">《Unity Shader入门精要》笔记（二）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-03-31T16:00:01.000Z" title="发表于 2023-04-01 00:00:01">2023-04-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-27T15:13:59.655Z" title="更新于 2024-07-27 23:13:59">2024-07-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Notes/">Notes</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">5.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>22分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="《Unity Shader入门精要》笔记（二）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="光照进阶">光照进阶</h2>
+<h3 id="Unity的渲染路径">Unity的渲染路径</h3>
+<h4 id="LightMode标签支持的渲染路径设置选项">LightMode标签支持的渲染路径设置选项</h4>
+<p><code>Tags &#123; &quot;LightMode&quot; = &quot;----&quot;&#125;</code></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">标签</th>
+<th style="text-align:center">渲染路径</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Always</td>
+<td style="text-align:center">所有</td>
+<td style="text-align:center">该Pass总是被渲染，但是不会计算任何光照</td>
+</tr>
+<tr>
+<td style="text-align:center">ForwardBase</td>
+<td style="text-align:center">前向渲染</td>
+<td style="text-align:center">环境光、最重要的平行光、逐顶点光源/SH光源、Lightmaps</td>
+</tr>
+<tr>
+<td style="text-align:center">ForwardAdd</td>
+<td style="text-align:center">前向渲染</td>
+<td style="text-align:center">额外的逐像素光照</td>
+</tr>
+<tr>
+<td style="text-align:center">Deferred</td>
+<td style="text-align:center">延迟渲染</td>
+<td style="text-align:center">渲染到GBuffer</td>
+</tr>
+<tr>
+<td style="text-align:center">ShadowCaster</td>
+<td style="text-align:center">前向、延迟</td>
+<td style="text-align:center">将物体的深度信息渲染到shadowmap或一张深度纹理中</td>
+</tr>
+<tr>
+<td style="text-align:center">PrepassBase</td>
+<td style="text-align:center">(Legyacy)遗留的延迟渲染</td>
+<td style="text-align:center">渲染法线eh高光反射的指数部分</td>
+</tr>
+<tr>
+<td style="text-align:center">PrepassFinal</td>
+<td style="text-align:center">(Legacy)遗留的延迟渲染</td>
+<td style="text-align:center">通过合并纹理、光照和自发光来渲染得到最后的颜色</td>
+</tr>
+<tr>
+<td style="text-align:center">Vertex、VertexLMRGBM、VertexLM</td>
+<td style="text-align:center">(Legacy)遗留的顶点照明渲染</td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<p>Unity中的前向渲染</p>
+<ul>
+<li>
+<p>前向渲染中有3中处理光照（照亮物体）的方式：逐顶点处理、逐像素处理、SH（Spherical Harmonics）球谐函数处理</p>
+<p>如何决定一个光源使用哪种处理方式：</p>
+<ul>
+<li>光源类型</li>
+<li>光源的渲染模式：Important/Not Important</li>
+</ul>
+</li>
+<li>
+<p>前向渲染中的2种Pass</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/UnityShaderEssentials7.png" alt=""></p>
+<ul>
+<li>Base Pass
+<ul>
+<li>渲染的光源默认支持阴影</li>
+<li>渲染最重要的平行光</li>
+<li>自发光和环境光也在其中，因为只希望计算一次</li>
+</ul>
+</li>
+<li>Additional Pass
+<ul>
+<li>渲染的光源默认没有阴影效果，但是可以使用<code>#pragma multi_compile_fwdadd_fullshadows</code>代替<code>#pragma multi_compile_fwdadd</code>来获得阴影效果</li>
+<li>开启和设置了混合模式，与上一次的光照结果在帧缓存中进行叠加，通常选择Blend One One</li>
+</ul>
+</li>
+<li>对于前向渲染，一个Unity Shader通常会定义一个Base Pass和一个Additional Pass，一个Base Pass只会被执行一次；而一个Additional Pass会根据影响该物体的<strong>其他逐像素光源</strong>的数目被多次调用，即每个逐像素光源会执行一个Additional Pass（通常是4个逐像素光源）</li>
+</ul>
+</li>
+</ul>
+<h4 id="Unity中的顶点照明渲染">Unity中的顶点照明渲染</h4>
+<p>通常在一个Pass中就可以完成对物体的渲染，最多访问到8个逐顶点光源</p>
+<ul>
+<li>要求最少、运算性能最高</li>
+<li>效果最差</li>
+<li>仅仅是前向渲染的一个子集</li>
+</ul>
+<h4 id="Unity中的延迟渲染">Unity中的延迟渲染</h4>
+<ul>
+<li>原理：
+<ul>
+<li>第一个Pass中不进行任何的光照计算，仅仅计算哪些片元可见（深度缓冲技术），当发现一个片元可见，就把他的相关信息存储到GBuffer中；
+<ul>
+<li>漫反射颜色、高光反射颜色、平滑度、法线、自发光和深度信息</li>
+<li>对每个物体来说，这个Pass<strong>只执行一次</strong></li>
+</ul>
+</li>
+<li>然后，第二个Pass中利用GBuffer中的各个片元信息进行<strong>真正的光照计算</strong></li>
+</ul>
+</li>
+<li><strong>每个光源</strong>都可以按<strong>逐像素</strong>的方式处理</li>
+<li>默认的GBuffer包含以下几个Render Texture：
+<ul>
+<li>TR</li>
+<li>RT0：RGB存漫反射颜色，A没有被使用</li>
+<li>RT1：RGB存高光反射颜色，A存高光反射指数</li>
+<li>RT2：RGB存法线，A没有被使用</li>
+<li>RT3：存自发光+Lightmap+反射探针Reflection Probe</li>
+<li>深度缓冲和模板缓冲</li>
+</ul>
+</li>
+</ul>
+<h4 id="前向渲染代码示例">前向渲染代码示例</h4>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><span class="line">Shader &quot;ShaderLearning/AdvancedLighting/ForwardRendering&quot;</span><br><span class="line">&#123;</span><br><span class="line">    Properties</span><br><span class="line">    &#123;</span><br><span class="line">        _ColorTint(&quot;Color Tint&quot;,Color) = (<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line">        _SpecularColor(&quot;Specular Color&quot;,Color) = (<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line">        _Gloss(&quot;Gloss&quot;,Range(<span class="number">8.0</span>,<span class="number">256.0</span>)) = <span class="number">20.0</span></span><br><span class="line">    &#125;</span><br><span class="line">    SubShader</span><br><span class="line">    &#123;</span><br><span class="line">        pass</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//Base Pass: Directional light &amp; Ambient light</span></span><br><span class="line">            Tags &#123;&quot;LightMode&quot;=&quot;ForwardBase&quot;&#125;</span><br><span class="line">            CGPROGRAM</span><br><span class="line">            <span class="meta">#pragma multi_compile_fwdbase //声明变体，用于保证unity可以为对应类型的pass生成所有需要的shader变种</span></span><br><span class="line"></span><br><span class="line">            <span class="meta">#pragma vertex vert </span></span><br><span class="line">            <span class="meta">#pragma fragment frag </span></span><br><span class="line">            <span class="meta">#include &quot;Lighting.cginc&quot;</span></span><br><span class="line"></span><br><span class="line">            fixed4 _ColorTint;</span><br><span class="line">            fixed4 _SpecularColor;</span><br><span class="line">            <span class="type">float</span> _Gloss;</span><br><span class="line"></span><br><span class="line">            struct a2v</span><br><span class="line">            &#123;</span><br><span class="line">                float4 vertex : POSITION;</span><br><span class="line">                float3 normal : NORMAL;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            struct v2f</span><br><span class="line">            &#123;</span><br><span class="line">                float4 pos : SV_POSITION;</span><br><span class="line">                float3 worldPos : TEXCOORD0;</span><br><span class="line">                float3 worldNormal : TEXCOORD1;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            v2f vert(a2v v)</span><br><span class="line">            &#123;</span><br><span class="line">                v2f o;</span><br><span class="line">                o.pos = UnityObjectToClipPos(v.vertex);</span><br><span class="line">                o.worldPos = mul(unity_ObjectToWorld,v.vertex.xyz);</span><br><span class="line">                o.worldNormal = UnityObjectToWorldNormal(v.normal.xyz);</span><br><span class="line">                <span class="keyword">return</span> o;</span><br><span class="line">            &#125;</span><br><span class="line">            fixed4 frag(v2f i) : SV_TARGET</span><br><span class="line">            &#123;</span><br><span class="line">                fixed3 worldLightDir = <span class="built_in">normalize</span>(UnityWorldSpaceLightDir(i.worldPos));</span><br><span class="line">                fixed3 worldNormal = <span class="built_in">normalize</span>(i.worldNormal);</span><br><span class="line"></span><br><span class="line">                fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * _ColorTint.rgb;</span><br><span class="line">                fixed3 diffuse = _LightColor0.rgb * _ColorTint.rgb * saturate(<span class="built_in">dot</span>(worldLightDir,worldNormal));</span><br><span class="line"></span><br><span class="line">                fixed3 halfDir = <span class="built_in">normalize</span>(worldLightDir + <span class="built_in">normalize</span>(_WorldSpaceCameraPos.xyz - i.worldPos));</span><br><span class="line">                fixed3 specular = _LightColor0.rgb * _SpecularColor.rgb * <span class="built_in">pow</span>(<span class="built_in">max</span>(<span class="number">0</span>,<span class="built_in">dot</span>(worldNormal,halfDir)),_Gloss);</span><br><span class="line"></span><br><span class="line">                fixed atten = <span class="number">1.0</span>;<span class="comment">//定向光光照衰减始终为1</span></span><br><span class="line">                <span class="keyword">return</span> fixed4(ambient + (diffuse + specular)*atten,<span class="number">1.0</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            ENDCG</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        pass</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//Additional Pass: Other Pixel Light</span></span><br><span class="line">            Tags&#123;&quot;LightMode&quot;=&quot;ForwardAdd&quot;&#125;</span><br><span class="line">            Blend One One<span class="comment">//混合模式为one one</span></span><br><span class="line"></span><br><span class="line">            CGPROGRAM</span><br><span class="line">            <span class="meta">#pragma multi_compile_fwdadd //声明变体为forwardadd</span></span><br><span class="line">            <span class="meta">#pragma vertex vert </span></span><br><span class="line">            <span class="meta">#pragma fragment frag </span></span><br><span class="line">            <span class="meta">#include &quot;Lighting.cginc&quot;</span></span><br><span class="line">            <span class="meta">#include &quot;AutoLight.cginc&quot;</span></span><br><span class="line"></span><br><span class="line">            fixed3 _ColorTint;</span><br><span class="line">            fixed3 _SpecularColor;</span><br><span class="line">            <span class="type">float</span> _Gloss;</span><br><span class="line"></span><br><span class="line">            struct a2v</span><br><span class="line">            &#123;</span><br><span class="line">                float4 vertex : POSITION;</span><br><span class="line">                float3 normal : NORMAL;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            struct v2f</span><br><span class="line">            &#123;</span><br><span class="line">                float4 pos : SV_POSITION;</span><br><span class="line">                float3 worldPos : TEXCOORD0;</span><br><span class="line">                float3 worldNormal : TEXCOORD1;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            v2f vert(a2v v)</span><br><span class="line">            &#123;</span><br><span class="line">                v2f o;</span><br><span class="line">                o.pos = UnityObjectToClipPos(v.vertex);</span><br><span class="line">                o.worldPos = mul(unity_ObjectToWorld, v.vertex.xyz);</span><br><span class="line">                o.worldNormal = UnityObjectToWorldNormal(v.normal.xyz);</span><br><span class="line">                <span class="keyword">return</span> o;</span><br><span class="line">            &#125;</span><br><span class="line">            fixed4 frag(v2f i) : SV_TARGET</span><br><span class="line">            &#123;</span><br><span class="line">                fixed3 worldNormal = <span class="built_in">normalize</span>(i.worldNormal);</span><br><span class="line">                <span class="meta">#ifdef USING_DIRECTIONAL_LIGHT</span></span><br><span class="line">                    fixed3 worldLightDir = <span class="built_in">normalize</span>(_WorldSpaceLightPos0.xyz);</span><br><span class="line">                <span class="meta">#else</span></span><br><span class="line">                    fixed3 worldLightDir = <span class="built_in">normalize</span>(_WorldSpaceLightPos0.xyz - i.worldPos);</span><br><span class="line">                <span class="meta">#endif</span></span><br><span class="line"></span><br><span class="line">                fixed3 diffuse = _LightColor0.rgb * _ColorTint.rgb * saturate(<span class="built_in">dot</span>(worldLightDir,worldNormal));</span><br><span class="line">                fixed3 halfDir = <span class="built_in">normalize</span>(worldLightDir + <span class="built_in">normalize</span>(UnityWorldSpaceViewDir(i.worldPos)));</span><br><span class="line">                fixed3 specular = _LightColor0.rgb * _SpecularColor.rgb * <span class="built_in">pow</span>(<span class="built_in">max</span>(<span class="number">0</span>,<span class="built_in">dot</span>(halfDir,worldNormal)),_Gloss);</span><br><span class="line"></span><br><span class="line">                <span class="comment">//计算光照衰减</span></span><br><span class="line">                <span class="meta">#ifdef USING_DIRECTIONAL_LIGHT</span></span><br><span class="line">					fixed atten = <span class="number">1.0</span>;<span class="comment">//如果是定向光则光照衰减为1</span></span><br><span class="line">				<span class="meta">#else</span></span><br><span class="line">                    <span class="comment">//使用一张纹理作为查找表（Look Up Table--LUT）来获得光照衰减值</span></span><br><span class="line">					<span class="meta">#if defined (POINT)//对点光源</span></span><br><span class="line">                        <span class="comment">//首先需要得到该点在光源空间的位置来读取LightTexture中的光照衰减值</span></span><br><span class="line">				    float3 lightCoord = mul(unity_WorldToLight, float4(i.worldPos, <span class="number">1</span>)).xyz;</span><br><span class="line">                        <span class="comment">//使用光源空间中顶点距离的平方来对纹理采样</span></span><br><span class="line">                            <span class="comment">//光源空间以光源为原点</span></span><br><span class="line">                            <span class="comment">//只查询LightTexture的对角线上的值（通过光源视角的深度去查询2D纹理）</span></span><br><span class="line">				    fixed atten = tex2D(_LightTexture0, <span class="built_in">dot</span>(lightCoord, lightCoord).rr).UNITY_ATTEN_CHANNEL;</span><br><span class="line">				    <span class="meta">#elif defined (SPOT)//对聚光灯</span></span><br><span class="line">				    float4 lightCoord = mul(unity_WorldToLight, float4(i.worldPos, <span class="number">1</span>));</span><br><span class="line">				    fixed atten = (lightCoord.z &gt; <span class="number">0</span>) * tex2D(_LightTexture0, lightCoord.xy / lightCoord.w + <span class="number">0.5</span>).w * tex2D(_LightTextureB0, <span class="built_in">dot</span>(lightCoord, lightCoord).rr).UNITY_ATTEN_CHANNEL;</span><br><span class="line">				    <span class="meta">#else</span></span><br><span class="line">				        fixed atten = <span class="number">1.0</span>;</span><br><span class="line">				    <span class="meta">#endif</span></span><br><span class="line">				<span class="meta">#endif</span></span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> fixed4((diffuse + specular)*atten,<span class="number">1.0</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            ENDCG</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    Fallback &quot;Specular&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="衰减与阴影">衰减与阴影</h3>
+<h4 id="光照衰减">光照衰减</h4>
+<ul>
+<li>
+<p>用于光照衰减的纹理（如上代码实例内的Look-up Table）</p>
+</li>
+<li>
+<p>使用数学公式计算衰减值</p>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><span class="line">fixed <span class="built_in">distance</span> = lengh(_WorldSpaceLightPos0.xyz - i.worldPos.xyz);</span><br><span class="line">atten = <span class="number">1.0</span> / <span class="built_in">distance</span>; <span class="comment">//线性衰减</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="阴影">阴影</h4>
+<ul>
+<li>
+<p>阴影的实现</p>
+<ul>
+<li>
+<p>Shadow Map：将摄像机放到光源的位置，摄像机看不到的地方就是阴影</p>
+</li>
+<li>
+<p>SSM（ScreenSpace Shadow Map）</p>
+<p>根据光源的阴影映射纹理和摄像机的深度纹理来获得屏幕空间的阴影图（将摄像机深度转换到光源空间，与光源的阴影映射纹理进行比较，如果转换过去的深度更高则说明这个表面可见但是处于光源的阴影中，以此来得到屏幕空间的阴影图）</p>
+</li>
+</ul>
+</li>
+<li>
+<p>一个物体接收其他物体投射的阴影，以及向其他物体投射阴影是两个过程</p>
+<ul>
+<li>接收阴影：在shader中对阴影映射纹理（包括屏幕空的阴影图）进行采样，把采样结果和最后的光照结果相乘来产生阴影效果</li>
+<li>投射阴影：把该物体加入光源的阴影映射纹理的计算中，从而让其他物体在对阴影映射纹理采用时可以得到该物体的相关信息。在Unity中，这个过程是通过为该物体执行LightMode为ShadowCaster的Pass来实现的。如果使用SSM，Unity还会使用这个Pass生成一张摄像机的深度纹理。</li>
+</ul>
+</li>
+</ul>
+<h4 id="阴影的实现">阴影的实现</h4>
+<ul>
+<li>
+<p><strong>让物体投射阴影：</strong></p>
+<ul>
+<li>
+<p>builtin-shaders-xxx-&gt;DefaultResourcesExtra-&gt;Normal-VertexLit.shader中的Shadow Caster：</p>
+<p>实际目的就是把深度信息写入RenderTarget中</p>
+</li>
+</ul>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Pass to render object as a shadow caster</span></span><br><span class="line">Pass &#123;</span><br><span class="line">    Name &quot;Shadow Caster&quot;</span><br><span class="line">    Tags &#123; &quot;LightMode&quot; = &quot;ShadowCaster&quot;&#125;</span><br><span class="line">    </span><br><span class="line">    CGPROGRAM</span><br><span class="line">    <span class="meta">#pragma vertex vert</span></span><br><span class="line">    <span class="meta">#pragma fragment frag</span></span><br><span class="line">    <span class="meta">#pragma multi_compile_shadowCaster</span></span><br><span class="line">    <span class="meta">#include &quot;UnityCG.cginc&quot;</span></span><br><span class="line">        </span><br><span class="line">    struct v2f &#123;</span><br><span class="line">        V2F_SHADOW_CASTER;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    v2f vert( appdata_base v) </span><br><span class="line">    &#123;</span><br><span class="line">        v2f o;</span><br><span class="line">        TRANSFER_SHADOW_CASTER_NORMALOFFSET(o)</span><br><span class="line">        <span class="keyword">return</span> o;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    float4 frag( v2f i ) : SV_Target</span><br><span class="line">    &#123;</span><br><span class="line">        SHADOW_CASTER_FRAGMENT(i)</span><br><span class="line">    &#125;</span><br><span class="line">    ENDCG</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>让物体接收阴影：<strong>使用阴影三剑客</strong>SHADOW_COORDS</strong>、<strong>TRANSFER_SHADOW</strong>、<strong>SHADOW_ATTENUATION</strong></p>
+<ul>
+<li>
+<p>首先需要在vertex shader的输出结构体v2f中添加一个内置的宏<strong>SHADOW_COORDS</strong>：</p>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><span class="line">struct v2f &#123;</span><br><span class="line">    float4 pos : SV_POSITION;</span><br><span class="line">    float3 worldNormal : TEXCOORD0;</span><br><span class="line">    float3 worldPos : TEXCOORD1;</span><br><span class="line">    SHADOW_COORDS(<span class="number">2</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>宏内部所填数字表示存贮阴影贴图纹理坐标所用的插值寄存器，一般使用下一个未被使用的插值寄存器</p>
+</li>
+<li>
+<p>然后在vertex shader返回前添加内置宏<strong>TRANSFER_SHADOW</strong>：</p>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><span class="line">v2f vert ( a2v v )</span><br><span class="line">&#123;</span><br><span class="line">    v2f <span class="number">0</span>;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// Pass shadow coordinates to pixel shader</span></span><br><span class="line">        TRANSFER_SHADOW(o);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个宏用于在顶点着色器中计算上一步中声明的阴影纹理坐标</p>
+</li>
+<li>
+<p>接着在fragment shader中计算阴影值使用内置宏<strong>SHADOW_ATTENUATION</strong>：</p>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Use shadow coordinates to sample shadow map</span></span><br><span class="line">fixed shadow = SHADOW_ATTENUATION(i);</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>注意：为了确保宏能正确工作，需要保证自定义的变量名和这些宏中使用的变量名相同：a2v结构体中的顶点坐标变量名必须是<strong>vertex</strong>，顶点着色器的输入结构体v2f必须命名为<strong>v</strong>，且v2f中的顶点位置必须命名为<strong>pos</strong></p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="使用内置函数实现衰减和阴影">使用内置函数实现衰减和阴影</h4>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><span class="line"><span class="comment">//宏UNITY_LIGHT_ATTENUATION既计算了光照衰减atten又计算了阴影shadow,并且融合在最终的atten中</span></span><br><span class="line">UNITY_LIGHT_ATTENUATION(atten, i, i.worldPos);</span><br></pre></td></tr></table></figure>
+<p>宏UNITY_LIGHT_ATTENUATION源码：</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/UnityShaderEssentials8.png" alt="自己定义的destName同时包含了衰减和阴影"></p>
+<h4 id="AlphaBlendShadow">AlphaBlendShadow</h4>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><span class="line">Shader &quot;ShaderLearning/AdvancedLighting/AlphaBlendShadow&quot;</span><br><span class="line">&#123;</span><br><span class="line">    Properties</span><br><span class="line">    &#123;</span><br><span class="line">        _Color(&quot;Color Tint&quot;, Color) = (<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line">        _Specular(&quot;Specular Color&quot;, Color) = (<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line">        _Gloss(&quot;Gloss&quot;, Range(<span class="number">8</span>,<span class="number">256</span>)) = <span class="number">20</span></span><br><span class="line">        _AlphaScale(&quot;Alpha Scale&quot;, Range(<span class="number">0</span>,<span class="number">1</span>)) = <span class="number">1</span></span><br><span class="line">        _MainTex(&quot;Main Texture&quot;,<span class="number">2</span>D) = &quot;white&quot;&#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    SubShader</span><br><span class="line">    &#123;</span><br><span class="line">        Tags &#123;&quot;Queue&quot;=&quot;Transparent&quot; &quot;IgnoreProjector&quot;=&quot;True&quot; &quot;RenderType&quot;=&quot;Transparent&quot;&#125;</span><br><span class="line">        BlendOp add </span><br><span class="line">        Blend SrcAlpha OneMinusSrcAlpha</span><br><span class="line">        ZWrite Off</span><br><span class="line">        </span><br><span class="line">        UsePass &quot;Legacy Shaders/VertexLit/SHADOWCASTER&quot;</span><br><span class="line">        </span><br><span class="line">        pass</span><br><span class="line">        &#123;</span><br><span class="line">            Tags &#123;&quot;LightMode&quot;=&quot;ForwardBase&quot;&#125;</span><br><span class="line">            Cull front </span><br><span class="line"></span><br><span class="line">            CGPROGRAM</span><br><span class="line">            <span class="meta">#pragma multi_compile_fwdbase</span></span><br><span class="line">            <span class="meta">#pragma vertex vert </span></span><br><span class="line">            <span class="meta">#pragma fragment frag </span></span><br><span class="line">            <span class="meta">#include  &quot;Lighting.cginc&quot;</span></span><br><span class="line">            <span class="meta">#include &quot;AutoLight.cginc&quot;</span></span><br><span class="line"></span><br><span class="line">            fixed4 _Color;</span><br><span class="line">            fixed4 _Specular;</span><br><span class="line">            <span class="type">float</span> _Gloss;</span><br><span class="line">            <span class="type">float</span> _AlphaScale;</span><br><span class="line">            <span class="type">sampler2D</span> _MainTex;</span><br><span class="line">            float4 _MainTex_ST;</span><br><span class="line"></span><br><span class="line">            struct a2v</span><br><span class="line">            &#123;</span><br><span class="line">                float4 vertex : POSITION;</span><br><span class="line">                float3 normal : NORMAL;</span><br><span class="line">                float2 texcoord : TEXCOORD0;</span><br><span class="line">            &#125;;</span><br><span class="line">            struct v2f</span><br><span class="line">            &#123;</span><br><span class="line">                float4 pos : SV_POSITION;</span><br><span class="line">                float3 worldNormal : TEXCOORD0;</span><br><span class="line">                float3 worldPos : TEXCOORD1;</span><br><span class="line">                float2 uv : TEXCOORD2;</span><br><span class="line">                SHADOW_COORDS(<span class="number">3</span>)</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            v2f vert(a2v v)</span><br><span class="line">            &#123;</span><br><span class="line">                v2f o;</span><br><span class="line">                o.pos = UnityObjectToClipPos(v.vertex);</span><br><span class="line">                o.worldNormal = UnityObjectToWorldNormal(v.normal);</span><br><span class="line">                o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;</span><br><span class="line">                o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);</span><br><span class="line">                TRANSFER_SHADOW(o);</span><br><span class="line">                <span class="keyword">return</span> o;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            fixed4 frag(v2f i) : SV_TARGET</span><br><span class="line">            &#123;</span><br><span class="line">                fixed3 worldNormal = <span class="built_in">normalize</span>(i.worldNormal);</span><br><span class="line">                fixed3 worldLightDir = <span class="built_in">normalize</span>(UnityWorldSpaceLightDir(i.worldPos)).xyz;</span><br><span class="line">                fixed4 texColor = tex2D(_MainTex, i.uv);</span><br><span class="line">                fixed3 albedo = texColor.rgb * _Color.rgb;</span><br><span class="line">                </span><br><span class="line">                fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;</span><br><span class="line"></span><br><span class="line">                fixed3 diffuse = _LightColor0.rgb * albedo * saturate(<span class="built_in">dot</span>(worldNormal,worldLightDir));</span><br><span class="line"></span><br><span class="line">                fixed3 worldViewDir = <span class="built_in">normalize</span>(UnityWorldSpaceViewDir(i.worldPos));</span><br><span class="line">                fixed3 halfDir = <span class="built_in">normalize</span>(worldViewDir + worldLightDir);</span><br><span class="line">                fixed3 specular = _LightColor0.rgb * _Specular.rgb * <span class="built_in">pow</span>(<span class="built_in">max</span>(<span class="number">0</span>,<span class="built_in">dot</span>(worldNormal,halfDir)),_Gloss);</span><br><span class="line"></span><br><span class="line">                UNITY_LIGHT_ATTENUATION(atten, i, i.worldPos);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                fixed3 color = ambient + (diffuse + specular)*atten;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> fixed4(color,texColor.a*_AlphaScale);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            ENDCG</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        pass</span><br><span class="line">        &#123;</span><br><span class="line">            Tags &#123;&quot;LightMode&quot;=&quot;ForwardBase&quot;&#125;</span><br><span class="line">            Cull back</span><br><span class="line"></span><br><span class="line">            CGPROGRAM</span><br><span class="line">            <span class="meta">#pragma multi_compile_fwdbase nolightmap nodirlightmap nodynlightmap novertexlight</span></span><br><span class="line">            <span class="meta">#pragma multi_compile_RECEIVE_SHADOW_ON</span></span><br><span class="line">            <span class="meta">#pragma vertex vert </span></span><br><span class="line">            <span class="meta">#pragma fragment frag </span></span><br><span class="line">            <span class="meta">#include  &quot;Lighting.cginc&quot;</span></span><br><span class="line">            <span class="meta">#include &quot;AutoLight.cginc&quot;</span></span><br><span class="line"></span><br><span class="line">            fixed4 _Color;</span><br><span class="line">            fixed4 _Specular;</span><br><span class="line">            <span class="type">float</span> _Gloss;</span><br><span class="line">            <span class="type">float</span> _AlphaScale;</span><br><span class="line">            <span class="type">sampler2D</span> _MainTex;</span><br><span class="line">            float4 _MainTex_ST;</span><br><span class="line"></span><br><span class="line">            struct a2v</span><br><span class="line">            &#123;</span><br><span class="line">                float4 vertex : POSITION;</span><br><span class="line">                float3 normal : NORMAL;</span><br><span class="line">                float2 texcoord : TEXCOORD0;</span><br><span class="line">            &#125;;</span><br><span class="line">            struct v2f</span><br><span class="line">            &#123;</span><br><span class="line">                float4 pos : SV_POSITION;</span><br><span class="line">                float3 worldNormal : TEXCOORD0;</span><br><span class="line">                float3 worldPos : TEXCOORD1;</span><br><span class="line">                float2 uv : TEXCOORD2;</span><br><span class="line">                SHADOW_COORDS(<span class="number">3</span>)</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            v2f vert(a2v v)</span><br><span class="line">            &#123;</span><br><span class="line">                v2f o;</span><br><span class="line">                o.pos = UnityObjectToClipPos(v.vertex);</span><br><span class="line">                o.worldNormal = UnityObjectToWorldNormal(v.normal);</span><br><span class="line">                o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;</span><br><span class="line">                o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);</span><br><span class="line">                TRANSFER_SHADOW(o);</span><br><span class="line">                <span class="keyword">return</span> o;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            fixed4 frag(v2f i) : SV_TARGET</span><br><span class="line">            &#123;</span><br><span class="line">                fixed3 worldNormal = <span class="built_in">normalize</span>(i.worldNormal);</span><br><span class="line">                fixed3 worldLightDir = <span class="built_in">normalize</span>(UnityWorldSpaceLightDir(i.worldPos)).xyz;</span><br><span class="line">                fixed4 texColor = tex2D(_MainTex, i.uv);</span><br><span class="line">                fixed3 albedo = texColor.rgb * _Color.rgb;</span><br><span class="line">                </span><br><span class="line">                fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;</span><br><span class="line"></span><br><span class="line">                fixed3 diffuse = _LightColor0.rgb * albedo * saturate(<span class="built_in">dot</span>(worldNormal,worldLightDir));</span><br><span class="line"></span><br><span class="line">                fixed3 worldViewDir = <span class="built_in">normalize</span>(UnityWorldSpaceViewDir(i.worldPos));</span><br><span class="line">                fixed3 halfDir = <span class="built_in">normalize</span>(worldViewDir + worldLightDir);</span><br><span class="line">                fixed3 specular = _LightColor0.rgb * _Specular.rgb * <span class="built_in">pow</span>(<span class="built_in">max</span>(<span class="number">0</span>,<span class="built_in">dot</span>(worldNormal,halfDir)),_Gloss);</span><br><span class="line"></span><br><span class="line">                UNITY_LIGHT_ATTENUATION(atten, i, i.worldPos);</span><br><span class="line"></span><br><span class="line">                fixed shadow = SHADOW_ATTENUATION(i);</span><br><span class="line"></span><br><span class="line">                fixed3 color = ambient + (diffuse + specular)*atten*shadow;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> fixed4(color,texColor.a*_AlphaScale);</span><br><span class="line">            &#125;</span><br><span class="line">            ENDCG</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    Fallback &quot;Transparent/VertexLit&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="纹理进阶">纹理进阶</h2>
+<h3 id="Cubemap与环境反射、折射">Cubemap与环境反射、折射</h3>
+<h4 id="在Unity中创建Cubemap">在Unity中创建Cubemap</h4>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">//使用Unity提供的Camera.RenderToCubemap完成</span><br><span class="line">void OnWizardCreate () &#123;</span><br><span class="line">	//创建用于渲染的摄像机</span><br><span class="line">    GameObject go = new GameObject( &quot;CubemapCamera&quot;);</span><br><span class="line">	go.AddComponent&lt;Camera&gt;();</span><br><span class="line">    //将摄像机放置到待渲染位置renderFromPosition对象的位置</span><br><span class="line">	go.transform.position = renderFromPosition.position;</span><br><span class="line">    //渲染Cubemap</span><br><span class="line">	go.GetComponent&lt;Camera&gt;().RenderToCubemap(cubemap);</span><br><span class="line">		</span><br><span class="line">	//销毁临时创建的摄像机</span><br><span class="line">	DestroyImmediate( go );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>创建一个空的GameObject对象作为渲染到位置</li>
+<li>新建一个专门用于存储的立方体纹理（<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Create</mtext><mo>→</mo><mtext>Legacy</mtext><mo>→</mo><mtext>Cubemap</mtext></mrow><annotation encoding="application/x-tex">\text{Create}\rightarrow\text{Legacy}\rightarrow\text{Cubemap}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">Create</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">Legacy</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">Cubemap</span></span></span></span></span>），同时为了让脚本能够顺利将图像渲染到该立方体纹理中，需要在他的面板中勾选<strong>Readable</strong>选项</li>
+<li>从Unity菜单栏选择<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>GameObejct</mtext><mo>→</mo><mtext>Render into Cubemap</mtext></mrow><annotation encoding="application/x-tex">\text{GameObejct}\rightarrow\text{Render into Cubemap}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">GameObejct</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">Render into Cubemap</span></span></span></span></span>，打开脚本中实现的用于渲染立方体纹理的窗口，并把低1步的GameObject和第2步的创建的Cubemap分别拖拽到窗口中的<strong>Render From Position</strong>和<strong>Cubemap</strong></li>
+<li>单击**Render!**按钮即可</li>
+</ol>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230610135337391.png" alt=""></p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230610135446285.png" alt="image-20230610135446285" style="zoom:50%;" />
+<p>需要注意的是，我们需要为Cubemap设置大小，即<strong>Face Size</strong>选项，Face Size值越大，渲染出来的立方体纹理分辨率越大，可能效果越好，但是需要占用的内存越大</p>
+<h4 id="环境映射">环境映射</h4>
+<h5 id="反射">反射</h5>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><span class="line"><span class="comment">//1.需要在Properties内声明Cube类型的属性</span></span><br><span class="line">Properties</span><br><span class="line">&#123;</span><br><span class="line">		_Cubemap(&quot;Reflection Cubemap&quot; ,<span class="number">3</span>D) = &quot;_Skybox&quot;&#123;&#125; <span class="comment">//3D类型的属性的默认值为&quot;_Skybox&quot;&#123;&#125;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//2.在CG代码中声明该属性</span></span><br><span class="line">CGPROGRAM</span><br><span class="line">samplerCUBE _Cubemap;</span><br><span class="line"></span><br><span class="line"><span class="comment">//3.为了节省性能，我们在vertex内计算反射的光线，通过插值计算器将反射的方向传递给fragment。所以需要在v2内声明反射方向</span></span><br><span class="line">struct v2f</span><br><span class="line">&#123;</span><br><span class="line">		float3 worldRefl : TEXCOORDn;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//4.在vertex中利用reflect函数计算世界空间下的反射方向</span></span><br><span class="line">v2f vert(a2v v)</span><br><span class="line">&#123;</span><br><span class="line">		<span class="comment">//...</span></span><br><span class="line">		o.worldRefl = <span class="built_in">reflect</span>(-o.worldViewDir, o.worldNormal);</span><br><span class="line">		<span class="comment">//reflect函数第一个参数为入射光的方向，第二个参数为法线所在直线</span></span><br><span class="line">		<span class="comment">//入射方向和反射方向是同向的，即如果入射方向是指向入射点，那么反射方向就是由入射点指出。所以此处worldViewDir要加负号</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//5.在fragment中读取CUBE贴图</span></span><br><span class="line">fixed4 frag(v2f i) : SV_Target</span><br><span class="line">&#123;</span><br><span class="line">		<span class="comment">//...</span></span><br><span class="line">		fixed3 reflection = texCUBE(_Cubemap, i.worldRefl).rgb;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="折射">折射</h5>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><span class="line"><span class="comment">//与反射大同小异，唯一的区别在于vertex中函数调用的不同</span></span><br><span class="line">v2f vert(a2v v)</span><br><span class="line">&#123;</span><br><span class="line">		<span class="comment">//...</span></span><br><span class="line">		o.worldRefr = <span class="built_in">refract</span>(-<span class="built_in">normalize</span>(o.worldViewDir), <span class="built_in">normalize</span>(o.worldNormal), _RefractRatio);</span><br><span class="line">		<span class="comment">//refrect函数第一个参数为入射光的方向，第二个参数为法线所在直线，第三个参数为折射率</span></span><br><span class="line">		<span class="comment">//入射方向和折射方向是同向的，即如果入射方向是指向入射点，那么折射方向就是由入射点指出。所以此处worldViewDir要加负号</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="菲涅尔反射">菲涅尔反射</h5>
+<p><strong>万物均有菲涅尔</strong></p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/UnityShaderEssentials9.png" alt="菲涅尔的常见计算模型"></p>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><span class="line"><span class="comment">//本质上就是在frag内通过菲涅尔系数对环境反射内容与漫反射内容之间进行插值计算</span></span><br><span class="line">fixed4 frag(v2f i) : SV_Target</span><br><span class="line">&#123;</span><br><span class="line">		<span class="comment">//...</span></span><br><span class="line">		fixed fresnel = _FresnelScale + (<span class="number">1</span> - _FresnelScale) * <span class="built_in">pow</span>(<span class="number">1</span> - <span class="built_in">dot</span>(worldNormal, worldViewDir), <span class="number">5</span>);</span><br><span class="line">		fixed3 color = ambient + lerp(diffuse, reflection, saturate(fresnel)) * atten;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Render-Texture渲染纹理">Render Texture渲染纹理</h3>
+<h4 id="RT的概念">RT的概念</h4>
+<p>现代GPU允许我们把整个三维场景渲染到一个中间缓冲中，即<strong>渲染目标纹理（Render Target Texture，RTT）</strong>，而不传统的帧缓存或后备缓冲区(back buffer)</p>
+<p>与之相关的是<strong>多重目标渲染（Multiple Render Target，MRT）</strong>，这种技术指的是GPU允许我们把场景同时渲染到多个渲染目标纹理中，而不再需要为每个渲染目标纹理单独渲染完整的场景。延迟渲染就是使用多重目标渲染的一个应用</p>
+<h4 id="创建RT">创建RT</h4>
+<p>Unity为RTT定义了一种专门的纹理类型——<strong>渲染纹理RenderTexture</strong>，Unity中渲染纹理通常有以下两种使用方式：</p>
+<ul>
+<li>在Project目录下创建一个渲染纹理，将某个摄像机的渲染目标设置为该渲染纹理，这样摄像机的渲染结果就会实时更新到RT中，而不会显示到屏幕</li>
+<li>在屏幕后处理中使用<strong>GrabPass</strong>命令或<strong>OnRenderImage</strong>函数来获取当前屏幕图像，unity会将这个屏幕图像放到一张和屏幕分辨率相同的渲染纹理中，然后可以在自定义的Pass中将他们当作普通的纹理来处理，进而实现各种屏幕特效</li>
+</ul>
+<h4 id="使用RenderTexture制作镜子">使用RenderTexture制作镜子</h4>
+<p>在处理代码前需要了先创建一个渲染纹理，并且把它指定到用于捕获的摄像机上</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/UnityShaderEssentials10.png" alt="UnityShaderEssentials10"></p>
+<p>接下来编写镜子的shader</p>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><span class="line">		</span><br><span class="line">Shader &quot;ShaderLearning/AdvancedTexture/Mirror&quot;</span><br><span class="line">&#123;</span><br><span class="line">		<span class="comment">//在Properties内声明纹理属性，它对应了由镜子摄像机渲染得到的渲染纹理</span></span><br><span class="line">    Properties</span><br><span class="line">    &#123;</span><br><span class="line">        _MainTex(&quot;Main Texture&quot;, <span class="number">2</span>D) = &quot;white&quot;&#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Subshader</span><br><span class="line">    &#123;</span><br><span class="line">        pass</span><br><span class="line">        &#123;</span><br><span class="line">            CGPROGRAM</span><br><span class="line">            <span class="meta">#pragma vertex vert</span></span><br><span class="line">            <span class="meta">#pragma fragment frag</span></span><br><span class="line"></span><br><span class="line">            struct a2v</span><br><span class="line">            &#123;</span><br><span class="line">                float4 vertex : POSITION;</span><br><span class="line">                float2 texcoord : TEXCOORD0;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            struct v2f</span><br><span class="line">            &#123;</span><br><span class="line">                float4 pos : SV_POSITION;</span><br><span class="line">                float2 uv : TEXCOORD0;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            <span class="type">sampler2D</span> _MainTex;</span><br><span class="line"></span><br><span class="line">            v2f vert(a2v v)</span><br><span class="line">            &#123;</span><br><span class="line">                v2f o;</span><br><span class="line">                o.pos = UnityObjectToClipPos(v.vertex);</span><br><span class="line">                o.uv = v.texcoord;</span><br><span class="line">				<span class="comment">//镜子对称需要翻转u轴</span></span><br><span class="line">                o.uv.x = <span class="number">1</span> - o.uv.x;</span><br><span class="line">                <span class="keyword">return</span> o;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            fixed4 frag(v2f i) : SV_Target</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> tex2D(_MainTex, i.uv);</span><br><span class="line">            &#125;</span><br><span class="line">            ENDCG</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="GrabPass">GrabPass</h3>
+<h4 id="GrabPass的概念">GrabPass的概念</h4>
+<ul>
+<li>
+<p>除去RenderTexture外，在Unity中，我们还可以使用一种特殊的Pass来完成获取屏幕图像的目的——GrabPass</p>
+</li>
+<li>
+<p>当我们在Shader中定义了一个GrabPass后，Unity会把当前屏幕渲染的图像绘制在一张纹理中，以便我们在后续的Pass中访问它。</p>
+</li>
+<li>
+<p>通常会使用GrabPass来实现诸如玻璃等透明材质的模拟，相比于普通的透明混合，GrabPass可以对物体后面的图像进行更加复杂的处理，例如用法线来模拟折射</p>
+</li>
+<li>
+<p>需要注意的是：在使用GrabPass时需要额外<strong>小心物体的渲染队列设置</strong>。GrabPass通常用于渲染透明物体，所以我们需要把渲染队列设置为Transparent（即<code>Queue = “Transparent”</code>），这样才能保证渲染该物体时所有的不透明物体已经被渲染到屏幕上了，以获取正确的屏幕图像</p>
+</li>
+</ul>
+<h4 id="使用GrabPass制作玻璃效果">使用GrabPass制作玻璃效果</h4>
+<p>使用法线模拟折射效果</p>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><span class="line"><span class="comment">//1.设置渲染队列和GrabPass</span></span><br><span class="line"><span class="comment">//必须要设置为Transparent的渲染队列，否则深度排序会出错</span></span><br><span class="line">Tags &#123;&quot;RenderType&quot;=&quot;Opaque&quot; &quot;Queue&quot;=&quot;Transparent&quot;&#125;</span><br><span class="line">        </span><br><span class="line">GrabPass &#123; &quot;_RefractionTex&quot; &#125;<span class="comment">//定义一个抓取屏幕的Pass，在之后的Pass中就可以使用_RefractionTex</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//2.通过法线模拟折射</span></span><br><span class="line"><span class="comment">//在vertex中需要获取当前物体在摄像机中的位置，用于读取当前物体范围内的图像</span></span><br><span class="line">struct v2f</span><br><span class="line">&#123;</span><br><span class="line">		<span class="comment">//...</span></span><br><span class="line">		float4 scrPos : TEXCOORD4;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">v2f vert(a2v i)</span><br><span class="line">&#123;</span><br><span class="line">		<span class="comment">//...</span></span><br><span class="line">		o.scrPos = ComputeScreenPos(o.pos);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//3.在frag中制作扭曲效果</span></span><br><span class="line"><span class="comment">//获取带有扭曲效果的折射颜色</span></span><br><span class="line">fixed4 frag (v2f i) : SV_Target</span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line">    fixed2 <span class="keyword">offset</span> = bump.xy * _Distortion * _RefractionTex_TexelSize.xy * <span class="number">100</span>;<span class="comment">//通过法线来扭曲折射贴图（乘100加强视觉效果）</span></span><br><span class="line">	<span class="comment">//_Refraction_TexelSize可以获取该纹理的纹素大小</span></span><br><span class="line">	i.scrPos.xy = <span class="keyword">offset</span> * i.scrPos.z + i.scrPos.xy;<span class="comment">//将扭曲应用到屏幕纹理坐标上，此处多乘的srcPos.z可以让形变程度随着距离摄像机的远近发生变化</span></span><br><span class="line">	fixed3 refrCol = tex2D(_RefractionTex,i.scrPos.xy/i.scrPos.w).rgb;<span class="comment">//使用扭曲后的屏幕纹理坐标坐标读取贴图，通过ComputeScreenPos得到的是线性空间下的坐标，在最后用于读取贴图前需要做透视除法</span></span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230610162319552.png" alt="ComputeScreenPos获得的srcPos在用于读取贴图前需要进行透视除法"></p>
+<p>完整代码：</p>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><span class="line">Shader &quot;ShaderLearning/AdvancedTexture/GlassRefraction&quot;</span><br><span class="line">&#123;</span><br><span class="line">    Properties</span><br><span class="line">    &#123;</span><br><span class="line">        _MainTex(&quot;Main Texture&quot;, <span class="number">2</span>D) = &quot;white&quot;&#123;&#125;</span><br><span class="line">        _BumpMap(&quot;Normal Texture&quot;, <span class="number">2</span>D) = &quot;white&quot;&#123;&#125;</span><br><span class="line">        _Cubemap(&quot;Environment Cubemap&quot;, Cube) = &quot;_skybox&quot;&#123;&#125;</span><br><span class="line">        _Distortion(&quot;Distortion&quot;, Range(<span class="number">0</span>,<span class="number">100</span>)) = <span class="number">10</span></span><br><span class="line">        _RefractAmount(&quot;Refract Amount&quot;, Range(<span class="number">0</span>,<span class="number">1</span>)) = <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">    Subshader</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//必须要设置为Transparent的渲染队列，否则深度排序会出错</span></span><br><span class="line">        Tags &#123;&quot;RenderType&quot;=&quot;Opaque&quot; &quot;Queue&quot;=&quot;Transparent&quot;&#125;</span><br><span class="line">        </span><br><span class="line">        GrabPass &#123; &quot;_RefractionTex&quot; &#125;<span class="comment">//定义一个抓取屏幕的Pass，在之后的Pass中就可以使用_RefractionTex</span></span><br><span class="line">        </span><br><span class="line">        Pass</span><br><span class="line">        &#123;</span><br><span class="line">            CGPROGRAM</span><br><span class="line"></span><br><span class="line">            <span class="meta">#pragma vertex vert</span></span><br><span class="line">            <span class="meta">#pragma fragment frag</span></span><br><span class="line"></span><br><span class="line">            <span class="meta">#include &quot;UnityCG.cginc&quot;</span></span><br><span class="line"></span><br><span class="line">            <span class="type">sampler2D</span> _MainTex;</span><br><span class="line">            float4 _MainTex_ST;</span><br><span class="line">            <span class="type">sampler2D</span> _BumpMap;</span><br><span class="line">            float4 _BumpMap_ST;</span><br><span class="line">            samplerCUBE _Cubemap;</span><br><span class="line">            <span class="type">float</span> _Distortion;</span><br><span class="line">            fixed _RefractAmount;</span><br><span class="line">            <span class="type">sampler2D</span> _RefractionTex;</span><br><span class="line">            float4 _RefractionTex_TexelSize;</span><br><span class="line"></span><br><span class="line">            struct a2v</span><br><span class="line">            &#123;</span><br><span class="line">                float4 vertex : POSITION;</span><br><span class="line">                float3 normal : NORMAL;</span><br><span class="line">                float4 tangent : TANGENT;</span><br><span class="line">                float2 texcoord : TEXCOORD0;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            struct v2f</span><br><span class="line">            &#123;</span><br><span class="line">                float4 pos : SV_POSITION;</span><br><span class="line">                float4 uv : TEXCOORD0;</span><br><span class="line">                float4 T2W0 : TEXCOORD1;</span><br><span class="line">                float4 T2W1 : TEXCOORD2;</span><br><span class="line">                float4 T2W2 : TEXCOORD3;</span><br><span class="line">                float4 scrPos : TEXCOORD4;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            v2f vert(a2v v)</span><br><span class="line">            &#123;</span><br><span class="line">                v2f o;</span><br><span class="line">                o.pos = UnityObjectToClipPos(v.vertex);</span><br><span class="line">                </span><br><span class="line">                o.uv.xy = TRANSFORM_TEX(v.texcoord, _MainTex);</span><br><span class="line">                o.uv.zw = TRANSFORM_TEX(v.texcoord, _BumpMap);</span><br><span class="line"></span><br><span class="line">                <span class="comment">//Get the TangentSpace2WorldSpace Matrix</span></span><br><span class="line">                fixed3 worldNormal = UnityObjectToWorldNormal(v.normal);</span><br><span class="line">                fixed3 worldTangent = UnityObjectToWorldDir(v.tangent.xyz);</span><br><span class="line">                fixed3 worldBinormal = <span class="built_in">cross</span>(worldNormal,worldTangent)*v.tangent.w;</span><br><span class="line">                fixed3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;</span><br><span class="line">                o.T2W0 = fixed4(worldTangent.x, worldBinormal.x, worldTangent.x, worldPos.x);</span><br><span class="line">                o.T2W1 = fixed4(worldTangent.y, worldBinormal.y, worldTangent.y, worldPos.x);</span><br><span class="line">                o.T2W2 = fixed4(worldTangent.z, worldBinormal.z, worldTangent.z, worldPos.x);</span><br><span class="line"></span><br><span class="line">                <span class="comment">//得到对应被抓取的屏幕图像的纹理坐标</span></span><br><span class="line">                o.scrPos = ComputeScreenPos(o.pos);</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">return</span> o;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            fixed4 frag(v2f i) : SV_Target</span><br><span class="line">            &#123;</span><br><span class="line">                fixed3 worldPos = fixed3(i.T2W0.w, i.T2W1.w, i.T2W2.w);</span><br><span class="line">                fixed3 worldViewDir = <span class="built_in">normalize</span>(UnityWorldSpaceViewDir(worldPos));</span><br><span class="line"></span><br><span class="line">                <span class="comment">//Get Bump texture in tangent space</span></span><br><span class="line">                fixed3 bump = UnpackNormal(tex2D(_BumpMap, i.uv.zw));</span><br><span class="line">                <span class="comment">//获取带有扭曲效果的折射颜色</span></span><br><span class="line">                fixed2 <span class="keyword">offset</span> = bump.xy * _Distortion * _RefractionTex_TexelSize.xy * <span class="number">100</span>;<span class="comment">//通过法线来扭曲折射贴图,乘100加强一下视觉效果</span></span><br><span class="line">                i.scrPos.xy = <span class="keyword">offset</span> * i.scrPos.z + i.scrPos.xy;<span class="comment">//将扭曲应用到屏幕纹理坐标上，</span></span><br><span class="line">                fixed3 refrCol = tex2D(_RefractionTex,i.scrPos.xy/i.scrPos.w).rgb;<span class="comment">//使用扭曲后的纹理坐标读取贴图</span></span><br><span class="line">                <span class="comment">//获取反射颜色</span></span><br><span class="line">                bump = <span class="built_in">normalize</span>(half3(<span class="built_in">dot</span>(i.T2W0.xyz,bump),<span class="built_in">dot</span>(i.T2W1.xyz,bump),<span class="built_in">dot</span>(i.T2W2.xyz,bump)));</span><br><span class="line">                fixed3 reflDir = <span class="built_in">reflect</span>(-worldViewDir,bump);</span><br><span class="line">                fixed4 texColor = tex2D(_MainTex,i.uv.xy);</span><br><span class="line">                fixed3 reflCol = texCUBE(_Cubemap,reflDir).rgb * texColor.rgb;</span><br><span class="line">                <span class="comment">//通过插值计算颜色</span></span><br><span class="line">                fixed3 finalColor = reflCol * (<span class="number">1</span> - _RefractAmount) + refrCol * _RefractAmount;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> fixed4(finalColor, <span class="number">1.0</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            ENDCG</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    FallBack &quot;Diffuse&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="RenderTexture-vs-GrabPass">RenderTexture vs. GrabPass</h3>
+<ul>
+<li>GrabPass的好处在于实现简单，只需要在shader中加几行代码即可</li>
+<li>从效率上讲，使用渲染纹理的效率往往要好过GrabPass，尤其是在移动设备上。
+<ul>
+<li>渲染纹理可以自定义渲染纹理的大小，尽管这种方法需要把部分场景再次渲染一遍，但我们可以通过调整摄像机的渲染层来减少二次渲染时的场景大小，或使用其他办法来控制摄像机是否需要开启。而使用GrabPass获得到的图像分辨率和显示屏幕是一致的，这意味着在一些高分辨率的设备上可能会造成严重的<strong>带宽影响</strong>。而且在移动设备上，GrabPass虽然不会重新渲染场景，但它往往需要CPU直接读取后背缓冲（Back Buffer）中的数据，<strong>破坏了CPU和GPU之间的并行性</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="其他抓屏方法">其他抓屏方法</h3>
+<p>Unity5中引入了**命令缓冲（Command Buffers）**来允许我们拓展Unity的渲染流水线。</p>
+<p>使用Command Buffer我们也可以获得类似抓屏的效果，它可以在不透明物体渲染后把当前的图像复制到一个临时的渲染目标纹理中，然后在那里进行一些额外的操作（例如模糊等），最后把图像传递给需要使用它的物体进行处理和显式。除此之外，Command Buffer还允许我们实现很多特殊的效果。</p>
+<p>官方文档：<a target="_blank" rel="noopener" href="https://docs.unity3d.com/Manual/GraphicsCommandBuffers.html">Unity - Manual: Extending the Built-in Render Pipeline with CommandBuffers (unity3d.com)</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://himoqiuhan.github.io">楸涵</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://himoqiuhan.github.io/2023/04/01/Notes-UnityShaderEssentials-2/">https://himoqiuhan.github.io/2023/04/01/Notes-UnityShaderEssentials-2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://himoqiuhan.github.io" target="_blank">楸涵の小窝</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/TA/">TA</a><a class="post-meta__tags" href="/tags/Unity/">Unity</a><a class="post-meta__tags" href="/tags/Shader/">Shader</a><a class="post-meta__tags" href="/tags/%E3%80%8AUnityShader%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81%E3%80%8B/">《UnityShader入门精要》</a></div><div class="post_share"><div class="social-share" data-image="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/41TN3CwhyZL._SY346_.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/04/01/Notes-UnityShaderEssentials-1/" title="《Unity Shader入门精要》笔记（一）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/41TN3CwhyZL._SY346_.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">《Unity Shader入门精要》笔记（一）</div></div></a></div><div class="next-post pull-right"><a href="/2023/04/01/Notes-UnityShaderEssentials-3/" title="《Unity Shader入门精要》笔记（三）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/41TN3CwhyZL._SY346_.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">《Unity Shader入门精要》笔记（三）</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/04/01/Notes-UnityShaderEssentials-1/" title="《Unity Shader入门精要》笔记（一）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/41TN3CwhyZL._SY346_.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-01</div><div class="title">《Unity Shader入门精要》笔记（一）</div></div></a></div><div><a href="/2023/04/01/Notes-UnityShaderEssentials-4/" title="《Unity Shader入门精要》笔记（四）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/41TN3CwhyZL._SY346_.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-01</div><div class="title">《Unity Shader入门精要》笔记（四）</div></div></a></div><div><a href="/2023/04/01/Notes-UnityShaderEssentials-3/" title="《Unity Shader入门精要》笔记（三）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/41TN3CwhyZL._SY346_.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-01</div><div class="title">《Unity Shader入门精要》笔记（三）</div></div></a></div><div><a href="/2023/10/28/Notes-CatlikeCoding-CustomRenderPipline/" title="【Unity】自定义渲染管线学习笔记（Updating）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/20231028195012.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-28</div><div class="title">【Unity】自定义渲染管线学习笔记（Updating）</div></div></a></div><div><a href="/2023/06/14/Notes-TA100-Ex100/" title="技术美术百人计划学习笔记（先行版-基础渲染光照介绍）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-14</div><div class="title">技术美术百人计划学习笔记（先行版-基础渲染光照介绍）</div></div></a></div><div><a href="/2023/06/13/Notes-TA100-T1400/" title="技术美术百人计划学习笔记（图形1.1-1.4）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-13</div><div class="title">技术美术百人计划学习笔记（图形1.1-1.4）</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/images/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">楸涵</div><div class="author-info__description">嘿！一起突破次元壁吗！</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">50</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" href="/about/"><i class="fas fa-meteor"></i><span>About Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/himoqiuhan" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://www.zhihu.com/people/qiu-han-71-64/posts" target="_blank" title="Zhihu"><i class="fab fa-zhihu" style="color: #24292e;"></i></a><a class="social-icon" href="https://space.bilibili.com/374860285" target="_blank" title="Bilibili"><i class="fab fa-bilibili" style="color: #24292e;"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561198866659933" target="_blank" title="Steam"><i class="fab fa-steam" style="color: #24292e;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><p>欢迎来和我聊天！</p> <p>QQ：1419091648</p> <p>微信：Himo_qiuhan</p></div></div><div class="card-widget card_portfolio"><div class="item-headline"><i></i><span>作品集</span></div><div class="item-content"></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%89%E7%85%A7%E8%BF%9B%E9%98%B6"><span class="toc-number">1.</span> <span class="toc-text">光照进阶</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Unity%E7%9A%84%E6%B8%B2%E6%9F%93%E8%B7%AF%E5%BE%84"><span class="toc-number">1.1.</span> <span class="toc-text">Unity的渲染路径</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#LightMode%E6%A0%87%E7%AD%BE%E6%94%AF%E6%8C%81%E7%9A%84%E6%B8%B2%E6%9F%93%E8%B7%AF%E5%BE%84%E8%AE%BE%E7%BD%AE%E9%80%89%E9%A1%B9"><span class="toc-number">1.1.1.</span> <span class="toc-text">LightMode标签支持的渲染路径设置选项</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Unity%E4%B8%AD%E7%9A%84%E9%A1%B6%E7%82%B9%E7%85%A7%E6%98%8E%E6%B8%B2%E6%9F%93"><span class="toc-number">1.1.2.</span> <span class="toc-text">Unity中的顶点照明渲染</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Unity%E4%B8%AD%E7%9A%84%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93"><span class="toc-number">1.1.3.</span> <span class="toc-text">Unity中的延迟渲染</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.1.4.</span> <span class="toc-text">前向渲染代码示例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%B0%E5%87%8F%E4%B8%8E%E9%98%B4%E5%BD%B1"><span class="toc-number">1.2.</span> <span class="toc-text">衰减与阴影</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%89%E7%85%A7%E8%A1%B0%E5%87%8F"><span class="toc-number">1.2.1.</span> <span class="toc-text">光照衰减</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%98%B4%E5%BD%B1"><span class="toc-number">1.2.2.</span> <span class="toc-text">阴影</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%98%B4%E5%BD%B1%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.2.3.</span> <span class="toc-text">阴影的实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E8%A1%B0%E5%87%8F%E5%92%8C%E9%98%B4%E5%BD%B1"><span class="toc-number">1.2.4.</span> <span class="toc-text">使用内置函数实现衰减和阴影</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AlphaBlendShadow"><span class="toc-number">1.2.5.</span> <span class="toc-text">AlphaBlendShadow</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%B9%E7%90%86%E8%BF%9B%E9%98%B6"><span class="toc-number">2.</span> <span class="toc-text">纹理进阶</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Cubemap%E4%B8%8E%E7%8E%AF%E5%A2%83%E5%8F%8D%E5%B0%84%E3%80%81%E6%8A%98%E5%B0%84"><span class="toc-number">2.1.</span> <span class="toc-text">Cubemap与环境反射、折射</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8Unity%E4%B8%AD%E5%88%9B%E5%BB%BACubemap"><span class="toc-number">2.1.1.</span> <span class="toc-text">在Unity中创建Cubemap</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E6%98%A0%E5%B0%84"><span class="toc-number">2.1.2.</span> <span class="toc-text">环境映射</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84"><span class="toc-number">2.1.2.1.</span> <span class="toc-text">反射</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8A%98%E5%B0%84"><span class="toc-number">2.1.2.2.</span> <span class="toc-text">折射</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%8F%B2%E6%B6%85%E5%B0%94%E5%8F%8D%E5%B0%84"><span class="toc-number">2.1.2.3.</span> <span class="toc-text">菲涅尔反射</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Render-Texture%E6%B8%B2%E6%9F%93%E7%BA%B9%E7%90%86"><span class="toc-number">2.2.</span> <span class="toc-text">Render Texture渲染纹理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#RT%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-number">2.2.1.</span> <span class="toc-text">RT的概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BART"><span class="toc-number">2.2.2.</span> <span class="toc-text">创建RT</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8RenderTexture%E5%88%B6%E4%BD%9C%E9%95%9C%E5%AD%90"><span class="toc-number">2.2.3.</span> <span class="toc-text">使用RenderTexture制作镜子</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GrabPass"><span class="toc-number">2.3.</span> <span class="toc-text">GrabPass</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#GrabPass%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-number">2.3.1.</span> <span class="toc-text">GrabPass的概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8GrabPass%E5%88%B6%E4%BD%9C%E7%8E%BB%E7%92%83%E6%95%88%E6%9E%9C"><span class="toc-number">2.3.2.</span> <span class="toc-text">使用GrabPass制作玻璃效果</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RenderTexture-vs-GrabPass"><span class="toc-number">2.4.</span> <span class="toc-text">RenderTexture vs. GrabPass</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E6%8A%93%E5%B1%8F%E6%96%B9%E6%B3%95"><span class="toc-number">2.5.</span> <span class="toc-text">其他抓屏方法</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/28/Notes-TA100-A4510/" title="技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）"/></a><div class="content"><a class="title" href="/2024/07/28/Notes-TA100-A4510/" title="技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）">技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）</a><time datetime="2024-07-28T09:20:57.000Z" title="发表于 2024-07-28 17:20:57">2024-07-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/02/13/Anima-SoundEuphonium/" title="《響け！ユーフォニアム》杂谈"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/SoundEuphonium-cover.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《響け！ユーフォニアム》杂谈"/></a><div class="content"><a class="title" href="/2024/02/13/Anima-SoundEuphonium/" title="《響け！ユーフォニアム》杂谈">《響け！ユーフォニアム》杂谈</a><time datetime="2024-02-13T06:14:39.000Z" title="发表于 2024-02-13 14:14:39">2024-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-Avatar/" title="【Unity】仿原神渲染2.0技术文档-角色渲染篇"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/c29cb1345f98a9f92545947d81d692c.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Unity】仿原神渲染2.0技术文档-角色渲染篇"/></a><div class="content"><a class="title" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-Avatar/" title="【Unity】仿原神渲染2.0技术文档-角色渲染篇">【Unity】仿原神渲染2.0技术文档-角色渲染篇</a><time datetime="2023-12-07T13:17:37.000Z" title="发表于 2023-12-07 21:17:37">2023-12-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-PostProcess/" title="【Unity】仿原神渲染2.0技术文档-后处理篇"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/c29cb1345f98a9f92545947d81d692c.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Unity】仿原神渲染2.0技术文档-后处理篇"/></a><div class="content"><a class="title" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-PostProcess/" title="【Unity】仿原神渲染2.0技术文档-后处理篇">【Unity】仿原神渲染2.0技术文档-后处理篇</a><time datetime="2023-12-07T13:17:30.000Z" title="发表于 2023-12-07 21:17:30">2023-12-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/01/Anima-NaginoAsukara/" title="《来自风平浪静的明天》浅谈"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/NaginoAsuKara-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《来自风平浪静的明天》浅谈"/></a><div class="content"><a class="title" href="/2023/12/01/Anima-NaginoAsukara/" title="《来自风平浪静的明天》浅谈">《来自风平浪静的明天》浅谈</a><time datetime="2023-12-01T13:31:58.000Z" title="发表于 2023-12-01 21:31:58">2023-12-01</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2024 By 楸涵</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">欢迎来到楸涵的小窝！</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(() => {
+  let initFn = window.walineFn || null
+
+  const initWaline = (Fn) => {
+    const waline = Fn(Object.assign({
+      el: '#waline-wrap',
+      serverURL: 'https://blog-comment-68npiieuq-himoqiuhan.vercel.app/',
+      pageview: false,
+      dark: 'html[data-theme="dark"]',
+      path: window.location.pathname,
+      comment: false,
+    }, null))
+
+    const destroyWaline = () => {
+      waline.destroy()
+    }
+
+    btf.addGlobalFn('pjax', destroyWaline, 'destroyWaline')
+  }
+
+  const loadWaline = async () => {
+    if (initFn) initWaline(initFn)
+    else {
+      await getCSS('https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.min.css')
+      const { init } = await import('https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.min.js')
+      initFn = init || Waline.init
+      initWaline(initFn)
+      window.walineFn = initFn
+    }
+  }
+
+  if ('Waline' === 'Waline' || !true) {
+    if (true) btf.loadComment(document.getElementById('waline-wrap'),loadWaline)
+    else setTimeout(loadWaline, 0)
+  } else {
+    window.loadOtherComment = loadWaline
+  }
+})()</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

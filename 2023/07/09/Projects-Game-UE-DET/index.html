@@ -1,0 +1,345 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>【UE5】回合制卡牌游戏《失恒Diseternity》 | 楸涵の小窝</title><meta name="author" content="楸涵"><meta name="copyright" content="楸涵"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="大二游戏创作专业课结课作业，一个回合制的卡牌游戏">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【UE5】回合制卡牌游戏《失恒Diseternity》">
+<meta property="og:url" content="https://himoqiuhan.github.io/2023/07/09/Projects-Game-UE-DET/index.html">
+<meta property="og:site_name" content="楸涵の小窝">
+<meta property="og:description" content="大二游戏创作专业课结课作业，一个回合制的卡牌游戏">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/Diseternity.jpg">
+<meta property="article:published_time" content="2023-07-09T07:37:03.000Z">
+<meta property="article:modified_time" content="2024-07-27T15:13:59.657Z">
+<meta property="article:author" content="楸涵">
+<meta property="article:tag" content="游戏开发">
+<meta property="article:tag" content="蓝图">
+<meta property="article:tag" content="UE5">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/Diseternity.jpg"><link rel="shortcut icon" href="/images/favicon.png"><link rel="canonical" href="https://himoqiuhan.github.io/2023/07/09/Projects-Game-UE-DET/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【UE5】回合制卡牌游戏《失恒Diseternity》',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-27 23:13:59'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="css/resources.css"><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="css/progress_bar.css"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="楸涵の小窝" type="application/atom+xml">
+</head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="/css/progress_bar.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/images/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">50</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fab fa-facebook-messenger"></i><span> Links</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-meteor"></i><span> AboutMe</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/Diseternity.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="楸涵の小窝"><span class="site-name">楸涵の小窝</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fab fa-facebook-messenger"></i><span> Links</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-meteor"></i><span> AboutMe</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">【UE5】回合制卡牌游戏《失恒Diseternity》</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-07-09T07:37:03.000Z" title="发表于 2023-07-09 15:37:03">2023-07-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-27T15:13:59.657Z" title="更新于 2024-07-27 23:13:59">2024-07-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Portfolio/">Portfolio</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="【UE5】回合制卡牌游戏《失恒Diseternity》"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="开发者信息及游戏链接">开发者信息及游戏链接</h2>
+<ul>
+<li>策划：曾經、一帆</li>
+<li>程序：楸涵、6Д9</li>
+<li>美术：SOMA、子珏、二呈</li>
+</ul>
+<blockquote>
+<p>游戏链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1TbsCvCp66PSYo-kFlkktuQ?pwd=3jj4">https://pan.baidu.com/s/1TbsCvCp66PSYo-kFlkktuQ?pwd=3jj4</a><br>
+提取码：3jj4</p>
+</blockquote>
+<blockquote>
+<p>展示视频：【【前瞻预告】Rogue卡牌游戏：《失恒》（Diseternity）】 <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV17c411A7wP">https://www.bilibili.com/video/BV17c411A7wP</a></p>
+</blockquote>
+<h2 id="游戏截图">游戏截图</h2>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230709154847462.png" alt="主界面" style="zoom: 40%;" />
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230709160036364.png" alt="关卡选择" style="zoom: 40%;" />
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230709160227027.png" alt="卡牌战斗" style="zoom: 40%;" />
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230709155135109.png" alt="角色对话" style="zoom: 40%;" />
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230709155207786.png" alt="角色获取" style="zoom: 40%;" />
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230709160330398.png" alt="角色删除" style="zoom: 40%;" />
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230709155410847.png" alt="卡牌获取" style="zoom: 40%;" />
+<h2 id="游戏介绍">游戏介绍</h2>
+<ul>
+<li>
+<p>主题：永生的代价</p>
+</li>
+<li>
+<p>游戏名称解释：Diseternity失·恒，意为失去永恒，dis前缀和eternity永恒，连接而成</p>
+</li>
+</ul>
+<h3 id="游戏类型">游戏类型</h3>
+<p>Roguelike类，卡牌战斗，DBG（deck building game）卡组构筑类游戏</p>
+<h3 id="游戏目标">游戏目标</h3>
+<p>不断前进构筑自己的队伍（增删减查），击败敌人，了解真相，做出抉择</p>
+<h3 id="游戏玩法">游戏玩法</h3>
+<ul>
+<li>
+<p>以卡牌随从战斗为核心，通过控制自己的资源，放置随从，打出卡牌，成长随从，辅助战斗来达到消灭敌人的目标。</p>
+<ul>
+<li>战场之上共有9个格子，玩家与病毒共享这些格子，病毒源会周期性的召唤病毒来充斥这个战场，若是病毒占满所有格子，那么游戏结束。玩家需要打出随从站定一个位置，并且用卡牌强化随从的属性和辅助战斗运转让他来消灭病毒和病毒源并且确保他不会被敌人所击败失去所占位置。</li>
+<li>在玩家游玩的过程中会遇见各式各样前世有血有肉的人以计算机数据类型为载体的角色（如主角int，猫猫float等）他们身怀绝技，是冒险路上的强大助力，但是随从的数量与整个世界的能量挂钩（存在上限），玩家需要在不断前进的道路中不断选择放弃牺牲之前获得的随从来确保整个世界不会崩塌，所以牺牲队友换来永生世界的维持，换来继续前进的可能。</li>
+</ul>
+</li>
+</ul>
+<h3 id="背景设定">背景设定</h3>
+<ul>
+<li>
+<p>世界观</p>
+<ul>
+<li>
+<p>电子意识上传，在一个机房里消耗着<strong>号称无尽的资源</strong>，人们实现了所谓的永生。但是这背后有这一个<strong>骗局</strong>，无尽资源只够少数人消耗，激活使用的电脑越多，资源消耗的越快，若是人数过多，那么资源和意识将面临崩溃。（对标随从数量上限的设定）</p>
+<p>终局涉及到无我概念，多世界的跳脱与冲突矛盾，对于永生的代价的不同答案。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>剧情与反派</p>
+<ul>
+<li>知情的上位者为了达成自己的永生（其实是为了拖缓全局崩坏进程），在全体人类带入这个意识机房之后开始了他的计划，他打算利用病毒一步一步关掉下层人民的机子，减少资源的消耗。</li>
+</ul>
+</li>
+<li>
+<p>主角/玩家任务</p>
+<ul>
+<li>随着病毒的侵蚀，愣头青主角（初始不知道这个能源问题）身边的电脑被一个一个关停，主角意识到事情的严重性，他瞧准时机切入到了一个即将被病毒拿下的电脑中，联合这个电脑里的“人”将病毒击退，赢得他的信任，打算去联合大家一起拯救那些被病毒残害而关机的人并且去“守护”这个我们来之不易的永生家园。</li>
+</ul>
+</li>
+<li>
+<p>矛盾点</p>
+<ul>
+<li>矛盾点在于发现了资源不是无尽的情况下，主角如何<strong>抉择</strong>
+<ul>
+<li><strong>直接告诉</strong>手下的人们真实情况</li>
+<li>编一个<strong>借口</strong>遣散一些人继续前进试图寻找到解决问题的方法</li>
+<li><strong>关闭自己</strong>让他人生存</li>
+<li>成为那个上位者</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="游戏开发">游戏开发</h2>
+<h3 id="分工">分工</h3>
+<p>组内共7名同学，楸涵（我）、SOMA、子珏、二呈、曾經、一帆、6Д9</p>
+<ul>
+<li>我：程序（主要逻辑框架，除战斗系统外各个子系统的全部开发，战斗系统卡牌、角色相关功能开发）、技术美术（交互反馈效果）</li>
+<li>6Д9：程序（战斗系统中角色及病毒的生成、攻击、技能开发）</li>
+<li>曾經：策划（战斗系统、卡牌系统、角色系统、关卡系统）</li>
+<li>一帆：策划（数值调试、剧情系统、音频、背景设定）</li>
+<li>SOMA：美术（原画设计、卡牌牌面绘制、背景绘制、UI绘制、宣传图设计）</li>
+<li>子珏：美术（原画设计、角色设计、角色帧动画制作）</li>
+<li>二呈：美术（宣传图设计、部分角色制作）</li>
+</ul>
+<h3 id="开发过程">开发过程</h3>
+<p>我们使用了Notion这个软件作为多人协同的开发辅助工具，极大地方便了我们进行开发管理以及一些资料的整理与共享</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230709162915870.png" alt="部分开发截图-看板"></p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230709163033084.png" alt="中期邀请玩家试玩后的反馈总结"></p>
+<p>由于此次我们是两名程序进行开发，所以notion也很大程度上帮助我们处理多人协同的问题，大大降低了我们merge时产生冲突的概率</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230709163326261.png" alt="总计250+小时的开发时间最后看来也很有成就感！"></p>
+<p>虽然但是还是因为一些失误有过一两次冲突</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/b70e89011192f319992b5a75ac547f6.jpg" alt="QAQ" style="zoom: 50%;" />
+<h2 id="收获">收获</h2>
+<p>这次开发是我第一个长线开发的项目（前前后后一共做了接近四个月），自己也摸爬滚打出了一些对于长期开发项目的经验：</p>
+<ol>
+<li>
+<p>一个系统的架构思路一定要写下来，因为你永远都不知道什么时候需要回去看自己以前写的屎山</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230709165053013.png" alt="拆解系统的部分笔记" style="zoom: 33%;" />
+</li>
+<li>
+<p>一些系统偏向底层的功能一定要在一开始就和策划同学沟通清楚，不然你永远不知道一个系统要重写几遍</p>
+</li>
+<li>
+<p>Git是一个很好的版本管理工具，为了便于组员快速上手还写了一点小入门教学文档：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/615928723">https://zhuanlan.zhihu.com/p/615928723</a></p>
+</li>
+<li>
+<p>开发过程最好写一些关于变量和函数用途的文档，否则变量多了起来很容易出现同一个信息有很多个变量在不同的地方存储的问题</p>
+</li>
+</ol>
+<p>总之，做游戏很好玩！</p>
+<p>然后，能遇到一群想做一个好游戏的队友一起做游戏更好玩！</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://himoqiuhan.github.io">楸涵</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://himoqiuhan.github.io/2023/07/09/Projects-Game-UE-DET/">https://himoqiuhan.github.io/2023/07/09/Projects-Game-UE-DET/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://himoqiuhan.github.io" target="_blank">楸涵の小窝</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">游戏开发</a><a class="post-meta__tags" href="/tags/%E8%93%9D%E5%9B%BE/">蓝图</a><a class="post-meta__tags" href="/tags/UE5/">UE5</a></div><div class="post_share"><div class="social-share" data-image="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/Diseternity.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/07/02/Notes-TA100-A2100/" title="技术美术百人计划学习笔记（美术2.1 DCC工具链与引擎工具链）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">技术美术百人计划学习笔记（美术2.1 DCC工具链与引擎工具链）</div></div></a></div><div class="next-post pull-right"><a href="/2023/07/20/Anima-QingZhu1/" title="《青春猪头少年不会梦到兔女郎学姐》观后感"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/main_kv_chara.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">《青春猪头少年不会梦到兔女郎学姐》观后感</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/10/08/Projects-Game-UE-ComeOnSlime/" title="【UE4】《来吧！史莱姆》游戏介绍"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/tubiao.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-08</div><div class="title">【UE4】《来吧！史莱姆》游戏介绍</div></div></a></div><div><a href="/2022/01/23/Projects-Game-UE-OtherSide/" title="【UE4】《OtherSide》游戏介绍"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/GGJ2022.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-23</div><div class="title">【UE4】《OtherSide》游戏介绍</div></div></a></div><div><a href="/2022/06/28/Projects-Game-Cocos-BMGP/" title="【Cocos】《北门公仆》游戏介绍"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/BMGP_Title.PNG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-06-28</div><div class="title">【Cocos】《北门公仆》游戏介绍</div></div></a></div><div><a href="/2022/05/15/Projects-Game-Cocos-SkiingBigAir/" title="【Cocos】《Skiing Big Air》游戏介绍"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/Skiing1.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-15</div><div class="title">【Cocos】《Skiing Big Air》游戏介绍</div></div></a></div><div><a href="/2023/05/25/Projects-UE-UE5Niagara/" title="【UE5】UE5 Niagara特效"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/20230903092046.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-25</div><div class="title">【UE5】UE5 Niagara特效</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/images/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">楸涵</div><div class="author-info__description">嘿！一起突破次元壁吗！</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">50</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" href="/about/"><i class="fas fa-meteor"></i><span>About Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/himoqiuhan" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://www.zhihu.com/people/qiu-han-71-64/posts" target="_blank" title="Zhihu"><i class="fab fa-zhihu" style="color: #24292e;"></i></a><a class="social-icon" href="https://space.bilibili.com/374860285" target="_blank" title="Bilibili"><i class="fab fa-bilibili" style="color: #24292e;"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561198866659933" target="_blank" title="Steam"><i class="fab fa-steam" style="color: #24292e;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><p>欢迎来和我聊天！</p> <p>QQ：1419091648</p> <p>微信：Himo_qiuhan</p></div></div><div class="card-widget card_portfolio"><div class="item-headline"><i></i><span>作品集</span></div><div class="item-content"></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E8%80%85%E4%BF%A1%E6%81%AF%E5%8F%8A%E6%B8%B8%E6%88%8F%E9%93%BE%E6%8E%A5"><span class="toc-number">1.</span> <span class="toc-text">开发者信息及游戏链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%B8%E6%88%8F%E6%88%AA%E5%9B%BE"><span class="toc-number">2.</span> <span class="toc-text">游戏截图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%B8%E6%88%8F%E4%BB%8B%E7%BB%8D"><span class="toc-number">3.</span> <span class="toc-text">游戏介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%B8%E6%88%8F%E7%B1%BB%E5%9E%8B"><span class="toc-number">3.1.</span> <span class="toc-text">游戏类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%B8%E6%88%8F%E7%9B%AE%E6%A0%87"><span class="toc-number">3.2.</span> <span class="toc-text">游戏目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%B8%E6%88%8F%E7%8E%A9%E6%B3%95"><span class="toc-number">3.3.</span> <span class="toc-text">游戏玩法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%83%8C%E6%99%AF%E8%AE%BE%E5%AE%9A"><span class="toc-number">3.4.</span> <span class="toc-text">背景设定</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91"><span class="toc-number">4.</span> <span class="toc-text">游戏开发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B7%A5"><span class="toc-number">4.1.</span> <span class="toc-text">分工</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B"><span class="toc-number">4.2.</span> <span class="toc-text">开发过程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%B6%E8%8E%B7"><span class="toc-number">5.</span> <span class="toc-text">收获</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/28/Notes-TA100-A4510/" title="技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）"/></a><div class="content"><a class="title" href="/2024/07/28/Notes-TA100-A4510/" title="技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）">技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）</a><time datetime="2024-07-28T09:20:57.000Z" title="发表于 2024-07-28 17:20:57">2024-07-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/02/13/Anima-SoundEuphonium/" title="《響け！ユーフォニアム》杂谈"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/SoundEuphonium-cover.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《響け！ユーフォニアム》杂谈"/></a><div class="content"><a class="title" href="/2024/02/13/Anima-SoundEuphonium/" title="《響け！ユーフォニアム》杂谈">《響け！ユーフォニアム》杂谈</a><time datetime="2024-02-13T06:14:39.000Z" title="发表于 2024-02-13 14:14:39">2024-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-Avatar/" title="【Unity】仿原神渲染2.0技术文档-角色渲染篇"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/c29cb1345f98a9f92545947d81d692c.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Unity】仿原神渲染2.0技术文档-角色渲染篇"/></a><div class="content"><a class="title" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-Avatar/" title="【Unity】仿原神渲染2.0技术文档-角色渲染篇">【Unity】仿原神渲染2.0技术文档-角色渲染篇</a><time datetime="2023-12-07T13:17:37.000Z" title="发表于 2023-12-07 21:17:37">2023-12-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-PostProcess/" title="【Unity】仿原神渲染2.0技术文档-后处理篇"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/c29cb1345f98a9f92545947d81d692c.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Unity】仿原神渲染2.0技术文档-后处理篇"/></a><div class="content"><a class="title" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-PostProcess/" title="【Unity】仿原神渲染2.0技术文档-后处理篇">【Unity】仿原神渲染2.0技术文档-后处理篇</a><time datetime="2023-12-07T13:17:30.000Z" title="发表于 2023-12-07 21:17:30">2023-12-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/01/Anima-NaginoAsukara/" title="《来自风平浪静的明天》浅谈"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/NaginoAsuKara-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《来自风平浪静的明天》浅谈"/></a><div class="content"><a class="title" href="/2023/12/01/Anima-NaginoAsukara/" title="《来自风平浪静的明天》浅谈">《来自风平浪静的明天》浅谈</a><time datetime="2023-12-01T13:31:58.000Z" title="发表于 2023-12-01 21:31:58">2023-12-01</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2024 By 楸涵</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">欢迎来到楸涵的小窝！</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"><script>(() => {
+  let initFn = window.walineFn || null
+
+  const initWaline = (Fn) => {
+    const waline = Fn(Object.assign({
+      el: '#waline-wrap',
+      serverURL: 'https://blog-comment-68npiieuq-himoqiuhan.vercel.app/',
+      pageview: false,
+      dark: 'html[data-theme="dark"]',
+      path: window.location.pathname,
+      comment: false,
+    }, null))
+
+    const destroyWaline = () => {
+      waline.destroy()
+    }
+
+    btf.addGlobalFn('pjax', destroyWaline, 'destroyWaline')
+  }
+
+  const loadWaline = async () => {
+    if (initFn) initWaline(initFn)
+    else {
+      await getCSS('https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.min.css')
+      const { init } = await import('https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.min.js')
+      initFn = init || Waline.init
+      initWaline(initFn)
+      window.walineFn = initFn
+    }
+  }
+
+  if ('Waline' === 'Waline' || !true) {
+    if (true) btf.loadComment(document.getElementById('waline-wrap'),loadWaline)
+    else setTimeout(loadWaline, 0)
+  } else {
+    window.loadOtherComment = loadWaline
+  }
+})()</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

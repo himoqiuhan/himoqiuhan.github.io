@@ -1,0 +1,494 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>技术美术百人计划学习笔记（图形3.1 深度测试和模板测试） | 楸涵の小窝</title><meta name="author" content="楸涵"><meta name="copyright" content="楸涵"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="深度测试与模板测试的基础知识以及一些案例，其中还有关于Early-Z技术的概述">
+<meta property="og:type" content="article">
+<meta property="og:title" content="技术美术百人计划学习笔记（图形3.1 深度测试和模板测试）">
+<meta property="og:url" content="https://himoqiuhan.github.io/2023/06/20/Notes-TA100-T3100/index.html">
+<meta property="og:site_name" content="楸涵の小窝">
+<meta property="og:description" content="深度测试与模板测试的基础知识以及一些案例，其中还有关于Early-Z技术的概述">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png">
+<meta property="article:published_time" content="2023-06-20T04:01:11.000Z">
+<meta property="article:modified_time" content="2024-07-27T15:13:59.652Z">
+<meta property="article:author" content="楸涵">
+<meta property="article:tag" content="TA">
+<meta property="article:tag" content="百人计划">
+<meta property="article:tag" content="Shader">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png"><link rel="shortcut icon" href="/images/favicon.png"><link rel="canonical" href="https://himoqiuhan.github.io/2023/06/20/Notes-TA100-T3100/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '技术美术百人计划学习笔记（图形3.1 深度测试和模板测试）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-27 23:13:59'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="css/resources.css"><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="css/progress_bar.css"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="楸涵の小窝" type="application/atom+xml">
+</head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="/css/progress_bar.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/images/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">50</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fab fa-facebook-messenger"></i><span> Links</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-meteor"></i><span> AboutMe</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/97358036_p0_master1200.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="楸涵の小窝"><span class="site-name">楸涵の小窝</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fab fa-facebook-messenger"></i><span> Links</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-meteor"></i><span> AboutMe</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">技术美术百人计划学习笔记（图形3.1 深度测试和模板测试）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-06-20T04:01:11.000Z" title="发表于 2023-06-20 12:01:11">2023-06-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-27T15:13:59.652Z" title="更新于 2024-07-27 23:13:59">2024-07-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Notes/">Notes</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="技术美术百人计划学习笔记（图形3.1 深度测试和模板测试）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100T3100.png" alt="【图形渲染】 3.1 深度测试和模板测试"></p>
+<h2 id="Stencil-Test-模板测试">Stencil Test 模板测试</h2>
+<h3 id="模板测试是什么">模板测试是什么</h3>
+<p><strong>【从管线上来理解】</strong></p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230909223449600.png" alt="渲染管线中的逐片元操作阶段"></p>
+<p>渲染管线中的逐片元操作阶段</p>
+<ul>
+<li>Pixel Ownership Test：控制对当前屏幕像素的使用权限，比如PIE时只对Scene窗口或者Game窗口有使用权限，其他窗口没有使用权限</li>
+<li>Scissor Test：对可渲染内部部分内容的控制</li>
+<li>Alpha Test：透明度测试，只能实现不透明效果或全透明效果</li>
+<li>Stencil Test：模板测试</li>
+<li>Depth Test：深度测试</li>
+</ul>
+<p>逐片元操作阶段是<strong>不可编程</strong>的，他是由渲染管线和硬件自身自我规定好的，但是我们可以对其中的内容进行配置（<strong>高度可配置</strong>）</p>
+<p><strong>【从逻辑上来理解】</strong></p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230909223532907.png" alt="通过一定的条件来判断是对该片元或片元属性执行抛弃操作还是保留操作"></p>
+<p><strong>【从概念上来理解】</strong></p>
+<p>说到模板测试，就要先说到模板缓冲区。模板缓冲区与颜色缓冲区和深度缓冲区类似，模板缓冲区可以为屏幕上的每个像素点保存一个无符号整数值(通常的话是个8位整数)。这个值的具体意义视程序的具体应用而定。在渲染的过程中，可以用这个值<strong>与一个预先设定的参考值相比较，根据比较的结果来决定是否更新相应的像素点的颜色值</strong>。这个比较的过程被称为模板测试。模板测试发生在透明度测试（alpha test）之后，深度测试（depth test）之前。如果模板测试通过，则相应的像素点更新，否则不更新。</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230909223611293.png" alt=""></p>
+<h3 id="语法表示">语法表示</h3>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230909223626956.png" alt=""></p>
+<p><strong>比较函数（Comparison Function）</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">语义</th>
+<th style="text-align:center">解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Greater</td>
+<td style="text-align:center">相当于“&gt;”操作，即仅当左边&gt;右边，模板测试通过，渲染像素</td>
+</tr>
+<tr>
+<td style="text-align:center">GEqual</td>
+<td style="text-align:center">相当于“&gt;=”操作，即仅当左边&gt;=右边，模板测试通过，渲染像素</td>
+</tr>
+<tr>
+<td style="text-align:center">Less</td>
+<td style="text-align:center">相当于“&lt;”操作，即仅当左边&lt;右边，模板测试通过，渲染像素</td>
+</tr>
+<tr>
+<td style="text-align:center">LEqual</td>
+<td style="text-align:center">相当于“&lt;=”操作，即仅当左边&lt;=右边，模板测试通过，渲染像素</td>
+</tr>
+<tr>
+<td style="text-align:center">Equal</td>
+<td style="text-align:center">相当于“=”操作，即仅当左边=右边，模板测试通过，渲染像素</td>
+</tr>
+<tr>
+<td style="text-align:center">NotEqual</td>
+<td style="text-align:center">相当于“!=”操作，即仅当左边!=右边，模板测试通过，渲染像素</td>
+</tr>
+<tr>
+<td style="text-align:center">Always</td>
+<td style="text-align:center">不管公式两边为何值，模板测试总是通过，渲染像素</td>
+</tr>
+<tr>
+<td style="text-align:center">Never</td>
+<td style="text-align:center">不敢公式两边为何值，模板测试总是失败 ，像素被抛弃</td>
+</tr>
+</tbody>
+</table>
+<p><strong>更新值</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">语义</th>
+<th style="text-align:center">解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Keep</td>
+<td style="text-align:center">保留当前缓冲中的内容，即stencilBufferValue不变</td>
+</tr>
+<tr>
+<td style="text-align:center">Zero</td>
+<td style="text-align:center">将0写入缓冲，即stencilBufferValue值变为0</td>
+</tr>
+<tr>
+<td style="text-align:center">Replace</td>
+<td style="text-align:center">将参考值写入缓冲，即将referenceValue赋值给stencilBufferValue</td>
+</tr>
+<tr>
+<td style="text-align:center">IncrSat</td>
+<td style="text-align:center">stencilBufferValue加1，如果stencilBufferValue超过255了，那么保留为255，即不大于255</td>
+</tr>
+<tr>
+<td style="text-align:center">DecrSat</td>
+<td style="text-align:center">stencilBufferValue减1，如果stencilBufferValue超过为0，那么保留为0，即不小于0</td>
+</tr>
+<tr>
+<td style="text-align:center">Invert</td>
+<td style="text-align:center">将当前模板缓冲值（stencilBufferValue）按位取反</td>
+</tr>
+<tr>
+<td style="text-align:center">IncrWrap</td>
+<td style="text-align:center">当前缓冲的值加1，如果缓冲值超过255了，那么变成0，（然后继续自增）</td>
+</tr>
+<tr>
+<td style="text-align:center">DecrWrap</td>
+<td style="text-align:center">当前缓冲的值减1，如果缓冲值已经为0，那么变成255，（然后继续自减）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="模板测试总结">模板测试总结</h3>
+<ul>
+<li>使用模板缓冲区最重要的两个值：当前模板缓冲值（stencil Buffer Value）和模板参考值（reference Value）</li>
+<li>模板测试主要是对这两个值使用特定的比较操作：Never、Always、Less、LEqual、Greater、Equal</li>
+<li>模板测试之后要对模板缓冲区的值（stencil Buffer Value）进行更新操作，更新操作包括：Keep、Zero、Replace、IncrSat、DecrSat、Invert等等</li>
+<li>模板测试之后可以根据结果对模板缓冲做不同的更新操作，比如模板测试成功操作Pass，模板测试失败操作Fail，深度测试失败操作ZFail，还有正对正面和背面精确更新操作PassBack，PassFront，FailBack等等</li>
+</ul>
+<h3 id="模板测试扩展">模板测试扩展</h3>
+<p>掌握模板测试的核心思想，利用模板测试的特性同其他测试或图形算法结合使用</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230909223959882.png" alt=""></p>
+<h3 id="参考资料">参考资料</h3>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u011047171/article/details/46928463">https://blog.csdn.net/u011047171/article/details/46928463</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/liu_if_else/article/details/86316361">https://blog.csdn.net/liu_if_else/article/details/86316361</a></p>
+<p><a target="_blank" rel="noopener" href="https://gwb.tencent.com/community/detail/127404">https://gwb.tencent.com/community/detail/127404</a></p>
+<p><a target="_blank" rel="noopener" href="https://learnopengl-cn.readthedocs.io/zh/latest/04%20Advanced%20OpenGL/02%20Stencil%20testing/">https://learnopengl-cn.readthedocs.io/zh/latest/04 Advanced OpenGL/02 Stencil testing/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.patreon.com/posts/14832618">https://www.patreon.com/posts/14832618</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.udemy.com/course/unity-shaders/">https://www.udemy.com/course/unity-shaders/</a></p>
+<h2 id="Depth-Test-深度测试">Depth Test 深度测试</h2>
+<p>深度测试的一些效果：</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230909224038116.png" alt=""></p>
+<h3 id="深度测试的认识">深度测试的认识</h3>
+<p><strong>【从渲染管线上来理解】</strong></p>
+<p>在逐片元操作之中，模板测试之后，透明度混合之前进行的，同样是高度可配置的</p>
+<p>其中在片元着色器之前还有一个Early-Z技术，利用了与深度测试相同的技术</p>
+<p><strong>【从逻辑上理解】</strong></p>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(Zwrite On &amp;&amp; (correntDepthValue ComparisonFunction DepthBufferValue))&#123;</span><br><span class="line">		写入深度</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		忽略深度</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(correntDepthValue ComparisonFunction DepthBufferValue)&#123;</span><br><span class="line">		写入深度缓冲</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		不写入深度缓冲</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>【从概念上理解】</strong></p>
+<p>所谓深度测试，就是针对当前对象在屏幕上（更准确的说是frame buffer）对应的像素点，将对象自身的深度值与当前该像素点缓存的深度值进行比较，如果通过了，本对象在该像素点才会将颜色写入颜色缓冲区，否则否则不会写入颜色缓冲</p>
+<p><strong>【深度测试的发展】</strong></p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230909224329534.png" alt=""></p>
+<h3 id="深度缓冲区">深度缓冲区</h3>
+<p>深度缓冲就像颜色缓冲（储存所有的片段颜色：视觉输出）一样，在每个片段中储存了信息，并且（通常）和颜色缓冲有着一样的宽度和高度。深度缓冲是由窗口系统自动创建的，它会以16、24或32位float的形式储存它的深度值。在大部分的系统中，深度缓冲的精度都是24位的<br>
+<strong>z-buffer中存储的是当前的深度信息，对于每个像素存储一个深度值</strong></p>
+<blockquote>
+<p>通过Zwrite和ZTest来调用Z-Buffer，实现想要的渲染结果</p>
+</blockquote>
+<h3 id="ZWrite">ZWrite</h3>
+<p>深度写入包括两种状态：ZWrite On与ZWrite Off</p>
+<p>当我们开启深度写入的时候，物体被渲染时针对物体在屏幕（更准确地说是frame buffer）上每个像素的深度都写入到深度缓冲区；反之，如果是ZWrite Off，那么物体的深度就不会写入深度缓冲区。</p>
+<p>但是，物体是否会写入深度，除了ZWrite这个状态之外，更重要的是需要深度测试通过，也就是ZTest通过，如果ZTest都没通过，那么也就不会写入深度了</p>
+<p>ZTest分为通过和不通过两种情况，ZWrite分为开启和关闭两种情况的话，一共就是四种情况：</p>
+<p>1.深度测试通过，深度写入开启：写入深度缓冲区，写入颜色缓冲区；</p>
+<p>2.深度测试通过，深度写入关闭：不写深度缓冲区，写入颜色缓冲区；</p>
+<p>3.深度测试失败，深度写入开启：不写深度缓冲区，不写颜色缓冲区；</p>
+<p>4.深度测试失败，深度写入关闭：不写深度缓冲区，不写颜色缓冲区；</p>
+<h3 id="ZTest">ZTest</h3>
+<table>
+<thead>
+<tr>
+<th>ZTest 状态</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Greater</td>
+<td>深度大于当前缓存则通过</td>
+</tr>
+<tr>
+<td>LEqual</td>
+<td>深度小于等于当前缓存则通过</td>
+</tr>
+<tr>
+<td>Less</td>
+<td>深度小于当前缓存则通过</td>
+</tr>
+<tr>
+<td>GEqual</td>
+<td>深度大于等于当前缓存则通过</td>
+</tr>
+<tr>
+<td>Equal</td>
+<td>深度等于当前缓存则通过</td>
+</tr>
+<tr>
+<td>NotEqual</td>
+<td>深度不等于当前缓存则通过</td>
+</tr>
+<tr>
+<td>Always（Off）</td>
+<td>深度不论如何都通过</td>
+</tr>
+<tr>
+<td>Never</td>
+<td>深度不论如何都不通过</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>默认ZWrite On</strong>和<strong>ZTest Lequal</strong>，深度缓存一开始为无穷大</p>
+</blockquote>
+<h3 id="渲染队列">渲染队列</h3>
+<p>Unity中内置的渲染队列，按照渲染顺序，从先往后进行排序，<strong>队列数越小的越先渲染，队列数越大的越后渲染</strong></p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230909224506214.png" alt=""></p>
+<p>在Unity中设置渲染队列：<code>Tags &#123; “Queue” = “Transparent”&#125;</code>，默认是Geometry</p>
+<ul>
+<li>不透明物体的渲染顺序：从前往后</li>
+<li>透明物体的渲染顺序：从后往前（OverDraw）</li>
+</ul>
+<blockquote>
+<p>可以在shader的Inspector面板查看相关属性</p>
+</blockquote>
+<h3 id="Early-Z技术">Early-Z技术</h3>
+<p>传统的渲染管线中，ZTest其实是在Blending阶段，这时候进行深度测试，所有对象的像素着色器都会计算一遍，没有什么性能提升，仅仅是为了得出正确的遮挡结果，会造成大量的无用计算，因为每个像素点上肯定重叠了很多计算。因此 <strong>现代GPU中运用了Early-Z的技术，在Vertex阶段和Fragment阶段之间（光栅化之后，fragment之前）进行一次深度测试，如果深度测试失败，就不必进行fragment阶段的计算了，因此在性能上会有很大的提升。但是最终的ZTest仍然需要进行，以保证最终的遮挡关系结果正确。</strong></p>
+<p>前面的一次主要是Z-Cull为了裁剪以达到优化的目的，后一次主要是Z-Check，为了检查，如下图：</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230909224540898.png" alt=""></p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230909224548623.png" alt=""></p>
+<h3 id="深度值">深度值</h3>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230909224615387.png" alt="模型空间变换"></p>
+<ul>
+<li>模型空间中：无深度信息存储</li>
+<li>世界空间：存储在Z分量上</li>
+<li>视察空间：存储在Z分量上（线性深度）</li>
+<li>裁剪空间：准备投影，深度缓冲中存储z/w（透视投影非线性）</li>
+</ul>
+<blockquote>
+<p>为什么深度缓冲区存储的是非线性深度而不是线性深度呢？</p>
+</blockquote>
+<p>在精度有限的深度缓冲区中合理分配存储到精度，较近区域的深度信息分配更高的精度，较远区域的深度信息分配更低的精度（和gamma映射异曲同工）</p>
+<p>正确的投影特性的非线性深度方程是和1/Z成正比的，这样基本做的是在Z很近的时候高精度和Z很远的时候低精度。例如1.0和2.0之间的z值，将变为1.0到0.5之间，这样在z很小的时候给了我们很高的精度，而50.0和100.0之间的z值将只占2%的浮点数的精度，这正是我们想要的。</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230909224639055.png" alt="线性深度"></p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230909224650048.png" alt="非线性深度"></p>
+<blockquote>
+<p>深度值的精度不足可能会带来深度冲突的问题</p>
+</blockquote>
+<p>所以在深度缓冲区中使用非线性深度，在近处用更高精度的数据存储，可以有效减少近处的深度冲突；而远处的因为不容易被看见，即便发生深度冲突也不会造成太多影响</p>
+<blockquote>
+<p>如何防止深度冲突</p>
+</blockquote>
+<ol>
+<li>一个技巧：让物体之间不要离得太近</li>
+<li>另一个技巧：尽可能把近平面设置得远一些，可以有效在椎体中提高精度</li>
+<li>另一个技巧：牺牲性能，使用更高精度的深度值（24→32位）</li>
+</ol>
+<h3 id="案例">案例</h3>
+<ul>
+<li>先对渲染队列进行排列，再在<strong>同一个渲染队列中按深度</strong>进行排序</li>
+<li>对于多pass shader，unity会从所以pass的所有的queue中挑选最靠前的，然后把这个物体放到一个队列中，然后他会根据pass的顺序逐pass执行</li>
+</ul>
+<h3 id="深度测试总结">深度测试总结</h3>
+<ul>
+<li>使用深度缓冲区最重要的两个值：当前深度缓冲值ZBufferValue和深度参考值referenceValue，并通过比较操作获取理想的渲染效果</li>
+<li>Unity中的渲染顺序：先渲染不透明物体，顺序是从前往后；再渲染透明物体，顺序是从后到前</li>
+<li>通过ZWrite和ZTest组合使用控制半透明物体的渲染</li>
+<li>引入Early-Z技术后的深度测试相关渲染流程</li>
+<li>深度缓冲区中存储的深度值为0到1范围的浮点值，且为非线性</li>
+</ul>
+<h3 id="深度测试扩展">深度测试扩展</h3>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230909224809174.png" alt="深入了解深度值在不同阶段的变化过程，通过深度测试、深度写入、深度图等方法控制深度缓冲区"></p>
+<h3 id="参考资料-2">参考资料</h3>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/puppet_master/article/details/53900568">https://blog.csdn.net/puppet_master/article/details/53900568</a></p>
+<p><a target="_blank" rel="noopener" href="https://learnopengl-cn.readthedocs.io/zh/latest/04%20Advanced%20OpenGL/01%20Depth%20testing/">https://learnopengl-cn.readthedocs.io/zh/latest/04 Advanced OpenGL/01 Depth testing/</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.unity3d.com/cn/2018.4/Manual/SL-CullAndDepth.html">https://docs.unity3d.com/cn/2018.4/Manual/SL-CullAndDepth.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/yangxuan0261/article/details/79725466">https://blog.csdn.net/yangxuan0261/article/details/79725466</a></p>
+<p>《Unity ShaderLab 开发实战详解》</p>
+<p>《Unity Shader 入门精要》</p>
+<p><a target="_blank" rel="noopener" href="https://roystan.net/articles/toon-water.html">https://roystan.net/articles/toon-water.html</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://himoqiuhan.github.io">楸涵</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://himoqiuhan.github.io/2023/06/20/Notes-TA100-T3100/">https://himoqiuhan.github.io/2023/06/20/Notes-TA100-T3100/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://himoqiuhan.github.io" target="_blank">楸涵の小窝</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/TA/">TA</a><a class="post-meta__tags" href="/tags/%E7%99%BE%E4%BA%BA%E8%AE%A1%E5%88%92/">百人计划</a><a class="post-meta__tags" href="/tags/Shader/">Shader</a></div><div class="post_share"><div class="social-share" data-image="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/06/14/Notes-TA100-T2900/" title="技术美术百人计划学习笔记（图形2.9 GPU硬件架构及运行机制）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">技术美术百人计划学习笔记（图形2.9 GPU硬件架构及运行机制）</div></div></a></div><div class="next-post pull-right"><a href="/2023/06/25/Notes-TA100-A1100/" title="【百人计划】美术1.1 美术理论基础"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">【百人计划】美术1.1 美术理论基础</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/06/14/Notes-TA100-Ex100/" title="技术美术百人计划学习笔记（先行版-基础渲染光照介绍）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-14</div><div class="title">技术美术百人计划学习笔记（先行版-基础渲染光照介绍）</div></div></a></div><div><a href="/2023/06/13/Notes-TA100-T1400/" title="技术美术百人计划学习笔记（图形1.1-1.4）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-13</div><div class="title">技术美术百人计划学习笔记（图形1.1-1.4）</div></div></a></div><div><a href="/2023/06/14/Notes-TA100-T2600/" title="技术美术百人计划学习笔记（图形2.5-2.6）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-14</div><div class="title">技术美术百人计划学习笔记（图形2.5-2.6）</div></div></a></div><div><a href="/2023/06/14/Notes-TA100-T2400/" title="技术美术百人计划学习笔记（图形2.1-2.4）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-14</div><div class="title">技术美术百人计划学习笔记（图形2.1-2.4）</div></div></a></div><div><a href="/2023/06/14/Notes-TA100-T2700/" title="技术美术百人计划学习笔记（图形2.7 Bump图）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-14</div><div class="title">技术美术百人计划学习笔记（图形2.7 Bump图）</div></div></a></div><div><a href="/2023/06/14/Notes-TA100-T2800/" title="技术美术百人计划学习笔记（图形2.8 Flow Map流动效果实现）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-14</div><div class="title">技术美术百人计划学习笔记（图形2.8 Flow Map流动效果实现）</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/images/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">楸涵</div><div class="author-info__description">嘿！一起突破次元壁吗！</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">50</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" href="/about/"><i class="fas fa-meteor"></i><span>About Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/himoqiuhan" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://www.zhihu.com/people/qiu-han-71-64/posts" target="_blank" title="Zhihu"><i class="fab fa-zhihu" style="color: #24292e;"></i></a><a class="social-icon" href="https://space.bilibili.com/374860285" target="_blank" title="Bilibili"><i class="fab fa-bilibili" style="color: #24292e;"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561198866659933" target="_blank" title="Steam"><i class="fab fa-steam" style="color: #24292e;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><p>欢迎来和我聊天！</p> <p>QQ：1419091648</p> <p>微信：Himo_qiuhan</p></div></div><div class="card-widget card_portfolio"><div class="item-headline"><i></i><span>作品集</span></div><div class="item-content"></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Stencil-Test-%E6%A8%A1%E6%9D%BF%E6%B5%8B%E8%AF%95"><span class="toc-number">1.</span> <span class="toc-text">Stencil Test 模板测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E6%9D%BF%E6%B5%8B%E8%AF%95%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.1.</span> <span class="toc-text">模板测试是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95%E8%A1%A8%E7%A4%BA"><span class="toc-number">1.2.</span> <span class="toc-text">语法表示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E6%9D%BF%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93"><span class="toc-number">1.3.</span> <span class="toc-text">模板测试总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E6%9D%BF%E6%B5%8B%E8%AF%95%E6%89%A9%E5%B1%95"><span class="toc-number">1.4.</span> <span class="toc-text">模板测试扩展</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">1.5.</span> <span class="toc-text">参考资料</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Depth-Test-%E6%B7%B1%E5%BA%A6%E6%B5%8B%E8%AF%95"><span class="toc-number">2.</span> <span class="toc-text">Depth Test 深度测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%B1%E5%BA%A6%E6%B5%8B%E8%AF%95%E7%9A%84%E8%AE%A4%E8%AF%86"><span class="toc-number">2.1.</span> <span class="toc-text">深度测试的认识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%B1%E5%BA%A6%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="toc-number">2.2.</span> <span class="toc-text">深度缓冲区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ZWrite"><span class="toc-number">2.3.</span> <span class="toc-text">ZWrite</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ZTest"><span class="toc-number">2.4.</span> <span class="toc-text">ZTest</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%B2%E6%9F%93%E9%98%9F%E5%88%97"><span class="toc-number">2.5.</span> <span class="toc-text">渲染队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Early-Z%E6%8A%80%E6%9C%AF"><span class="toc-number">2.6.</span> <span class="toc-text">Early-Z技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%B1%E5%BA%A6%E5%80%BC"><span class="toc-number">2.7.</span> <span class="toc-text">深度值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B"><span class="toc-number">2.8.</span> <span class="toc-text">案例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%B1%E5%BA%A6%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93"><span class="toc-number">2.9.</span> <span class="toc-text">深度测试总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%B1%E5%BA%A6%E6%B5%8B%E8%AF%95%E6%89%A9%E5%B1%95"><span class="toc-number">2.10.</span> <span class="toc-text">深度测试扩展</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99-2"><span class="toc-number">2.11.</span> <span class="toc-text">参考资料</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/28/Notes-TA100-A4510/" title="技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）"/></a><div class="content"><a class="title" href="/2024/07/28/Notes-TA100-A4510/" title="技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）">技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）</a><time datetime="2024-07-28T09:20:57.000Z" title="发表于 2024-07-28 17:20:57">2024-07-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/02/13/Anima-SoundEuphonium/" title="《響け！ユーフォニアム》杂谈"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/SoundEuphonium-cover.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《響け！ユーフォニアム》杂谈"/></a><div class="content"><a class="title" href="/2024/02/13/Anima-SoundEuphonium/" title="《響け！ユーフォニアム》杂谈">《響け！ユーフォニアム》杂谈</a><time datetime="2024-02-13T06:14:39.000Z" title="发表于 2024-02-13 14:14:39">2024-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-Avatar/" title="【Unity】仿原神渲染2.0技术文档-角色渲染篇"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/c29cb1345f98a9f92545947d81d692c.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Unity】仿原神渲染2.0技术文档-角色渲染篇"/></a><div class="content"><a class="title" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-Avatar/" title="【Unity】仿原神渲染2.0技术文档-角色渲染篇">【Unity】仿原神渲染2.0技术文档-角色渲染篇</a><time datetime="2023-12-07T13:17:37.000Z" title="发表于 2023-12-07 21:17:37">2023-12-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-PostProcess/" title="【Unity】仿原神渲染2.0技术文档-后处理篇"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/c29cb1345f98a9f92545947d81d692c.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Unity】仿原神渲染2.0技术文档-后处理篇"/></a><div class="content"><a class="title" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-PostProcess/" title="【Unity】仿原神渲染2.0技术文档-后处理篇">【Unity】仿原神渲染2.0技术文档-后处理篇</a><time datetime="2023-12-07T13:17:30.000Z" title="发表于 2023-12-07 21:17:30">2023-12-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/01/Anima-NaginoAsukara/" title="《来自风平浪静的明天》浅谈"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/NaginoAsuKara-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《来自风平浪静的明天》浅谈"/></a><div class="content"><a class="title" href="/2023/12/01/Anima-NaginoAsukara/" title="《来自风平浪静的明天》浅谈">《来自风平浪静的明天》浅谈</a><time datetime="2023-12-01T13:31:58.000Z" title="发表于 2023-12-01 21:31:58">2023-12-01</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2024 By 楸涵</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">欢迎来到楸涵的小窝！</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(() => {
+  let initFn = window.walineFn || null
+
+  const initWaline = (Fn) => {
+    const waline = Fn(Object.assign({
+      el: '#waline-wrap',
+      serverURL: 'https://blog-comment-68npiieuq-himoqiuhan.vercel.app/',
+      pageview: false,
+      dark: 'html[data-theme="dark"]',
+      path: window.location.pathname,
+      comment: false,
+    }, null))
+
+    const destroyWaline = () => {
+      waline.destroy()
+    }
+
+    btf.addGlobalFn('pjax', destroyWaline, 'destroyWaline')
+  }
+
+  const loadWaline = async () => {
+    if (initFn) initWaline(initFn)
+    else {
+      await getCSS('https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.min.css')
+      const { init } = await import('https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.min.js')
+      initFn = init || Waline.init
+      initWaline(initFn)
+      window.walineFn = initFn
+    }
+  }
+
+  if ('Waline' === 'Waline' || !true) {
+    if (true) btf.loadComment(document.getElementById('waline-wrap'),loadWaline)
+    else setTimeout(loadWaline, 0)
+  } else {
+    window.loadOtherComment = loadWaline
+  }
+})()</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

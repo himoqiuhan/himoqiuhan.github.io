@@ -1,0 +1,295 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>【Unity】仿原神渲染2.0技术文档-后处理篇 | 楸涵の小窝</title><meta name="author" content="楸涵"><meta name="copyright" content="楸涵"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="在URP管线下探究原神的卡通渲染实现的技术分享文档，后处理部分">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Unity】仿原神渲染2.0技术文档-后处理篇">
+<meta property="og:url" content="https://himoqiuhan.github.io/2023/12/07/Projects-GenshinLikeRenderingInURP2-PostProcess/index.html">
+<meta property="og:site_name" content="楸涵の小窝">
+<meta property="og:description" content="在URP管线下探究原神的卡通渲染实现的技术分享文档，后处理部分">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/c29cb1345f98a9f92545947d81d692c.png">
+<meta property="article:published_time" content="2023-12-07T13:17:30.000Z">
+<meta property="article:modified_time" content="2024-07-27T15:13:59.657Z">
+<meta property="article:author" content="楸涵">
+<meta property="article:tag" content="Unity">
+<meta property="article:tag" content="URP管线">
+<meta property="article:tag" content="卡通渲染">
+<meta property="article:tag" content="技术美术">
+<meta property="article:tag" content="SRP自定义后处理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/c29cb1345f98a9f92545947d81d692c.png"><link rel="shortcut icon" href="/images/favicon.png"><link rel="canonical" href="https://himoqiuhan.github.io/2023/12/07/Projects-GenshinLikeRenderingInURP2-PostProcess/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【Unity】仿原神渲染2.0技术文档-后处理篇',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-27 23:13:59'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="css/resources.css"><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="css/progress_bar.css"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="楸涵の小窝" type="application/atom+xml">
+</head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="/css/progress_bar.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/images/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">50</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fab fa-facebook-messenger"></i><span> Links</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-meteor"></i><span> AboutMe</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/73410871d211425732b5205f15856be.png')"><nav id="nav"><span id="blog-info"><a href="/" title="楸涵の小窝"><span class="site-name">楸涵の小窝</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fab fa-facebook-messenger"></i><span> Links</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-meteor"></i><span> AboutMe</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">【Unity】仿原神渲染2.0技术文档-后处理篇</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-12-07T13:17:30.000Z" title="发表于 2023-12-07 21:17:30">2023-12-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-27T15:13:59.657Z" title="更新于 2024-07-27 23:13:59">2024-07-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Tech-Document/">Tech-Document</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="【Unity】仿原神渲染2.0技术文档-后处理篇"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>【Unity】URP 中的仿原神渲染2.0-后处理篇</h1>
+<blockquote>
+<p>过程中使用到的模型、贴图均来自miHoYo，个人仅用作学习使用</p>
+</blockquote>
+<h2 id="整体效果展示">整体效果展示</h2>
+<p>【【卡通渲染/MMD】五等分の気持ち】 <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ew41187H5/">https://www.bilibili.com/video/BV1ew41187H5/</a></p>
+<p><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20231204162907101.png" alt="夜间、白天及加入Bloom后的效果"></p>
+<blockquote>
+<p>代码仓库链接：<a target="_blank" rel="noopener" href="https://github.com/himoqiuhan/URPToonRenderReconstruction">https://github.com/himoqiuhan/URPToonRenderReconstruction</a></p>
+</blockquote>
+<h2 id="0-前言">0 前言</h2>
+<p>这一次渲染的后处理我只自己写了Bloom，不过整体的后处理代码架构我个人认为是比较清晰的，也比较方便用于拓展。</p>
+<h2 id="1-Bloom处理思路">1 Bloom处理思路</h2>
+<p>Bloom处理的核心有三步，第一步提取Bloom区域，第二步对提取结果进行模糊处理，第三步合并处理结果与原图。</p>
+<p><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20231205160707729.png" alt="Bloom处理核心步骤"></p>
+<p>提取Bloom区域的方式一般有两种，一是直接根据颜色值提取，二是根据亮度提取。因为两个的处理方式都很简单，所以我在处理流程中加入了枚举，可以选择不同的提取方式。不过一般情况下，直接根据颜色值来提取得到的效果要更好一点，因为颜色值减去阈值的时候是RGB值都减去一个相同的数，降低明度的同时还能够保持颜色的饱和度。</p>
+<p>对提取结果进行模糊处理时，最简单的方法是直接进行高斯模糊，但是那样无法获得“扩散”的感觉。我的处理方案参考了COD2014年的分享，对Bloom区域提取出来的结果进行逐级降采样，存储到一系列临时RenderTexture中，然后再逐级向上叠加混合，最后对最终的混合结果进行一次高斯模糊。其中一些提升效果的细节，我放到下面详细介绍。</p>
+<p>合并处理结果与原图就是控制Bloom强度后与原图直接相加。</p>
+<h2 id="2-添加Feature实现URP自定义后处理">2 添加Feature实现URP自定义后处理</h2>
+<h3 id="2-1-RenderFeature与RenderPass">2.1 RenderFeature与RenderPass</h3>
+<p>通常在Project视口中右键-&gt;Create-&gt;Rendering-&gt;URP Asset(with Universal Renderer)可以新建一个Render Feature模板，里面有官方给的注释，但是模板中Pass类的定义是写在RenderFeature类中的，我想要架构更清晰一点，同时想要一个Feature处理多个不同的后处理Pass，就把他们放到了不同的文件中。我没有考虑过一个Feature包含多个Pass的性能问题，如果有大佬知道，还请不吝赐教！</p>
+<p>这样就获得了如下两个文件：CustomPostProcessFeature.cs和CustomBloomPass.cs</p>
+<p>CustomPostProcessFeature.cs统筹管理所有后处理相关的Pass。这一个版本只写了Bloom，后续添加其他的后处理Pass同Bloom处理即可。这样处理需要在代码中考虑不同效果执行的先后顺序，以及目前有一点可能的优化空间：如果加入没有开启的Pass，是否执行Pass的逻辑是在Pass的Execute函数中判断的，也就是说该Renderer一定会执行EnqueuePass的函数。</p>
+<p>RenderFeature的关键函数是Create和AddRenderPasses，Create用于创建对应ScriptableRenderPass的对象，并设置RenderPassEvent，即把这个Pass加入到哪个阶段，AddRenderPasses用于将Pass加入到CommandBuffer的队列中，用于后续执行。</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CustomPostProcessFeature</span> : <span class="title">ScriptableRendererFeature</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    CustomBloomPass m_CustomBloomPass;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">Create</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        m_CustomBloomPass = <span class="keyword">new</span> CustomBloomPass();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Configures where the render pass should be injected.</span></span><br><span class="line">        m_CustomBloomPass.renderPassEvent = RenderPassEvent.BeforeRenderingPostProcessing;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Here you can inject one or multiple render passes in the renderer.</span></span><br><span class="line">    <span class="comment">// This method is called when setting up the renderer once per-camera.</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">AddRenderPasses</span>(<span class="params">ScriptableRenderer renderer, <span class="keyword">ref</span> RenderingData renderingData</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        m_CustomBloomPass.SetUp(renderer.cameraColorTarget);</span><br><span class="line">        renderer.EnqueuePass(m_CustomBloomPass);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>CustomBloomPass.cs执行具体的Bloom处理指令，指令存放在Execute函数中，其他的内容基本是围绕着这个函数进行处理，代码框架如下：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CustomBloomPass</span> : <span class="title">ScriptableRenderPass</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//需要使用到的成员变量，例如ShaderProperty的ID、用于执行的Shader、以及用于处理的Material等等，具体参数可以看完整的代码</span></span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CustomBloomPass</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//基于设置的Shader创建材质</span></span><br><span class="line">        <span class="comment">//...</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SetUp</span>(<span class="params"><span class="keyword">in</span> RenderTargetIdentifier finalRenderTarget</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//SetUp函数由RenderFeature的AddRenderPasses调用，传递最终的Target信息</span></span><br><span class="line">        _finalRenderTarget = finalRenderTarget;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">Execute</span>(<span class="params">ScriptableRenderContext context, <span class="keyword">ref</span> RenderingData renderingData</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!GetParamsAndCheckValidation(<span class="keyword">ref</span> renderingData))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// Debug.Log(&quot;Custom Bloom Failed&quot;);</span></span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> cmd = CommandBufferPool.Get(BufferName);</span><br><span class="line">        Render(cmd, <span class="keyword">ref</span> renderingData);</span><br><span class="line">        context.ExecuteCommandBuffer(cmd);</span><br><span class="line">        CommandBufferPool.Release(cmd);</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">OnCameraCleanup</span>(<span class="params">CommandBuffer cmd</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        ReleaseRenderTextures(cmd);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="built_in">bool</span> <span class="title">GetParamsAndCheckValidation</span>(<span class="params"><span class="keyword">ref</span> RenderingData renderingData</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">         <span class="comment">//检查Material是否被成功创建、控制参数的Volume是否有效、对应后处理是否启用</span></span><br><span class="line">	    <span class="comment">//...</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">Render</span>(<span class="params">CommandBuffer cmd, <span class="keyword">ref</span> RenderingData renderingData</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//获取相机的相关信息，并执行渲染相关的函数</span></span><br><span class="line">        <span class="keyword">ref</span> <span class="keyword">var</span> cameraData = <span class="keyword">ref</span> renderingData.cameraData;</span><br><span class="line">        RenderTargetIdentifier source = _finalRenderTarget;</span><br><span class="line">        <span class="keyword">var</span> w = cameraData.camera.scaledPixelWidth;</span><br><span class="line">        <span class="keyword">var</span> h = cameraData.camera.scaledPixelHeight;</span><br><span class="line"></span><br><span class="line">        CreateRenderTextures(cmd, w, h);</span><br><span class="line">        </span><br><span class="line">        BloomAreaExtractionPassRender(cmd, source, _bloomRTArray[<span class="number">0</span>]);</span><br><span class="line">        BloomPassRender(cmd, source, _finalRenderTarget);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">CreateRenderTextures</span>(<span class="params">CommandBuffer cmd, <span class="built_in">int</span> w, <span class="built_in">int</span> h</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//基于需求创建临时RT</span></span><br><span class="line">        <span class="comment">//...</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ReleaseRenderTextures</span>(<span class="params">CommandBuffer cmd</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//释放所创建的临时RT</span></span><br><span class="line">        <span class="comment">//...</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">BloomAreaExtractionPassRender</span>(<span class="params">CommandBuffer cmd, RenderTargetIdentifier source, RenderTargetIdentifier target</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//提取Bloom区域Pass的执行</span></span><br><span class="line">        <span class="comment">//...</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">GaussianBlurPassRender</span>(<span class="params">CommandBuffer cmd, RenderTargetIdentifier source, RenderTargetIdentifier target</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//处理高斯模糊的双Pass执行</span></span><br><span class="line">        <span class="comment">//...</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">BloomPassRender</span>(<span class="params">CommandBuffer cmd, RenderTargetIdentifier source, RenderTargetIdentifier target</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//对Bloom区域进行降采样、升采样与最终Bloom效果的混合</span></span><br><span class="line">        <span class="comment">//...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-参数控制器">2.2 参数控制器</h3>
+<p>参数控制器我放在了Volume中，作为后处理的一个组件，所以控制效果的参数放在了一个继承自VolumeComponent和IPostProcessCompoment的类中。这样处理的优势是，可以方便地在一个Global Volume中与URP其他的后处理结合使用，同时制作分镜所用的Cinemachine支持在Timeline的shot中使用不同的Volume Profile控制不同镜头的后处理效果。代码如下：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">[<span class="meta">Serializable, VolumeComponentMenuForRenderPipeline(<span class="string">&quot;Custom Post-processing/Bloom&quot;</span>, typeof(UniversalRenderPipeline))</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CustomBloomParams</span> : <span class="title">VolumeComponent</span>, <span class="title">IPostProcessComponent</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//Activity Controller</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">bool</span> <span class="title">IsActive</span>()</span> =&gt; useCustomBloom.<span class="keyword">value</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">bool</span> <span class="title">IsTileCompatible</span>()</span> =&gt; <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    [<span class="meta">Serializable</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">sealed</span> <span class="keyword">class</span> <span class="title">BloomAreaExtractionModeParameter</span> : <span class="title">VolumeParameter</span>&lt;<span class="title">BloomAreaExtractionMode</span>&gt; &#123;&#125; </span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">enum</span> BloomAreaExtractionMode </span><br><span class="line">    &#123;</span><br><span class="line">        Luminance,</span><br><span class="line">        Color</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Parameters</span></span><br><span class="line">    <span class="keyword">public</span> BoolParameter useCustomBloom = <span class="keyword">new</span> BoolParameter(<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">    [<span class="meta">Header(<span class="string">&quot;Bloom Perception&quot;</span>)</span>]</span><br><span class="line">    <span class="keyword">public</span> BloomAreaExtractionModeParameter bloomAreaExtractBy = <span class="keyword">new</span> BloomAreaExtractionModeParameter();</span><br><span class="line">    <span class="keyword">public</span> ClampedFloatParameter bloomThreshold = <span class="keyword">new</span> ClampedFloatParameter(<span class="number">0.0f</span>, <span class="number">0.0f</span>, <span class="number">1.0f</span>);</span><br><span class="line">    <span class="keyword">public</span> ClampedFloatParameter bloomIntensity = <span class="keyword">new</span> ClampedFloatParameter(<span class="number">1.0f</span>, <span class="number">0.0f</span>, <span class="number">2.0f</span>);</span><br><span class="line">    <span class="keyword">public</span> ClampedFloatParameter bloomScatter = <span class="keyword">new</span> ClampedFloatParameter(<span class="number">0.5f</span>, <span class="number">0.0f</span>, <span class="number">1.0f</span>);</span><br><span class="line">    <span class="keyword">public</span> ColorParameter bloomColorTint = <span class="keyword">new</span> ColorParameter(Color.white);</span><br><span class="line"></span><br><span class="line">    [<span class="meta">Header(<span class="string">&quot;Bloom Quality&quot;</span>)</span>] </span><br><span class="line">    <span class="keyword">public</span> ClampedIntParameter gaussianBlurIterations = <span class="keyword">new</span> ClampedIntParameter(<span class="number">1</span>, <span class="number">1</span>, <span class="number">4</span>);</span><br><span class="line">    <span class="keyword">public</span> ClampedFloatParameter gaussianBlurSize = <span class="keyword">new</span> ClampedFloatParameter(<span class="number">0.6f</span>, <span class="number">0.2f</span>, <span class="number">3.0f</span>);</span><br><span class="line">    <span class="keyword">public</span> ClampedIntParameter basicDownSample = <span class="keyword">new</span> ClampedIntParameter(<span class="number">1</span>, <span class="number">1</span>, <span class="number">4</span>);</span><br><span class="line">    <span class="keyword">public</span> ClampedFloatParameter finalGaussianBlurBlurSizeScale = <span class="keyword">new</span> ClampedFloatParameter(<span class="number">4</span>, <span class="number">1</span>, <span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">    [<span class="meta">Header(<span class="string">&quot;Bloom Details&quot;</span>)</span>] </span><br><span class="line">    <span class="keyword">public</span> ClampedFloatParameter mipIntensity1 = <span class="keyword">new</span> ClampedFloatParameter(<span class="number">0.75f</span>, <span class="number">0.5f</span>, <span class="number">1.0f</span>);</span><br><span class="line">    <span class="keyword">public</span> ClampedFloatParameter mipIntensity2 = <span class="keyword">new</span> ClampedFloatParameter(<span class="number">0.85f</span>, <span class="number">0.5f</span>, <span class="number">1.0f</span>);</span><br><span class="line">    <span class="keyword">public</span> ClampedFloatParameter mipIntensity3 = <span class="keyword">new</span> ClampedFloatParameter(<span class="number">0.95f</span>, <span class="number">0.5f</span>, <span class="number">1.0f</span>);</span><br><span class="line">    <span class="keyword">public</span> ClampedFloatParameter mipIntensity4 = <span class="keyword">new</span> ClampedFloatParameter(<span class="number">1.0f</span>, <span class="number">0.5f</span>, <span class="number">1.0f</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>基于我的处理流程，有几个特殊的参数：BloomScatter用于控制最终表现效果“扩散”程度；BloomColorTint用于调整Bloom的颜色；MipIntensity1-4是用于控制最多4个模糊Mip混合的强度（数量由高斯模糊迭代次数决定），表现在从内到外最多四层的Bloom强度的分别控制。</p>
+<p><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20231205170351452.png" alt="作为PostProcess组件表现在Volume中的控制器"></p>
+<h2 id="3-获取Bloom区域">3 获取Bloom区域</h2>
+<p>开篇提到过，提取Bloom区域有两种方式，一是直接根据颜色值提取，二是根据亮度提取。通过简单的ShaderFeature的控制，就可以把两个处理方式简化到一个Pass中进行。对优化应该没有影响，但是这样做逻辑会清晰很多。所以需要处理的就是在BloomAreaExtractionPassRender中设置不同的宏，代码如下：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">_material.SetFloat(BloomThresholdID, _params.bloomThreshold.<span class="keyword">value</span>);</span><br><span class="line"><span class="keyword">if</span> (_params.bloomAreaExtractBy.<span class="keyword">value</span> == CustomBloomParams.BloomAreaExtractionMode.Luminance)</span><br><span class="line">&#123;</span><br><span class="line">    _material.EnableKeyword(<span class="string">&quot;_EXTRACTBYLUMINANCE&quot;</span>);</span><br><span class="line">    _material.DisableKeyword(<span class="string">&quot;_EXTRACTBYCOLOR&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (_params.bloomAreaExtractBy.<span class="keyword">value</span> == CustomBloomParams.BloomAreaExtractionMode.Color)</span><br><span class="line">&#123;</span><br><span class="line">    _material.EnableKeyword(<span class="string">&quot;_EXTRACTBYCOLOR&quot;</span>);</span><br><span class="line">    _material.DisableKeyword(<span class="string">&quot;_EXTRACTBYLUMINANCE&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">    _material.DisableKeyword(<span class="string">&quot;_EXTRACTBYCOLOR&quot;</span>);</span><br><span class="line">    _material.DisableKeyword(<span class="string">&quot;_EXTRACTBYLUMINANCE&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Shader方面则是在FragmentShader中对不同的宏进行不同的处理：基于亮度提取的话，需要计算出画面的亮度，然后用亮度减去提取阈值；而基于颜色提取，则直接对RGB同时减去阈值即可，相关代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#if defined(_EXTRACTBYLUMINANCE)</span><br><span class="line">	float luminance = 0.2126 * mainTexCol.r + 0.7152 * mainTexCol.g + 0.0722 * mainTexCol.b;</span><br><span class="line">	float mask = max(luminance - _ExtractThreshold, 0.0);</span><br><span class="line">	bloomAreaColor = mainTexCol * mask;</span><br><span class="line">#elif defined(_EXTRACTBYCOLOR)</span><br><span class="line">	bloomAreaColor = max(mainTexCol - _ExtractThreshold, 0.0);</span><br><span class="line">#else</span><br><span class="line">	bloomAreaColor = mainTexCol;</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+<p><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20231205205509026.png" alt="通过亮度提取Bloom区域(左)与通过颜色提取Bloom区域(右)提取后的结果"></p>
+<h2 id="4-双Pass高斯模糊">4 双Pass高斯模糊</h2>
+<p>高斯模糊的算法原理已经有很多文章写得很清楚了，我不在此赘述，而高斯模糊通过双Pass来降低采样贴图的次数也是人尽皆知的优化方法了，项目中这一部分也只是把两个Pass的执行优化到了两次Blit完成，并且封装到函数中，方便多处使用。封装后处理高斯模糊的函数如下：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">GaussianBlurPassRender</span>(<span class="params">CommandBuffer cmd, RenderTargetIdentifier source, RenderTargetIdentifier target</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    cmd.Blit(source, GaussianBlurTempTargetID, _material, <span class="number">1</span>);</span><br><span class="line">    cmd.Blit(GaussianBlurTempTargetID, target, _material, <span class="number">2</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Shader代码和《UnityShader入门精要》中的代码相似，借助_BlurSize控制卷积核大小，来保持模糊效果的同时降低迭代次数，以实现优化。具体代码可以看我的Git仓库，为了文章精简，我就不贴在这里了。</p>
+<h2 id="5-降、升采样与混合">5 降、升采样与混合</h2>
+<p>降采样的原理时使用低分辨率的图存储上一级分辨率模糊处理后的图，将贴图的filtermode设置为Blinear，降低采样率时（目标为低分辨率RT）利用双线性插值采样来获得平滑的更模糊的图片，升高采样率时（目标为高分辨率RT）平滑低分辨率到高分辨率过渡的效果。</p>
+<p>降采样获取模糊的RTMips时，为了加强模糊效果，并保持不同层级之间模糊效果的连续性，我是对上一层的RT作为源进行模糊处理，代码如下：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">1</span>; i &lt; _params.gaussianBlurIterations.<span class="keyword">value</span> + <span class="number">1</span>; i++)</span><br><span class="line">&#123;</span><br><span class="line">    GaussianBlurPassRender(cmd, _bloomRTArray[i - <span class="number">1</span>], _bloomRTArray[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20231205205854831.png" alt="4个Mip层级的降采样"></p>
+<p>我处理升采样的流程与COD中分享的有一点不同。因为创建Mips数组时，每一个元素在Shader中都有对应的Property “_BloomRT_n”，所以我直接在一个Pass中进行了所有Mips层级的混合，并通过_BloomScatter去控制层级之间的混合强度，用于调整”扩散“的强度。不过这一块的处理我暂时没有找到灵活的方式，所以基于高斯模糊迭代次数在shader中写了4个静态分支，也因此控制了最大高斯模糊迭代次数为4。其中最复杂的_MipsCouts为4时，Mips混合的shader如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">else if (_MipsCounts == 4)</span><br><span class="line">&#123;</span><br><span class="line">    float4 bloomRT1 = SAMPLE_TEXTURE2D(_BloomRT_1, sampler_BloomRT_1, input.uv);</span><br><span class="line">    float4 bloomRT2 = SAMPLE_TEXTURE2D(_BloomRT_2, sampler_BloomRT_2, input.uv);</span><br><span class="line">    float4 bloomRT3 = SAMPLE_TEXTURE2D(_BloomRT_3, sampler_BloomRT_3, input.uv);</span><br><span class="line">    float4 bloomRT4 = SAMPLE_TEXTURE2D(_BloomRT_4, sampler_BloomRT_4, input.uv);</span><br><span class="line">    return lerp(</span><br><span class="line">        lerp(</span><br><span class="line">            lerp(bloomRT1 * _BloomMipIntensity.x, bloomRT2 * _BloomMipIntensity.y, _BloomScatter),</span><br><span class="line">            bloomRT3 * _BloomMipIntensity.z, _BloomScatter),</span><br><span class="line">            bloomRT4 * _BloomMipIntensity.w,</span><br><span class="line">            _BloomScatter);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为了混合后不同Mips层级之间的平滑，再多加了一次高斯模糊的处理，最后再与原图像进行混合。升采样与最终混合的代码如下：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Up-Sample</span></span><br><span class="line">    <span class="comment">//Mipmaps Blend</span></span><br><span class="line">_material.SetFloat(BloomScatterID, _params.bloomScatter.<span class="keyword">value</span>);</span><br><span class="line">_material.SetFloat(Shader.PropertyToID(<span class="string">&quot;_MipsCounts&quot;</span>), _params.gaussianBlurIterations.<span class="keyword">value</span>);</span><br><span class="line">_material.SetVector(BloomMipIntensityID, <span class="keyword">new</span> Vector4(_params.mipIntensity1.<span class="keyword">value</span>,</span><br><span class="line">    _params.mipIntensity2.<span class="keyword">value</span>, _params.mipIntensity3.<span class="keyword">value</span>, _params.mipIntensity4.<span class="keyword">value</span>));</span><br><span class="line">cmd.Blit(source, _bloomRTArray[<span class="number">0</span>]);</span><br><span class="line">cmd.Blit(source, _bloomRTArray[<span class="number">1</span>], _material, <span class="number">3</span>);</span><br><span class="line">    <span class="comment">//Final Blend</span></span><br><span class="line">_material.SetFloat(BlurSizeID, _params.gaussianBlurSize.<span class="keyword">value</span> * _resolutionScale * _params.finalGaussianBlurBlurSizeScale.<span class="keyword">value</span>);</span><br><span class="line">GaussianBlurPassRender(cmd, _bloomRTArray[<span class="number">1</span>], _bloomRTArray[<span class="number">1</span>]);</span><br><span class="line">_material.SetFloat(BloomIntensityID, _params.bloomIntensity.<span class="keyword">value</span>);</span><br><span class="line">_material.SetColor(BloomColorTintID, _params.bloomColorTint.<span class="keyword">value</span>);</span><br><span class="line">cmd.Blit(_bloomRTArray[<span class="number">0</span>],target, _material, <span class="number">4</span>);</span><br></pre></td></tr></table></figure>
+<p><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20231205210237925.png" alt="Mips直接叠加后的结果(左)及对其进行一次高斯模糊处理后的结果(右)"></p>
+<p>额外有一点要注意，分辨率与卷积核大小需要做对应关系的调整。在处理BlurSize时，不同的分辨率会带来不同的效果，所以为了适配分辨率的变化，需要基于分辨率去调整BlurSize，即卷积核的大小。值直接在CPU端计算一个ResolusionScale，然后直接在C#中作用到BlurSize上，不需要在GPU中重复进行计算。</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> <span class="built_in">float</span> BaseResolution = <span class="number">1920f</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="built_in">float</span> _resolutionScale;</span><br><span class="line"><span class="comment">//在初始设置的函数中计算</span></span><br><span class="line">_resolutionScale = Math.Max(Screen.width, Screen.height) / BaseResolution;</span><br><span class="line"><span class="comment">//在设置BlurSize时对控制器中获取到的参数进行调整</span></span><br><span class="line">_material.SetFloat(BlurSizeID, _params.gaussianBlurSize.<span class="keyword">value</span> * _resolutionScale);</span><br></pre></td></tr></table></figure>
+<p><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20231205234805145.png" alt="Bloom开启前后的效果"></p>
+<h2 id="6-代码架构">6 代码架构</h2>
+<p><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20231205234117865.png" alt="GLR2后处理相关代码架构"></p>
+<h2 id="参考链接">参考链接</h2>
+<p>COD在SIGGRAPH 2014上的分享，PPT第143-170页是Bloom部分：</p>
+<p><a target="_blank" rel="noopener" href="https://www.iryoku.com/next-generation-post-processing-in-call-of-duty-advanced-warfare/">https://www.iryoku.com/next-generation-post-processing-in-call-of-duty-advanced-warfare/</a></p>
+<p>FB佬的自定义后处理教程：</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/385830661">https://zhuanlan.zhihu.com/p/385830661</a></p>
+<p>Unity官方的自定义后处理教程：</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/373273390">https://zhuanlan.zhihu.com/p/373273390</a></p>
+<h2 id="最后">最后</h2>
+<p>再放一遍做的MMD，虽然效果还有欠缺，但是也花了很久时间去做了。如果文章对你有所帮助的话，也请转到视频点个赞和关注，救救我惨淡的数据吧！</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ew41187H5/">https://www.bilibili.com/video/BV1ew41187H5/</a></p>
+<p>后续还有整个制作工作流的分享文章。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://himoqiuhan.github.io">楸涵</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://himoqiuhan.github.io/2023/12/07/Projects-GenshinLikeRenderingInURP2-PostProcess/">https://himoqiuhan.github.io/2023/12/07/Projects-GenshinLikeRenderingInURP2-PostProcess/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://himoqiuhan.github.io" target="_blank">楸涵の小窝</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Unity/">Unity</a><a class="post-meta__tags" href="/tags/URP%E7%AE%A1%E7%BA%BF/">URP管线</a><a class="post-meta__tags" href="/tags/%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/">卡通渲染</a><a class="post-meta__tags" href="/tags/%E6%8A%80%E6%9C%AF%E7%BE%8E%E6%9C%AF/">技术美术</a><a class="post-meta__tags" href="/tags/SRP%E8%87%AA%E5%AE%9A%E4%B9%89%E5%90%8E%E5%A4%84%E7%90%86/">SRP自定义后处理</a></div><div class="post_share"><div class="social-share" data-image="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/c29cb1345f98a9f92545947d81d692c.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/12/01/Anima-NaginoAsukara/" title="《来自风平浪静的明天》浅谈"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/NaginoAsuKara-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">《来自风平浪静的明天》浅谈</div></div></a></div><div class="next-post pull-right"><a href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-Avatar/" title="【Unity】仿原神渲染2.0技术文档-角色渲染篇"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/c29cb1345f98a9f92545947d81d692c.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">【Unity】仿原神渲染2.0技术文档-角色渲染篇</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/08/31/Projects-GenshinLikeRenderingInURP1/" title="【Unity】URP中的仿原神渲染1.0"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/Cover_4K.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-08-31</div><div class="title">【Unity】URP中的仿原神渲染1.0</div></div></a></div><div><a href="/2023/11/22/Projects-GenshinLikeRenderingInURP2/" title="【Unity】URP中的仿原神渲染2.0"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/c29cb1345f98a9f92545947d81d692c.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-22</div><div class="title">【Unity】URP中的仿原神渲染2.0</div></div></a></div><div><a href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-Avatar/" title="【Unity】仿原神渲染2.0技术文档-角色渲染篇"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/c29cb1345f98a9f92545947d81d692c.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-12-07</div><div class="title">【Unity】仿原神渲染2.0技术文档-角色渲染篇</div></div></a></div><div><a href="/2023/04/01/Projects-SummaryOfUnityShaderEssentials/" title="【Unity】《Unity Shader 入门精要》学习总结"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/41TN3CwhyZL._SY346_.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-01</div><div class="title">【Unity】《Unity Shader 入门精要》学习总结</div></div></a></div><div><a href="/2023/10/28/Notes-CatlikeCoding-CustomRenderPipline/" title="【Unity】自定义渲染管线学习笔记（Updating）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/20231028195012.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-28</div><div class="title">【Unity】自定义渲染管线学习笔记（Updating）</div></div></a></div><div><a href="/2023/04/01/Notes-UnityShaderEssentials-1/" title="《Unity Shader入门精要》笔记（一）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/41TN3CwhyZL._SY346_.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-01</div><div class="title">《Unity Shader入门精要》笔记（一）</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/images/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">楸涵</div><div class="author-info__description">嘿！一起突破次元壁吗！</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">50</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" href="/about/"><i class="fas fa-meteor"></i><span>About Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/himoqiuhan" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://www.zhihu.com/people/qiu-han-71-64/posts" target="_blank" title="Zhihu"><i class="fab fa-zhihu" style="color: #24292e;"></i></a><a class="social-icon" href="https://space.bilibili.com/374860285" target="_blank" title="Bilibili"><i class="fab fa-bilibili" style="color: #24292e;"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561198866659933" target="_blank" title="Steam"><i class="fab fa-steam" style="color: #24292e;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><p>欢迎来和我聊天！</p> <p>QQ：1419091648</p> <p>微信：Himo_qiuhan</p></div></div><div class="card-widget card_portfolio"><div class="item-headline"><i></i><span>作品集</span></div><div class="item-content"></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">【Unity】URP 中的仿原神渲染2.0-后处理篇</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E4%BD%93%E6%95%88%E6%9E%9C%E5%B1%95%E7%A4%BA"><span class="toc-number">1.1.</span> <span class="toc-text">整体效果展示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0-%E5%89%8D%E8%A8%80"><span class="toc-number">1.2.</span> <span class="toc-text">0 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Bloom%E5%A4%84%E7%90%86%E6%80%9D%E8%B7%AF"><span class="toc-number">1.3.</span> <span class="toc-text">1 Bloom处理思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%B7%BB%E5%8A%A0Feature%E5%AE%9E%E7%8E%B0URP%E8%87%AA%E5%AE%9A%E4%B9%89%E5%90%8E%E5%A4%84%E7%90%86"><span class="toc-number">1.4.</span> <span class="toc-text">2 添加Feature实现URP自定义后处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-RenderFeature%E4%B8%8ERenderPass"><span class="toc-number">1.4.1.</span> <span class="toc-text">2.1 RenderFeature与RenderPass</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%8F%82%E6%95%B0%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="toc-number">1.4.2.</span> <span class="toc-text">2.2 参数控制器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E8%8E%B7%E5%8F%96Bloom%E5%8C%BA%E5%9F%9F"><span class="toc-number">1.5.</span> <span class="toc-text">3 获取Bloom区域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%8F%8CPass%E9%AB%98%E6%96%AF%E6%A8%A1%E7%B3%8A"><span class="toc-number">1.6.</span> <span class="toc-text">4 双Pass高斯模糊</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E9%99%8D%E3%80%81%E5%8D%87%E9%87%87%E6%A0%B7%E4%B8%8E%E6%B7%B7%E5%90%88"><span class="toc-number">1.7.</span> <span class="toc-text">5 降、升采样与混合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E4%BB%A3%E7%A0%81%E6%9E%B6%E6%9E%84"><span class="toc-number">1.8.</span> <span class="toc-text">6 代码架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">1.9.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%90%8E"><span class="toc-number">1.10.</span> <span class="toc-text">最后</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/28/Notes-TA100-A4510/" title="技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）"/></a><div class="content"><a class="title" href="/2024/07/28/Notes-TA100-A4510/" title="技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）">技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）</a><time datetime="2024-07-28T09:20:57.000Z" title="发表于 2024-07-28 17:20:57">2024-07-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/02/13/Anima-SoundEuphonium/" title="《響け！ユーフォニアム》杂谈"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/SoundEuphonium-cover.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《響け！ユーフォニアム》杂谈"/></a><div class="content"><a class="title" href="/2024/02/13/Anima-SoundEuphonium/" title="《響け！ユーフォニアム》杂谈">《響け！ユーフォニアム》杂谈</a><time datetime="2024-02-13T06:14:39.000Z" title="发表于 2024-02-13 14:14:39">2024-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-Avatar/" title="【Unity】仿原神渲染2.0技术文档-角色渲染篇"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/c29cb1345f98a9f92545947d81d692c.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Unity】仿原神渲染2.0技术文档-角色渲染篇"/></a><div class="content"><a class="title" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-Avatar/" title="【Unity】仿原神渲染2.0技术文档-角色渲染篇">【Unity】仿原神渲染2.0技术文档-角色渲染篇</a><time datetime="2023-12-07T13:17:37.000Z" title="发表于 2023-12-07 21:17:37">2023-12-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-PostProcess/" title="【Unity】仿原神渲染2.0技术文档-后处理篇"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/c29cb1345f98a9f92545947d81d692c.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Unity】仿原神渲染2.0技术文档-后处理篇"/></a><div class="content"><a class="title" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-PostProcess/" title="【Unity】仿原神渲染2.0技术文档-后处理篇">【Unity】仿原神渲染2.0技术文档-后处理篇</a><time datetime="2023-12-07T13:17:30.000Z" title="发表于 2023-12-07 21:17:30">2023-12-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/01/Anima-NaginoAsukara/" title="《来自风平浪静的明天》浅谈"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/NaginoAsuKara-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《来自风平浪静的明天》浅谈"/></a><div class="content"><a class="title" href="/2023/12/01/Anima-NaginoAsukara/" title="《来自风平浪静的明天》浅谈">《来自风平浪静的明天》浅谈</a><time datetime="2023-12-01T13:31:58.000Z" title="发表于 2023-12-01 21:31:58">2023-12-01</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2024 By 楸涵</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">欢迎来到楸涵的小窝！</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"><script>(() => {
+  let initFn = window.walineFn || null
+
+  const initWaline = (Fn) => {
+    const waline = Fn(Object.assign({
+      el: '#waline-wrap',
+      serverURL: 'https://blog-comment-68npiieuq-himoqiuhan.vercel.app/',
+      pageview: false,
+      dark: 'html[data-theme="dark"]',
+      path: window.location.pathname,
+      comment: false,
+    }, null))
+
+    const destroyWaline = () => {
+      waline.destroy()
+    }
+
+    btf.addGlobalFn('pjax', destroyWaline, 'destroyWaline')
+  }
+
+  const loadWaline = async () => {
+    if (initFn) initWaline(initFn)
+    else {
+      await getCSS('https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.min.css')
+      const { init } = await import('https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.min.js')
+      initFn = init || Waline.init
+      initWaline(initFn)
+      window.walineFn = initFn
+    }
+  }
+
+  if ('Waline' === 'Waline' || !true) {
+    if (true) btf.loadComment(document.getElementById('waline-wrap'),loadWaline)
+    else setTimeout(loadWaline, 0)
+  } else {
+    window.loadOtherComment = loadWaline
+  }
+})()</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

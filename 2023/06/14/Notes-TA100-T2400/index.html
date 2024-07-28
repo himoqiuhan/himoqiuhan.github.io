@@ -1,0 +1,788 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>技术美术百人计划学习笔记（图形2.1-2.4） | 楸涵の小窝</title><meta name="author" content="楸涵"><meta name="copyright" content="楸涵"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="颜色空间、模型与材质、HLSL常用函数、传统经验光照模型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="技术美术百人计划学习笔记（图形2.1-2.4）">
+<meta property="og:url" content="https://himoqiuhan.github.io/2023/06/14/Notes-TA100-T2400/index.html">
+<meta property="og:site_name" content="楸涵の小窝">
+<meta property="og:description" content="颜色空间、模型与材质、HLSL常用函数、传统经验光照模型">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png">
+<meta property="article:published_time" content="2023-06-14T00:48:56.000Z">
+<meta property="article:modified_time" content="2024-07-27T15:13:59.652Z">
+<meta property="article:author" content="楸涵">
+<meta property="article:tag" content="TA">
+<meta property="article:tag" content="百人计划">
+<meta property="article:tag" content="Shader">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png"><link rel="shortcut icon" href="/images/favicon.png"><link rel="canonical" href="https://himoqiuhan.github.io/2023/06/14/Notes-TA100-T2400/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '技术美术百人计划学习笔记（图形2.1-2.4）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-27 23:13:59'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="css/resources.css"><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="css/progress_bar.css"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="楸涵の小窝" type="application/atom+xml">
+</head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="/css/progress_bar.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/images/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">50</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fab fa-facebook-messenger"></i><span> Links</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-meteor"></i><span> AboutMe</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/97358036_p0_master1200.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="楸涵の小窝"><span class="site-name">楸涵の小窝</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fab fa-facebook-messenger"></i><span> Links</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-meteor"></i><span> AboutMe</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">技术美术百人计划学习笔记（图形2.1-2.4）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-06-14T00:48:56.000Z" title="发表于 2023-06-14 08:48:56">2023-06-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-27T15:13:59.652Z" title="更新于 2024-07-27 23:13:59">2024-07-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Notes/">Notes</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">5.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>18分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="技术美术百人计划学习笔记（图形2.1-2.4）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p>因为前两章基础概念较多，所以放在一起整理了</p>
+</blockquote>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100T2400.png" alt="【图形渲染】 2.1 - 2.4 颜色空间、模型与材质、HLSL常用函数、"></p>
+<h2 id="颜色空间">颜色空间</h2>
+<h3 id="色彩发送器">色彩发送器</h3>
+<p>色彩认知：光源是出生点，光源发射出光线，光线通过直射反射折射等路径最终进入人眼。但人眼接收到光线后，人眼的细胞产生了一系列化学反应。由此把产生的信号传入大脑，最终大脑对颜色产生了认知感知。</p>
+<h4 id="光的要素">光的要素</h4>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-28.png" alt="TA100-28" style="zoom: 80%;" />
+<h4 id="光源">光源</h4>
+<p>光源就是产生的物体</p>
+<h4 id="波长">波长</h4>
+<p>光理论上讲是无限大的，只是我们人眼可见光是有局限的。</p>
+<p>如果没有光，我们就无法在黑暗中看到色彩，光的本质就是一种<strong>物理现象</strong>，光在没有进入我们的眼睛前，我们对它的认知是一种<strong>波长与能量分布</strong>。</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-29.png" alt="TA100-29"  />
+<h4 id="能量分布">能量分布</h4>
+<p>我们讲光线是一种波，那么既然是真实存在的就会有能量，能量单位就是功率，我们认知的光就会有不同的功率。比如一个光是由多个波长组合起来的波形</p>
+<p>那么也就是说我们阐述色彩就用这个波长就可以了，但是这么做实在是太反人类了，我们无法保证能简单描述色彩。于是人们发明了一个叫做<strong>分光光度计</strong>的东西。</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-30.png" alt="TA100-30"></p>
+<h4 id="分光光度计">分光光度计</h4>
+<p>分光光度计就是用于描述光线的具体能量强度，记得小时候用棱镜分光吗。我们通过分光之后对区间波长进行了感应与测量，最后得知了光谱的分布最终得知光线额能量集中在了550nm附近（图中绿色地方）</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-31.png" alt="TA100-31"></p>
+<h4 id="光的传播">光的传播</h4>
+<ul>
+<li>
+<p>直射光：光源直射眼睛</p>
+</li>
+<li>
+<p>折射光： 光源穿过物体进入眼睛</p>
+</li>
+<li>
+<p>反射光：光源经过物体表面反射进入眼睛</p>
+</li>
+<li>
+<p>光线追踪：光线弹来弹去，然后我们根据权重确定光线最后进入眼睛中的颜色</p>
+</li>
+</ul>
+<p>下图就是光通过反射之后，在能量上发生的变化，可以明显看到，少了一部分的能量，这是因为一部分的能量被物体吸收了，也就是说每次光经过反射或投射都会或多或少对光的能量分布产生一些影响</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-32.png" alt="TA100-32"></p>
+<h3 id="光源的接收者">光源的接收者</h3>
+<h4 id="相对亮度感知">相对亮度感知</h4>
+<p>在某些阴暗的环境下，点亮一盏灯，这时人眼就会觉得非常亮。如果同时点亮1000盏灯，反而觉得只是10倍的亮度，对亮度的认知相当于从0~1再从1~10.</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-33.png" alt="TA100-33"></p>
+<h4 id="人眼HDR">人眼HDR</h4>
+<p>人眼既可以分辨出高亮度的云彩的不同层次区别，还可以分辨出阴影中物不同物体的异同。</p>
+<p>但是人眼的能力并<strong>不能保证这两个功能同时生效</strong>。</p>
+<p>这样一说，反而就能发现人眼真是个变化莫测的存在，它可能会随着不同的环境，感知到不同的色彩，体验到不同的明暗效果，甚至可能会随着盯着某一个点时间流逝而变化颜色。</p>
+<h4 id="人眼感光细胞分布">人眼感光细胞分布</h4>
+<ul>
+<li>杆状细胞：感知亮度</li>
+<li>锥状细胞：感知色彩</li>
+</ul>
+<p>感光细胞（杆状细胞）对亮度特别的敏感，只要有5~14个光子打到杆状细胞就会产生神经信号，这也可以解释为什么闪光弹能让人致盲，一部分原因就是因为光实在太亮，直接干涉了人眼最敏感的感光细胞</p>
+<h4 id="锥状细胞">锥状细胞</h4>
+<p>这种细胞专门用于感知颜色，但是他们还被区分为了L细胞，M细胞，S细胞。</p>
+<p>这三种细胞负责感知的波长不一，如下图所示，L感知红色区间，M感知绿色区间，S感知蓝色区间</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-34.png" alt="TA100-34" style="zoom:80%;" />
+<h4 id="人眼的本质">人眼的本质</h4>
+<p>人眼的本质是光源的接收者。他的作用就是接收外部光线输入，输出神经电信号进入大脑。</p>
+<h4 id="完整积分公式">完整积分公式</h4>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-35.png" alt="TA100-35"></p>
+<h3 id="色彩空间历史">色彩空间历史</h3>
+<h4 id="19世纪的猜想">19世纪的猜想</h4>
+<ol>
+<li>人们有100多种感受颜色的细胞</li>
+<li>人们有三种，分别是RGB三种感色细胞</li>
+<li>人们有三种，分别是黑白，红绿，黄蓝感色细胞（是不是很眼熟）</li>
+</ol>
+<p>现在这么多年过去了，其中的2和3这两种猜想都成为了我们当下的色彩视觉模型，也称之色彩模型</p>
+<h4 id="1905Munsell色彩系统">1905Munsell色彩系统</h4>
+<p>美国艺术家 Albert Henry Munsell利用自己的艺术特长，最早提出了一个色彩系统，后来在1930年被优化改良。</p>
+<p>Munsell通过很多色卡来描述色彩，下面旋转角度的是色相，Munsell垂直的是亮度，从圆心到外部是Munsell饱和度。 人们凭借自我主观意识认知与区分色彩就是HSL(色相、饱和亮度)，这套系统没有过多的物理科学在其中，更多的是一种艺术家的理解与归纳总结规范…</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-36.png" alt="TA100-36" style="zoom:80%;" />
+<h4 id="1931-CIE-1931-RGB-Color-Specification-System">1931 CIE 1931 RGB Color Specification System</h4>
+<p>科学家们觉得上述的色彩系统还可以，但是不够科学，于是为了以一种科学的方式阐述色彩，于是一个叫CIE的机构在1931年建立了一套色彩系统， 希望完全客观完全物理的量化色彩。</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-37.png" alt="TA100-37" style="zoom:80%;" />
+<p>CIE把所有可视波长的光线作为测试光挨个测试了一个遍，最终的到了三条曲线我们发现435.8~546.1 nm这段波长中的红色基色强度是负数。这虽然物理正确，但是一点也没有科学的美感，于是我们进行了归一化，保证色彩在-1~1之间。最终通过计算出<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mi>g</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">rgb</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord mathnormal">b</span></span></span></span>的基色的强度在当前混色强度的所占比例这样计算后，$ r’g’b’$都是在-1~1之间</p>
+<p>那么如果我们发现<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>r</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo>+</mo><msup><mi>g</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo>+</mo><msup><mi>b</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">r&#x27;+g&#x27;+b&#x27;=1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8352em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.9463em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7519em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>，就可以通过其中两个已知数计算出另一个的强度</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-38.png" alt="TA100-38" style="zoom:80%;" />
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-39.png" alt="TA100-39"></p>
+<h4 id="XYZ-Color-Specification-System">XYZ Color Specification System</h4>
+<p>上文的CIE1931RGB色彩系统已经不错了，但是存在负数，这在计算上非常的麻烦，比如写个乘法，得先计算是正数还是负数。</p>
+<p>于是人们就用数学的方式做了一个新的色彩空间。所以XYZ色彩空间就是一个<strong>中转站</strong>，主要目的就是<strong>简化计算</strong>。</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-40.png" alt="TA100-40"  />
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-41.png" alt="TA100-41" style="zoom:80%;" />
+<ul>
+<li>如何转换：</li>
+</ul>
+<p>因为是空间转换所以我们用**矩阵(进行空间变换)**的方式进行</p>
+<p>注：这里的RGB是CIE 1931RGB 不是sRGB中的RGB数值。</p>
+<p>这个<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mi>y</mi><mi>z</mi></mrow><annotation encoding="application/x-tex">xyz</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">x</span><span class="mord mathnormal" style="margin-right:0.04398em;">yz</span></span></span></span>矩阵也不太美，于是人们为了计算方便有把<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mi>y</mi><mi>z</mi></mrow><annotation encoding="application/x-tex">xyz</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">x</span><span class="mord mathnormal" style="margin-right:0.04398em;">yz</span></span></span></span>矩阵进行了<strong>归一化</strong></p>
+<ul>
+<li>最终效果：色域马蹄图</li>
+</ul>
+<p>也就是人眼可见范围表示， 但是我们发现图像上面好像没有亮度于是我们就在归一化的基础上，把XYZ中的Y单独拿出来与<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mi>y</mi></mrow><annotation encoding="application/x-tex">xy</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">x</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span>一起组成了<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mrow><mi>x</mi><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">Y_{xy}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">x</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span>色彩空间 其中的Y表示亮度<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mi>y</mi></mrow><annotation encoding="application/x-tex">xy</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">x</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span>表示色度。</p>
+<p>注：这里提一下 这里是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mrow><mi>x</mi><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">Y_{xy}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">x</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span>色彩空间 <strong><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mrow><mi>x</mi><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">Y_{xy}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">x</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span>是由<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mi>Y</mi><mi>Z</mi></mrow><annotation encoding="application/x-tex">XYZ</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span><span class="mord mathnormal" style="margin-right:0.07153em;">Z</span></span></span></span>色彩空间衍生出来的</strong></p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-42.png" alt="TA100-42" style="zoom:80%;" />
+<ul>
+<li>
+<p>不足与补充</p>
+<p>上述的XYZ色彩空间也不错，但是也有问题，就是<strong>色彩的分布不均匀</strong>，他们的分布色彩一些地方紧一些地方又很松，举个例子这个图的偏向绿色部分就非常平滑，然后左下角部分坐标变化小，但是色彩变化就很快。</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-44.png" alt="TA100-44" style="zoom:80%;" />
+</li>
+</ul>
+<h3 id="色彩空间的定义">色彩空间的定义</h3>
+<p>至少需要满足三项重要指标：</p>
+<ol>
+<li>色域（三个基色的坐标，由此形成三角形）</li>
+<li>Gamma（如何对三角形内进行切分）</li>
+<li>白点（色域三角形中心）</li>
+</ol>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230614092133606.png" alt="TA100-45"></p>
+<h4 id="Gamma">Gamma</h4>
+<p>Gamma并不是色彩空间，它只是如何对色彩进行<strong>采样的一种方式</strong></p>
+<p>每次对比顶点切割，就会发现切割的方式不同会导致每次对应的色彩不一样，大家通常理解的gamma=1的情况就是指代<strong>均匀的切分</strong>（下左图），这样的好处就是方便计算。而非均匀切割的方式就是gamma≠1</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230614092220077.png" alt="TA100-46"  />
+<p>比如我们有个常用的空间 sRGB，那么<strong>sRGB的构成</strong>：</p>
+<p>1.色域： sRGB首先设定了RGB三个基色的坐标</p>
+<p>2.白点： sRGB也规定了<strong>白点位置</strong></p>
+<p>3.gamma： sRGB的gamma设定为≈2.2（上右图）也就是说从外而向内切，<strong>先切的很细，然后逐渐变粗</strong></p>
+<p>大家知道线性的好处(也就是gamma=1的时候)，方便计算，计算机效率高，方便理解，但是计算机储存（不需要花费很多空间去存储亮的区域）与显示器硬件因为早期的性能问题，采用的基本大部分都是gamma≈2.2的情况，但是我们目前大部分的机器都已经不是远古版本了，所以PC上的大部分游戏都会推荐使用<strong>线性空间</strong></p>
+<p>我们可以自定义色彩空间，换一个色域，换一个白点位置，换一个gamma值其实就是一个新的色彩空间了，所以也可以存在sRGB D65 linear这类空间，所以任何色彩空间都可以是linear线性的（改gamma值就可以去确定），但linear本身并不是一个色彩空间，它只是一个gamma值</p>
+<h3 id="常用色彩模型与色彩空间">常用色彩模型与色彩空间</h3>
+<p>色彩模型：使用一定规则描述（排列）颜色的方法</p>
+<p>色彩空间：需要至少满足三个指标：色域、白点、gamma</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-47.png" alt="TA100-47"></p>
+<h3 id="补充">补充</h3>
+<h4 id="色彩空间下的各种色域">色彩空间下的各种色域</h4>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-48.png" alt="TA100-48" style="zoom:80%;" />
+<h4 id="P3色域相较于sRGB的提升">P3色域相较于sRGB的提升</h4>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-49.png" alt="sRGB视频的色彩被映射到了更低的部分，而P3完整显示了色彩" style="zoom:80%;" />
+<p>系统能正确映射sRGB色彩的原因在于系统有正确的色彩配置文件，选用不同的色彩配置文件会造成显示的色彩差异<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⟶</mo></mrow><annotation encoding="application/x-tex">\longrightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.522em;vertical-align:-0.011em;"></span><span class="mrel">⟶</span></span></span></span>美术师需要用校色仪来获取正确的色彩配置文件</p>
+<h4 id="为什么需要Gamma矫正">为什么需要Gamma矫正</h4>
+<p>常见Gamma值为2.2<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⟶</mo></mrow><annotation encoding="application/x-tex">\longrightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.522em;vertical-align:-0.011em;"></span><span class="mrel">⟶</span></span></span></span>测试得到的<strong>符合大部分人的灰阶感知的Gamma值</strong></p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230614092920518.png" alt="TA100-50" style="zoom:80%;" />
+<h4 id="HDR">HDR</h4>
+<p>高动态范围</p>
+<p>HDR显示器的峰值亮度通常在1000nit以上，同时保持非常高的对比度，远高于SDR显示器的亮度和对比度</p>
+<p>HDR内容：观看HDR视频内容需要HDR显示器</p>
+<h4 id="色彩空间转换">色彩空间转换</h4>
+<p>一个广色域HDR的视频（Display P3）</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230614093015670.png" alt="TA100-51"  />
+<h3 id="作业">作业</h3>
+<ol>
+<li>
+<p>色彩空间的定义：</p>
+<p>满足色域、白点、Gamma三个指标的对色彩的组织方式</p>
+</li>
+<li>
+<p>人眼可见光范围是什么：</p>
+<p>波长在400纳米~700纳米之间的电磁波</p>
+</li>
+</ol>
+<h2 id="模型与材质">模型与材质</h2>
+<h3 id="渲染管线与模型基础">渲染管线与模型基础</h3>
+<h4 id="图形渲染管线">图形渲染管线</h4>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-52.png" alt="TA100-52"></p>
+<h4 id="模型的实现原理">模型的实现原理</h4>
+<p>点连成线→线围成面→组成多边形→一个模型空间下的模型形成</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230614093439928.png" alt="TA100-53" style="zoom:80%;" />
+<h4 id="UV">UV</h4>
+<p>UV平铺在一个二维坐标系中，模型的每个顶点在三维空间和二维空间中都能一一对应，在二维坐标系中的顶点对应的位置就是顶点的纹理坐标，因此每个顶点都能利用纹理坐标获取到贴图所存储的信息</p>
+<p>在建模软件中进行UV展开，UV会放在一个横轴为U，纵轴为V，范围为（0~1）的二维坐标系中</p>
+<h6 id="一个模型包含的信息（以obj文件为例）">一个模型包含的信息（以obj文件为例）</h6>
+<ul>
+<li>V：顶点坐标数据（模型空间中单个顶点的XYZ坐标）</li>
+<li>VT：贴图坐标（水平方向是U，垂直方向是V，范围在0~1之间）</li>
+<li>VN：顶点法线→会决定面的朝向</li>
+<li>顶点色：单个顶点的RGBA通道颜色信息</li>
+</ul>
+<p><strong>obj格式与fbx格式的区别</strong></p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-53.png" alt="TA100-53" style="zoom: 80%;" />
+<h4 id="材质">材质</h4>
+<p>在现实世界里，每个物体会对光产生不同的反应：有些物体反射光的时候不会有太多的散射(Scatter)，因而产生一个较小的高光点而有些物体则会散射很多，产生一个有着更大半径的高光点</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-54.png" alt="TA100-54" style="zoom: 50%;" />
+<h4 id="漫反射">漫反射</h4>
+<p>漫反射是最容易模拟的模型。</p>
+<p>最简单的<strong>Lambertian</strong>很简单粗暴的认为光线<strong>均匀地反射出去</strong></p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>D</mi><mi>i</mi><mi>f</mi><mi>f</mi><mi>u</mi><mi>s</mi><mi>e</mi><mo>=</mo><mi>B</mi><mi>a</mi><mi>s</mi><mi>e</mi><mi>C</mi><mi>o</mi><mi>l</mi><mi>o</mi><mi>r</mi><mo>∗</mo><mi>L</mi><mi>i</mi><mi>g</mi><mi>h</mi><mi>t</mi><mi>C</mi><mi>o</mi><mi>l</mi><mi>o</mi><mi>r</mi><mo>∗</mo><mi>d</mi><mi>o</mi><mi>t</mi><mo stretchy="false">(</mo><mi>L</mi><mi>i</mi><mi>g</mi><mi>h</mi><mi>t</mi><mi>D</mi><mi>i</mi><mi>r</mi><mo separator="true">,</mo><mi>N</mi><mi>o</mi><mi>r</mi><mi>m</mi><mi>a</mi><mi>l</mi><mi>D</mi><mi>i</mi><mi>r</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">Diffuse = BaseColor * LightColor * dot(LightDir, NormalDir)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.10764em;">ff</span><span class="mord mathnormal">u</span><span class="mord mathnormal">se</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mord mathnormal">a</span><span class="mord mathnormal">se</span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal" style="margin-right:0.02778em;">or</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">L</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord mathnormal">h</span><span class="mord mathnormal" style="margin-right:0.07153em;">tC</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal" style="margin-right:0.02778em;">or</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">o</span><span class="mord mathnormal">t</span><span class="mopen">(</span><span class="mord mathnormal">L</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord mathnormal">h</span><span class="mord mathnormal">t</span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mord mathnormal" style="margin-right:0.02778em;">or</span><span class="mord mathnormal">ma</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mclose">)</span></span></span></span></span></p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-55.png" alt="TA100-55" style="zoom: 50%;" />
+<h4 id="镜面反射">镜面反射</h4>
+<p>镜面反射就是将入射光线根据表面法线进行反射，并且<strong>只有在反射方向有能量，其他方向能量均为0</strong></p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>S</mi><mi>p</mi><mi>e</mi><mi>c</mi><mi>u</mi><mi>l</mi><mi>a</mi><mi>r</mi><mo>=</mo><mi>L</mi><mi>i</mi><mi>g</mi><mi>h</mi><mi>t</mi><mi>C</mi><mi>o</mi><mi>l</mi><mi>o</mi><mi>r</mi><mo>∗</mo><mi>p</mi><mi>o</mi><mi>w</mi><mo stretchy="false">(</mo><mi>d</mi><mi>o</mi><mi>t</mi><mo stretchy="false">(</mo><mi>R</mi><mi>e</mi><mi>f</mi><mi>l</mi><mi>e</mi><mi>c</mi><mi>t</mi><mi>D</mi><mi>i</mi><mi>r</mi><mo separator="true">,</mo><mi>V</mi><mi>i</mi><mi>e</mi><mi>w</mi><mi>D</mi><mi>i</mi><mi>r</mi><mo stretchy="false">)</mo><mo separator="true">,</mo><mi>x</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">Specular = LightColor * pow(dot(ReflectDir, ViewDir), x)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">Sp</span><span class="mord mathnormal">ec</span><span class="mord mathnormal">u</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">L</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord mathnormal">h</span><span class="mord mathnormal" style="margin-right:0.07153em;">tC</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal" style="margin-right:0.02778em;">or</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">p</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mord mathnormal">o</span><span class="mord mathnormal">t</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mord mathnormal">e</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">ec</span><span class="mord mathnormal">t</span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">Vi</span><span class="mord mathnormal">e</span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">x</span><span class="mclose">)</span></span></span></span></span></p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-56.png" alt="TA100-56" style="zoom:50%;" />
+<h4 id="折射">折射</h4>
+<p>对于玻璃这种电介质，除了反射之外还有根据物体的折射率折射一部分光线进入物体之中反射和折射能量的多少是根据菲尼尔定律决定</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>R</mi><mi>e</mi><mi>f</mi><mi>l</mi><mi>D</mi><mi>i</mi><mi>r</mi><mo>=</mo><mi>r</mi><mi>e</mi><mi>f</mi><mi>r</mi><mi>a</mi><mi>c</mi><mi>t</mi><mo stretchy="false">(</mo><mi>V</mi><mi>i</mi><mi>e</mi><mi>w</mi><mi>D</mi><mi>i</mi><mi>r</mi><mo separator="true">,</mo><mi>N</mi><mi>o</mi><mi>r</mi><mi>m</mi><mi>a</mi><mi>l</mi><mi>D</mi><mi>i</mi><mi>r</mi><mo separator="true">,</mo><mi>r</mi><mi>a</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">ReflDir = refract(ViewDir, NormalDir, ration)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mord mathnormal">e</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">re</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">a</span><span class="mord mathnormal">c</span><span class="mord mathnormal">t</span><span class="mopen">(</span><span class="mord mathnormal">Vi</span><span class="mord mathnormal">e</span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mord mathnormal" style="margin-right:0.02778em;">or</span><span class="mord mathnormal">ma</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">a</span><span class="mord mathnormal">t</span><span class="mord mathnormal">i</span><span class="mord mathnormal">o</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></span></p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>R</mi><mi>e</mi><mi>f</mi><mi>l</mi><mi>C</mi><mi>o</mi><mi>l</mi><mi>o</mi><mi>r</mi><mo>=</mo><mi>t</mi><mi>e</mi><mi>x</mi><mi>C</mi><mi>U</mi><mi>B</mi><mi>E</mi><mo stretchy="false">(</mo><mi>s</mi><mi>k</mi><mi>y</mi><mi>b</mi><mi>o</mi><mi>x</mi><mo separator="true">,</mo><mi>R</mi><mi>e</mi><mi>f</mi><mi>l</mi><mi>D</mi><mi>i</mi><mi>r</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">ReflColor =  texCUBE(skybox, ReflDir)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mord mathnormal">e</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal" style="margin-right:0.07153em;">lC</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal" style="margin-right:0.02778em;">or</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">e</span><span class="mord mathnormal">x</span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="mord mathnormal" style="margin-right:0.10903em;">U</span><span class="mord mathnormal" style="margin-right:0.05764em;">BE</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mord mathnormal">b</span><span class="mord mathnormal">o</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mord mathnormal">e</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mclose">)</span></span></span></span></span></p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-57.png" alt="TA100-57" style="zoom:50%;" />
+<h4 id="粗糙镜面反射">粗糙镜面反射</h4>
+<p>法线偏移较小。反射依然集中在一个区域。形成有磨砂质感的金属表面。</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-58.png" alt="TA100-58" style="zoom:50%;" />
+<h4 id="粗糙镜面折射">粗糙镜面折射</h4>
+<p>毛玻璃效果</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-59.png" alt="TA100-59" style="zoom:50%;" />
+<h4 id="多层材质">多层材质</h4>
+<p>涂了油漆的地板</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-60.png" alt="TA100-60" style="zoom: 45%;" />
+<h4 id="SSS次表面散射">SSS次表面散射</h4>
+<p>多发生在半透明的物体上，如玉石、牛奶、皮肤、蜡烛</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-61.png" alt="TA100-61 光进入皮肤后照亮了毛细血管，因此在明暗交界处更容易看到反射出的红光" style="zoom:45%;" />
+<h4 id="多层皮肤模型">多层皮肤模型</h4>
+<p>我们把皮肤看成三层：油脂层（微量、很薄），表皮层，真皮层</p>
+<ul>
+<li>正是因为有油脂层，油脂层直接把光反射出去，所以皮肤上才会有高光产生</li>
+<li>没有被反射的光通过折射进入子表面层，光进入这些层之后被部分吸收（获得颜色）和散射</li>
+<li>再从皮肤中入射点附近的出射点射出</li>
+<li>这个过程就产生了次表面散射的效果</li>
+</ul>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-62.png" alt="TA100-62"></p>
+<h4 id="改变材质表面">改变材质表面</h4>
+<p>现实世界中不存在完美平滑的表面，因此需要对模型表面的法线进行扰动。</p>
+<p>其中一个方法是使用法线贴图。</p>
+<p>漫反射，高光，折射，都与法线有关，因此改变法线，就能改变其光照计算结果</p>
+<h3 id="模型数据解析">模型数据解析</h3>
+<h4 id="模型数据在渲染中的作用">模型数据在渲染中的作用</h4>
+<ol>
+<li>
+<p>顶点动画：在顶点着色器中，修改模型的顶点位置，进而达到模型运动的效果</p>
+<ul>
+<li>
+<p>顶点动画就是在顶点着色器中对纹理的顶点进行进行操作进而产生动画效果</p>
+</li>
+<li>
+<p>顶点动画改变的是一个顶点的位置，需要一定数量的顶点才能得到比较好的效果</p>
+</li>
+<li>
+<p>一个顶点传入一个顶点着色器，顶点着色器控制顶点时，每个顶点都会执行同样的算法</p>
+</li>
+</ul>
+</li>
+<li>
+<p>纹理动画：在片段着色器中，修改模型的UV信息，使得采样贴图时，发生位移而产生运动效果</p>
+</li>
+<li>
+<p>顶点色</p>
+<ul>
+<li>通过重心坐标插值计算三角形内部的颜色</li>
+</ul>
+</li>
+</ol>
+<h4 id="顶点法线与面法线">顶点法线与面法线</h4>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230614095731628.png" alt="TA100-63" style="zoom: 80%;" />
+<p>差异的原理：</p>
+<ul>
+<li>
+<p>（面法线）未使用平滑时，三角形三个顶点<strong>共用</strong>一个法线。 那么插值时，因为三个顶点的法线相同，所以插值的结果<strong>相同</strong>。</p>
+</li>
+<li>
+<p>（顶点法线）使用平滑后，<strong>一个顶点一个法线</strong>。三角形三个顶点的法线也就<strong>不相同</strong>。插值结果，也就会不同。</p>
+</li>
+</ul>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-64.png" alt="TA100-64" style="zoom: 67%;" />
+<p>在NPR渲染中。通常在顶点着色器中，将顶点往法线方向偏移。然后再片段着色器中直接输出一个颜色，达到描边的效果。<strong>BackFacing描边</strong>时，线条之间断开就是因为没有使用顶点法线（没有进行平滑着色）</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-65.png" alt="TA100-65" style="zoom:50%;" />
+<h2 id="HLSL常用函数">HLSL常用函数</h2>
+<p>官方文档：</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-intrinsic-functions">https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-intrinsic-functions</a></p>
+<p>一个实用的函数可视化网站：</p>
+<p><a target="_blank" rel="noopener" href="https://graphtoy.com/">https://graphtoy.com/</a></p>
+<h3 id="基本数学运算">基本数学运算</h3>
+<ul>
+<li>
+<p>max(x,y)</p>
+<ul>
+<li>返回x和y两者中较大的那个数</li>
+</ul>
+</li>
+<li>
+<p>min(x,y)</p>
+<ul>
+<li>返回x和y两者中较小的那个数</li>
+</ul>
+</li>
+<li>
+<p>mul(x,y)</p>
+<ul>
+<li>两变量相乘，常用于矩阵运算
+<ul>
+<li>如果x是向量，则被视为行向量；如果y是向量，则被视为列向量</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>abs(x)</p>
+<ul>
+<li>取绝对值</li>
+</ul>
+</li>
+<li>
+<p>round(x)</p>
+<ul>
+<li>
+<p>返回与x最近的整数</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-66.png" alt="TA100-66"></p>
+</li>
+</ul>
+</li>
+<li>
+<p>sqrt(x)</p>
+<ul>
+<li>返回x的平方根</li>
+</ul>
+</li>
+<li>
+<p>rsqrt(x)</p>
+<ul>
+<li>返回x的平方根的倒数</li>
+</ul>
+</li>
+<li>
+<p>degrees(x)</p>
+<ul>
+<li>将弧度转换成角度</li>
+</ul>
+</li>
+<li>
+<p>radians(x)</p>
+<ul>
+<li>将角度转换成弧度</li>
+</ul>
+</li>
+<li>
+<p>noise(x)</p>
+<ul>
+<li>根据传入的浮点型向量，返回基于一个Perlin-noise算法的范围在-1~1之间的噪波值</li>
+</ul>
+</li>
+</ul>
+<h3 id="幂指对函数">幂指对函数</h3>
+<ul>
+<li>pow(x,y)
+<ul>
+<li>返回x的y次幂（x和y均可为常量或变量）</li>
+</ul>
+</li>
+<li>exp(x)
+<ul>
+<li>返回以e为底，x为指数的幂，即<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>e</mi><mi>x</mi></msup></mrow><annotation encoding="application/x-tex">e^x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span></span></span></span></span></span></span></span></li>
+</ul>
+</li>
+<li>exp2(value x)
+<ul>
+<li>返回以2为底，x为指数的幂，即<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>x</mi></msup></mrow><annotation encoding="application/x-tex">2^x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span></span></span></span></span></span></span></span></li>
+</ul>
+</li>
+<li>ldexp(x,exp)
+<ul>
+<li>返回x与2的exp次方的乘积，即<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>∗</mo><msup><mn>2</mn><mrow><mi>e</mi><mi>x</mi><mi>p</mi></mrow></msup></mrow><annotation encoding="application/x-tex">x*2^{exp}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4653em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight">x</span><span class="mord mathnormal mtight">p</span></span></span></span></span></span></span></span></span></span></span></span></li>
+</ul>
+</li>
+<li>log(x)
+<ul>
+<li>返回指定值的以e为底的对数，即<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>n</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">lnx</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">n</span><span class="mord mathnormal">x</span></span></span></span>lo</li>
+</ul>
+</li>
+<li>log10(x)
+<ul>
+<li>求以10为底的对数，即<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>10</mn></msub><mi>x</mi></mrow><annotation encoding="application/x-tex">log_{10}x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">10</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal">x</span></span></span></span></li>
+</ul>
+</li>
+<li>log2(x)
+<ul>
+<li>求以2为底的对数，即<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mi>x</mi></mrow><annotation encoding="application/x-tex">log_{2}x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal">x</span></span></span></span></li>
+</ul>
+</li>
+<li>frexp(x,out exp)
+<ul>
+<li>把浮点数x分解成尾数和指数，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mi>r</mi><mi>e</mi><mi>t</mi><mo>∗</mo><msup><mn>2</mn><mrow><mi>e</mi><mi>x</mi><mi>p</mi></mrow></msup></mrow><annotation encoding="application/x-tex">x=ret*2^{exp}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">re</span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight">x</span><span class="mord mathnormal mtight">p</span></span></span></span></span></span></span></span></span></span></span></span></li>
+<li>函数返回值为尾数，exp为指数（原始浮点数的二进制指数）</li>
+<li>如果x参数为0，则此函数的尾数和指数均返回0</li>
+</ul>
+</li>
+</ul>
+<h3 id="三角函数与双曲函数">三角函数与双曲函数</h3>
+<ul>
+<li>asin(x)
+<ul>
+<li>返回输入值的反正弦值</li>
+</ul>
+</li>
+<li>acos(x)
+<ul>
+<li>返回输入值的反余弦值</li>
+</ul>
+</li>
+<li>atan(x)
+<ul>
+<li>返回输入值的反正切值</li>
+</ul>
+</li>
+<li>atan2(y,x)
+<ul>
+<li>返回y/x的反正切值</li>
+</ul>
+</li>
+<li><strong>sin(x)、cos(x)、tan(x)、tan(y/x)</strong></li>
+<li>sincos(x,out s,out c)
+<ul>
+<li>返回x的正弦值和余弦值</li>
+</ul>
+</li>
+<li>sinh(x)
+<ul>
+<li>返回x的双曲正弦值，即<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msup><mi>e</mi><mi>x</mi></msup><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>x</mi></mrow></msup><mo stretchy="false">)</mo><mi mathvariant="normal">/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">(e^x-e^{-x})/2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0213em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7713em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mathnormal mtight">x</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord">/2</span></span></span></span></li>
+</ul>
+</li>
+<li>cosh(x)
+<ul>
+<li>返回x的双曲余弦值，即<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msup><mi>e</mi><mi>x</mi></msup><mo>+</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>x</mi></mrow></msup><mo stretchy="false">)</mo><mi mathvariant="normal">/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">(e^x+e^{-x})/2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0213em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7713em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mathnormal mtight">x</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord">/2</span></span></span></span></li>
+</ul>
+</li>
+<li>tanh(x)
+<ul>
+<li>返回x的双曲正切值，即<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msup><mi>e</mi><mi>x</mi></msup><mo>−</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>x</mi></mrow></msup><mi mathvariant="normal">/</mi><msup><mi>e</mi><mi>x</mi></msup><mo>+</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>x</mi></mrow></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(e^x-e^{-x}/e^x+e^{-x})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0213em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7713em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mathnormal mtight">x</span></span></span></span></span></span></span></span></span><span class="mord">/</span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0213em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7713em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mathnormal mtight">x</span></span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></li>
+</ul>
+</li>
+</ul>
+<h3 id="数据范围类">数据范围类</h3>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-67.png" alt="TA100-67" style="zoom: 80%;" />
+<h3 id="类型判断类">类型判断类</h3>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-68.png" alt="TA100-68"  />
+<h3 id="向量与矩阵类">向量与矩阵类</h3>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-69.png" alt="TA100-69"></p>
+<h3 id="光线运算类">光线运算类</h3>
+<ul>
+<li>reflect(i ,n)
+<ul>
+<li>以i为入射向量，n为法线方向的反射光</li>
+</ul>
+</li>
+<li>refract(i, n, ri)
+<ul>
+<li>以i为入射向量，n为法线方向，ri为折射率的折射光</li>
+</ul>
+</li>
+<li>lit(<em>n_dot_l</em>, <em>n_dot_h</em>, <em>m</em>)
+<ul>
+<li>返回光照系数向量**(ambient, diffuse, specular, 1)，其中：**
+<ul>
+<li>ambient = 1</li>
+<li>diffuse = n · l &lt; 0 ? 0 : n · l</li>
+<li>specular = n · h &lt; 0 ? 0 : pow( n · l, m)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>faceforward(<em>n</em>, <em>i</em>, <em>ng</em>)
+<ul>
+<li>在特定条件下翻转表面法线，表面面向i所指方向，返回面向i所指方向的面的法线方向（得到面向视图的曲面法向量）</li>
+<li>return -n*sign(dot(i, ng))</li>
+</ul>
+</li>
+</ul>
+<h3 id="纹理查找">纹理查找</h3>
+<h4 id="1D纹理查找（几乎不用）">1D纹理查找（几乎不用）</h4>
+<ul>
+<li>GPU在PS阶段是在屏幕空间XY坐标系中对每一个像素去对应的纹理中查找对应的纹素来确定像素的颜色</li>
+<li>tex1D(s, t) 普通一维纹理查找 返回纹理采样器s在标量t位置的color4</li>
+<li>tex1D(s,t,ddx,ddy) 使用微分查询一维纹理 t和ddxy均为vectortex1Dlod(s, t) 使用LOD查找纹理s在t.w位置的color4</li>
+<li>tex1Dbias(s, t) 将t.w决定的某个MIP层偏置后的一维纹理查找</li>
+<li>tex1Dgrad(s,t,ddx,ddy) 使用微分并指定MIP层的一维纹理查找</li>
+<li>tex1Dproj(s, t) 把纹理当做一张幻灯片投影到场景中，先使用投影纹理技术需要计算出投影纹理坐标t(坐标t.w除以透视值)，然后使用投影纹理坐标进行查询</li>
+</ul>
+<h4 id="2D纹理查找">2D纹理查找</h4>
+<ul>
+<li>tex2D(s, t) 普通二维纹理查找 返回纹理采样器s在vector t位置的颜色</li>
+<li>tex2D(s,t,ddx,ddy) 使用微分查询二维纹理 t和ddxy均为vector（只有小于ddxy的值才会采样）</li>
+<li>tex2Dlod(s, t) 使用LOD查找纹理s在t.w位置的color4tex2Dbias(s, t) 将t.w决定的某个MIP层偏置后的二维纹理查找</li>
+<li>tex2Dgrad(s,t,ddx,ddy) 使用微分并指定MIP层的二维纹理查找</li>
+<li>tex2Dproj(s, t) 把纹理当做一张幻灯片投影到场景中，先使用投影纹理技术需要计算出投影纹理坐标t(坐标t.w除以透视值)，然后使用投影纹理坐标进行查询</li>
+</ul>
+<h4 id="3D纹理查找">3D纹理查找</h4>
+<ul>
+<li>tex3D(s, t) 普通三维纹理查找 返回纹理采样器s在vector t位置的颜色</li>
+<li>tex3D(s,t,ddx,ddy) 使用微分查询三维纹理 t和ddxy均为vector</li>
+<li>tex3Dlod(s, t) 使用LOD查找纹理s在t.w位置的color4</li>
+<li>tex3Dbias(s, t) 将t.w决定的某个MIP层偏置后的三维纹理查找tex3Dgrad(s,t,ddx,ddy) 使用微分并指定MIP层的三维纹理查找</li>
+<li>tex3Dproj(s, t) 把纹理当做一张幻灯片投影到场景中，先使用投影纹理技术需要计算出投影纹理坐标t(坐标t.w除以透视值)，然后使用投影纹理坐标进行查询</li>
+</ul>
+<h4 id="立体纹理查找">立体纹理查找</h4>
+<ul>
+<li>texCUBE(s,t) 返回纹理采样器s在vector t位置的颜色</li>
+<li>texCUBE(s,t,ddx,ddy)使用微分查询立方体维纹理 t和ddxy均为vector</li>
+<li>texCUBEDload(s,t) 使用LOD查找纹理s在t.w位置的color4</li>
+<li>texCUBEbias(s,t) 将t.w决定的某个MIP层偏置后的立方体纹理查找</li>
+<li>texCUBEgrad(s,t,ddx,ddy) 使用微分并指定MIP层的立方体纹理查找</li>
+<li>texCUBEproj(s,t) 使用投影方式的立方体纹理查找</li>
+</ul>
+<h2 id="传统经验光照模型">传统经验光照模型</h2>
+<h3 id="光照模型">光照模型</h3>
+<h4 id="是什么">是什么</h4>
+<p>illumination model，是一种模拟自然界光照的物理过程的一种计算机模型，即光线与空间中物体表面的交互模型，大致分为两类：</p>
+<ol>
+<li>基于物理的模型</li>
+<li>经验模型</li>
+</ol>
+<h4 id="为什么">为什么</h4>
+<p>现实世界光照复杂，使用简化的光照模型对现实世界的光照情况进行模拟</p>
+<h6 id="光照模型发展历程">光照模型发展历程</h6>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-70.png" alt="TA100-70" style="zoom:80%;" />
+<h3 id="局部光照模型">局部光照模型</h3>
+<h4 id="定义">定义</h4>
+<p>只考虑直接光照，不考虑物体间反射的间接光</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-71.png" alt="TA100-71" style="zoom:80%;" />
+<h4 id="漫反射-2">漫反射</h4>
+<p>光线均匀被反射到各个方向</p>
+<p>漫反射过程中，光线发生了吸收和散射，因此改变颜色和方向</p>
+<p>使用Lambert余弦定理计算：</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-72.png" alt="TA100-72" style="zoom: 67%;" />
+<ul>
+<li><strong>漫反射只与光源和表面法线有关</strong></li>
+</ul>
+<h4 id="高光反射">高光反射</h4>
+<p>描述了光线与物体表面发生的反射（光强不变，方向改变）</p>
+<p>反射率根据菲涅尔效应决定</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-73.png" alt="TA100-73" style="zoom: 67%;" />
+<ul>
+<li>
+<p><strong>Gloss影响了高光反射的范围，但高光的亮度是不变的</strong></p>
+</li>
+<li>
+<p><strong>高光反射与观察方向有关</strong></p>
+</li>
+</ul>
+<h4 id="环境光">环境光</h4>
+<p>引入环境光弥补间接光照</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-74.png" alt="TA100-74" style="zoom:67%;" />
+<h4 id="自发光">自发光</h4>
+<p>物体自身发出的光</p>
+<h3 id="经典光照模型">经典光照模型</h3>
+<h4 id="Lambert光照模型">Lambert光照模型</h4>
+<p>只计算漫反射，没有高光效果</p>
+<h4 id="Phong模型">Phong模型</h4>
+<p>Phong = Ambient + Diffuse + Specular</p>
+<p>使用环境光来模拟间接光照</p>
+<p>加上了高光反射（使用反射光线方向和视线方向进行计算）</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-75.png" alt="TA100-75" style="zoom: 50%;" />
+<h4 id="Blinn-Phong模型">Blinn-Phong模型</h4>
+<p>在计算高光反射时，用的是半角向量和法线向量</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-76.png" alt="TA100-76" style="zoom: 80%;" />
+<h4 id="Phong和Blinn-Phone模型的区别">Phong和Blinn-Phone模型的区别</h4>
+<p>Blinn-Phong模型使用半角向量：</p>
+<ol>
+<li>
+<p>计算更简洁（计算半角向量比计算反射向量更简洁）</p>
+</li>
+<li>
+<p>半角向量与法线的角度永远不会大于90度（但是反射光线与视线方向的角度会大于90度，导致点乘计算的值钳制在0，出现明显的边缘效果）</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-77.png" alt="TA100-77" style="zoom:80%;" />
+</li>
+</ol>
+<h4 id="Flat模型">Flat模型</h4>
+<p>使用面法线，每个面都是同一个颜色</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://himoqiuhan.github.io">楸涵</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://himoqiuhan.github.io/2023/06/14/Notes-TA100-T2400/">https://himoqiuhan.github.io/2023/06/14/Notes-TA100-T2400/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://himoqiuhan.github.io" target="_blank">楸涵の小窝</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/TA/">TA</a><a class="post-meta__tags" href="/tags/%E7%99%BE%E4%BA%BA%E8%AE%A1%E5%88%92/">百人计划</a><a class="post-meta__tags" href="/tags/Shader/">Shader</a></div><div class="post_share"><div class="social-share" data-image="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/06/13/Notes-TA100-T1400/" title="技术美术百人计划学习笔记（图形1.1-1.4）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">技术美术百人计划学习笔记（图形1.1-1.4）</div></div></a></div><div class="next-post pull-right"><a href="/2023/06/14/Notes-TA100-T2600/" title="技术美术百人计划学习笔记（图形2.5-2.6）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">技术美术百人计划学习笔记（图形2.5-2.6）</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/06/14/Notes-TA100-Ex100/" title="技术美术百人计划学习笔记（先行版-基础渲染光照介绍）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-14</div><div class="title">技术美术百人计划学习笔记（先行版-基础渲染光照介绍）</div></div></a></div><div><a href="/2023/06/13/Notes-TA100-T1400/" title="技术美术百人计划学习笔记（图形1.1-1.4）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-13</div><div class="title">技术美术百人计划学习笔记（图形1.1-1.4）</div></div></a></div><div><a href="/2023/06/14/Notes-TA100-T2600/" title="技术美术百人计划学习笔记（图形2.5-2.6）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-14</div><div class="title">技术美术百人计划学习笔记（图形2.5-2.6）</div></div></a></div><div><a href="/2023/06/14/Notes-TA100-T2700/" title="技术美术百人计划学习笔记（图形2.7 Bump图）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-14</div><div class="title">技术美术百人计划学习笔记（图形2.7 Bump图）</div></div></a></div><div><a href="/2023/06/14/Notes-TA100-T2800/" title="技术美术百人计划学习笔记（图形2.8 Flow Map流动效果实现）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-14</div><div class="title">技术美术百人计划学习笔记（图形2.8 Flow Map流动效果实现）</div></div></a></div><div><a href="/2023/08/10/Notes-TA100-T3300/" title="技术美术百人计划学习笔记（图形3.3 曲面细分与几何着色器）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-08-10</div><div class="title">技术美术百人计划学习笔记（图形3.3 曲面细分与几何着色器）</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/images/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">楸涵</div><div class="author-info__description">嘿！一起突破次元壁吗！</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">50</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" href="/about/"><i class="fas fa-meteor"></i><span>About Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/himoqiuhan" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://www.zhihu.com/people/qiu-han-71-64/posts" target="_blank" title="Zhihu"><i class="fab fa-zhihu" style="color: #24292e;"></i></a><a class="social-icon" href="https://space.bilibili.com/374860285" target="_blank" title="Bilibili"><i class="fab fa-bilibili" style="color: #24292e;"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561198866659933" target="_blank" title="Steam"><i class="fab fa-steam" style="color: #24292e;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><p>欢迎来和我聊天！</p> <p>QQ：1419091648</p> <p>微信：Himo_qiuhan</p></div></div><div class="card-widget card_portfolio"><div class="item-headline"><i></i><span>作品集</span></div><div class="item-content"></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%9C%E8%89%B2%E7%A9%BA%E9%97%B4"><span class="toc-number">1.</span> <span class="toc-text">颜色空间</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%89%B2%E5%BD%A9%E5%8F%91%E9%80%81%E5%99%A8"><span class="toc-number">1.1.</span> <span class="toc-text">色彩发送器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%89%E7%9A%84%E8%A6%81%E7%B4%A0"><span class="toc-number">1.1.1.</span> <span class="toc-text">光的要素</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%89%E6%BA%90"><span class="toc-number">1.1.2.</span> <span class="toc-text">光源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A2%E9%95%BF"><span class="toc-number">1.1.3.</span> <span class="toc-text">波长</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%83%BD%E9%87%8F%E5%88%86%E5%B8%83"><span class="toc-number">1.1.4.</span> <span class="toc-text">能量分布</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E5%85%89%E5%85%89%E5%BA%A6%E8%AE%A1"><span class="toc-number">1.1.5.</span> <span class="toc-text">分光光度计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%89%E7%9A%84%E4%BC%A0%E6%92%AD"><span class="toc-number">1.1.6.</span> <span class="toc-text">光的传播</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%89%E6%BA%90%E7%9A%84%E6%8E%A5%E6%94%B6%E8%80%85"><span class="toc-number">1.2.</span> <span class="toc-text">光源的接收者</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9B%B8%E5%AF%B9%E4%BA%AE%E5%BA%A6%E6%84%9F%E7%9F%A5"><span class="toc-number">1.2.1.</span> <span class="toc-text">相对亮度感知</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%BA%E7%9C%BCHDR"><span class="toc-number">1.2.2.</span> <span class="toc-text">人眼HDR</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%BA%E7%9C%BC%E6%84%9F%E5%85%89%E7%BB%86%E8%83%9E%E5%88%86%E5%B8%83"><span class="toc-number">1.2.3.</span> <span class="toc-text">人眼感光细胞分布</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%94%A5%E7%8A%B6%E7%BB%86%E8%83%9E"><span class="toc-number">1.2.4.</span> <span class="toc-text">锥状细胞</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%BA%E7%9C%BC%E7%9A%84%E6%9C%AC%E8%B4%A8"><span class="toc-number">1.2.5.</span> <span class="toc-text">人眼的本质</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E7%A7%AF%E5%88%86%E5%85%AC%E5%BC%8F"><span class="toc-number">1.2.6.</span> <span class="toc-text">完整积分公式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%89%B2%E5%BD%A9%E7%A9%BA%E9%97%B4%E5%8E%86%E5%8F%B2"><span class="toc-number">1.3.</span> <span class="toc-text">色彩空间历史</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#19%E4%B8%96%E7%BA%AA%E7%9A%84%E7%8C%9C%E6%83%B3"><span class="toc-number">1.3.1.</span> <span class="toc-text">19世纪的猜想</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1905Munsell%E8%89%B2%E5%BD%A9%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.3.2.</span> <span class="toc-text">1905Munsell色彩系统</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1931-CIE-1931-RGB-Color-Specification-System"><span class="toc-number">1.3.3.</span> <span class="toc-text">1931 CIE 1931 RGB Color Specification System</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#XYZ-Color-Specification-System"><span class="toc-number">1.3.4.</span> <span class="toc-text">XYZ Color Specification System</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%89%B2%E5%BD%A9%E7%A9%BA%E9%97%B4%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-number">1.4.</span> <span class="toc-text">色彩空间的定义</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Gamma"><span class="toc-number">1.4.1.</span> <span class="toc-text">Gamma</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E8%89%B2%E5%BD%A9%E6%A8%A1%E5%9E%8B%E4%B8%8E%E8%89%B2%E5%BD%A9%E7%A9%BA%E9%97%B4"><span class="toc-number">1.5.</span> <span class="toc-text">常用色彩模型与色彩空间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A5%E5%85%85"><span class="toc-number">1.6.</span> <span class="toc-text">补充</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%89%B2%E5%BD%A9%E7%A9%BA%E9%97%B4%E4%B8%8B%E7%9A%84%E5%90%84%E7%A7%8D%E8%89%B2%E5%9F%9F"><span class="toc-number">1.6.1.</span> <span class="toc-text">色彩空间下的各种色域</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#P3%E8%89%B2%E5%9F%9F%E7%9B%B8%E8%BE%83%E4%BA%8EsRGB%E7%9A%84%E6%8F%90%E5%8D%87"><span class="toc-number">1.6.2.</span> <span class="toc-text">P3色域相较于sRGB的提升</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81Gamma%E7%9F%AB%E6%AD%A3"><span class="toc-number">1.6.3.</span> <span class="toc-text">为什么需要Gamma矫正</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HDR"><span class="toc-number">1.6.4.</span> <span class="toc-text">HDR</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%89%B2%E5%BD%A9%E7%A9%BA%E9%97%B4%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.6.5.</span> <span class="toc-text">色彩空间转换</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%9C%E4%B8%9A"><span class="toc-number">1.7.</span> <span class="toc-text">作业</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%9D%90%E8%B4%A8"><span class="toc-number">2.</span> <span class="toc-text">模型与材质</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF%E4%B8%8E%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80"><span class="toc-number">2.1.</span> <span class="toc-text">渲染管线与模型基础</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BE%E5%BD%A2%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF"><span class="toc-number">2.1.1.</span> <span class="toc-text">图形渲染管线</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="toc-number">2.1.2.</span> <span class="toc-text">模型的实现原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#UV"><span class="toc-number">2.1.3.</span> <span class="toc-text">UV</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E6%A8%A1%E5%9E%8B%E5%8C%85%E5%90%AB%E7%9A%84%E4%BF%A1%E6%81%AF%EF%BC%88%E4%BB%A5obj%E6%96%87%E4%BB%B6%E4%B8%BA%E4%BE%8B%EF%BC%89"><span class="toc-number">2.1.3.0.1.</span> <span class="toc-text">一个模型包含的信息（以obj文件为例）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9D%90%E8%B4%A8"><span class="toc-number">2.1.4.</span> <span class="toc-text">材质</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BC%AB%E5%8F%8D%E5%B0%84"><span class="toc-number">2.1.5.</span> <span class="toc-text">漫反射</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%95%9C%E9%9D%A2%E5%8F%8D%E5%B0%84"><span class="toc-number">2.1.6.</span> <span class="toc-text">镜面反射</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8A%98%E5%B0%84"><span class="toc-number">2.1.7.</span> <span class="toc-text">折射</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B2%97%E7%B3%99%E9%95%9C%E9%9D%A2%E5%8F%8D%E5%B0%84"><span class="toc-number">2.1.8.</span> <span class="toc-text">粗糙镜面反射</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B2%97%E7%B3%99%E9%95%9C%E9%9D%A2%E6%8A%98%E5%B0%84"><span class="toc-number">2.1.9.</span> <span class="toc-text">粗糙镜面折射</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E5%B1%82%E6%9D%90%E8%B4%A8"><span class="toc-number">2.1.10.</span> <span class="toc-text">多层材质</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SSS%E6%AC%A1%E8%A1%A8%E9%9D%A2%E6%95%A3%E5%B0%84"><span class="toc-number">2.1.11.</span> <span class="toc-text">SSS次表面散射</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E5%B1%82%E7%9A%AE%E8%82%A4%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.1.12.</span> <span class="toc-text">多层皮肤模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%94%B9%E5%8F%98%E6%9D%90%E8%B4%A8%E8%A1%A8%E9%9D%A2"><span class="toc-number">2.1.13.</span> <span class="toc-text">改变材质表面</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E6%95%B0%E6%8D%AE%E8%A7%A3%E6%9E%90"><span class="toc-number">2.2.</span> <span class="toc-text">模型数据解析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%9C%A8%E6%B8%B2%E6%9F%93%E4%B8%AD%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">2.2.1.</span> <span class="toc-text">模型数据在渲染中的作用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A1%B6%E7%82%B9%E6%B3%95%E7%BA%BF%E4%B8%8E%E9%9D%A2%E6%B3%95%E7%BA%BF"><span class="toc-number">2.2.2.</span> <span class="toc-text">顶点法线与面法线</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HLSL%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">HLSL常用函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%95%B0%E5%AD%A6%E8%BF%90%E7%AE%97"><span class="toc-number">3.1.</span> <span class="toc-text">基本数学运算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%82%E6%8C%87%E5%AF%B9%E5%87%BD%E6%95%B0"><span class="toc-number">3.2.</span> <span class="toc-text">幂指对函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E8%A7%92%E5%87%BD%E6%95%B0%E4%B8%8E%E5%8F%8C%E6%9B%B2%E5%87%BD%E6%95%B0"><span class="toc-number">3.3.</span> <span class="toc-text">三角函数与双曲函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%8C%83%E5%9B%B4%E7%B1%BB"><span class="toc-number">3.4.</span> <span class="toc-text">数据范围类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E5%88%A4%E6%96%AD%E7%B1%BB"><span class="toc-number">3.5.</span> <span class="toc-text">类型判断类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%91%E9%87%8F%E4%B8%8E%E7%9F%A9%E9%98%B5%E7%B1%BB"><span class="toc-number">3.6.</span> <span class="toc-text">向量与矩阵类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%89%E7%BA%BF%E8%BF%90%E7%AE%97%E7%B1%BB"><span class="toc-number">3.7.</span> <span class="toc-text">光线运算类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%B9%E7%90%86%E6%9F%A5%E6%89%BE"><span class="toc-number">3.8.</span> <span class="toc-text">纹理查找</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1D%E7%BA%B9%E7%90%86%E6%9F%A5%E6%89%BE%EF%BC%88%E5%87%A0%E4%B9%8E%E4%B8%8D%E7%94%A8%EF%BC%89"><span class="toc-number">3.8.1.</span> <span class="toc-text">1D纹理查找（几乎不用）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2D%E7%BA%B9%E7%90%86%E6%9F%A5%E6%89%BE"><span class="toc-number">3.8.2.</span> <span class="toc-text">2D纹理查找</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3D%E7%BA%B9%E7%90%86%E6%9F%A5%E6%89%BE"><span class="toc-number">3.8.3.</span> <span class="toc-text">3D纹理查找</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AB%8B%E4%BD%93%E7%BA%B9%E7%90%86%E6%9F%A5%E6%89%BE"><span class="toc-number">3.8.4.</span> <span class="toc-text">立体纹理查找</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%A0%E7%BB%9F%E7%BB%8F%E9%AA%8C%E5%85%89%E7%85%A7%E6%A8%A1%E5%9E%8B"><span class="toc-number">4.</span> <span class="toc-text">传统经验光照模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%89%E7%85%A7%E6%A8%A1%E5%9E%8B"><span class="toc-number">4.1.</span> <span class="toc-text">光照模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">4.1.1.</span> <span class="toc-text">是什么</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88"><span class="toc-number">4.1.2.</span> <span class="toc-text">为什么</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%85%89%E7%85%A7%E6%A8%A1%E5%9E%8B%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B"><span class="toc-number">4.1.2.0.1.</span> <span class="toc-text">光照模型发展历程</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%80%E9%83%A8%E5%85%89%E7%85%A7%E6%A8%A1%E5%9E%8B"><span class="toc-number">4.2.</span> <span class="toc-text">局部光照模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-number">4.2.1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BC%AB%E5%8F%8D%E5%B0%84-2"><span class="toc-number">4.2.2.</span> <span class="toc-text">漫反射</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%AB%98%E5%85%89%E5%8F%8D%E5%B0%84"><span class="toc-number">4.2.3.</span> <span class="toc-text">高光反射</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E5%85%89"><span class="toc-number">4.2.4.</span> <span class="toc-text">环境光</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%8F%91%E5%85%89"><span class="toc-number">4.2.5.</span> <span class="toc-text">自发光</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%8F%E5%85%B8%E5%85%89%E7%85%A7%E6%A8%A1%E5%9E%8B"><span class="toc-number">4.3.</span> <span class="toc-text">经典光照模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Lambert%E5%85%89%E7%85%A7%E6%A8%A1%E5%9E%8B"><span class="toc-number">4.3.1.</span> <span class="toc-text">Lambert光照模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Phong%E6%A8%A1%E5%9E%8B"><span class="toc-number">4.3.2.</span> <span class="toc-text">Phong模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Blinn-Phong%E6%A8%A1%E5%9E%8B"><span class="toc-number">4.3.3.</span> <span class="toc-text">Blinn-Phong模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Phong%E5%92%8CBlinn-Phone%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">4.3.4.</span> <span class="toc-text">Phong和Blinn-Phone模型的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Flat%E6%A8%A1%E5%9E%8B"><span class="toc-number">4.3.5.</span> <span class="toc-text">Flat模型</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/28/Notes-TA100-A4510/" title="技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）"/></a><div class="content"><a class="title" href="/2024/07/28/Notes-TA100-A4510/" title="技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）">技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）</a><time datetime="2024-07-28T09:20:57.000Z" title="发表于 2024-07-28 17:20:57">2024-07-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/02/13/Anima-SoundEuphonium/" title="《響け！ユーフォニアム》杂谈"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/SoundEuphonium-cover.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《響け！ユーフォニアム》杂谈"/></a><div class="content"><a class="title" href="/2024/02/13/Anima-SoundEuphonium/" title="《響け！ユーフォニアム》杂谈">《響け！ユーフォニアム》杂谈</a><time datetime="2024-02-13T06:14:39.000Z" title="发表于 2024-02-13 14:14:39">2024-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-Avatar/" title="【Unity】仿原神渲染2.0技术文档-角色渲染篇"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/c29cb1345f98a9f92545947d81d692c.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Unity】仿原神渲染2.0技术文档-角色渲染篇"/></a><div class="content"><a class="title" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-Avatar/" title="【Unity】仿原神渲染2.0技术文档-角色渲染篇">【Unity】仿原神渲染2.0技术文档-角色渲染篇</a><time datetime="2023-12-07T13:17:37.000Z" title="发表于 2023-12-07 21:17:37">2023-12-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-PostProcess/" title="【Unity】仿原神渲染2.0技术文档-后处理篇"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/c29cb1345f98a9f92545947d81d692c.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Unity】仿原神渲染2.0技术文档-后处理篇"/></a><div class="content"><a class="title" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-PostProcess/" title="【Unity】仿原神渲染2.0技术文档-后处理篇">【Unity】仿原神渲染2.0技术文档-后处理篇</a><time datetime="2023-12-07T13:17:30.000Z" title="发表于 2023-12-07 21:17:30">2023-12-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/01/Anima-NaginoAsukara/" title="《来自风平浪静的明天》浅谈"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/NaginoAsuKara-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《来自风平浪静的明天》浅谈"/></a><div class="content"><a class="title" href="/2023/12/01/Anima-NaginoAsukara/" title="《来自风平浪静的明天》浅谈">《来自风平浪静的明天》浅谈</a><time datetime="2023-12-01T13:31:58.000Z" title="发表于 2023-12-01 21:31:58">2023-12-01</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2024 By 楸涵</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">欢迎来到楸涵的小窝！</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(() => {
+  let initFn = window.walineFn || null
+
+  const initWaline = (Fn) => {
+    const waline = Fn(Object.assign({
+      el: '#waline-wrap',
+      serverURL: 'https://blog-comment-68npiieuq-himoqiuhan.vercel.app/',
+      pageview: false,
+      dark: 'html[data-theme="dark"]',
+      path: window.location.pathname,
+      comment: false,
+    }, null))
+
+    const destroyWaline = () => {
+      waline.destroy()
+    }
+
+    btf.addGlobalFn('pjax', destroyWaline, 'destroyWaline')
+  }
+
+  const loadWaline = async () => {
+    if (initFn) initWaline(initFn)
+    else {
+      await getCSS('https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.min.css')
+      const { init } = await import('https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.min.js')
+      initFn = init || Waline.init
+      initWaline(initFn)
+      window.walineFn = initFn
+    }
+  }
+
+  if ('Waline' === 'Waline' || !true) {
+    if (true) btf.loadComment(document.getElementById('waline-wrap'),loadWaline)
+    else setTimeout(loadWaline, 0)
+  } else {
+    window.loadOtherComment = loadWaline
+  }
+})()</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

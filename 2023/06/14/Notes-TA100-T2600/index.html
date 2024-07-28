@@ -1,0 +1,446 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>技术美术百人计划学习笔记（图形2.5-2.6） | 楸涵の小窝</title><meta name="author" content="楸涵"><meta name="copyright" content="楸涵"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="gamma矫正、LDR与HDR">
+<meta property="og:type" content="article">
+<meta property="og:title" content="技术美术百人计划学习笔记（图形2.5-2.6）">
+<meta property="og:url" content="https://himoqiuhan.github.io/2023/06/14/Notes-TA100-T2600/index.html">
+<meta property="og:site_name" content="楸涵の小窝">
+<meta property="og:description" content="gamma矫正、LDR与HDR">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png">
+<meta property="article:published_time" content="2023-06-14T00:48:57.000Z">
+<meta property="article:modified_time" content="2024-07-27T15:13:59.652Z">
+<meta property="article:author" content="楸涵">
+<meta property="article:tag" content="TA">
+<meta property="article:tag" content="百人计划">
+<meta property="article:tag" content="Shader">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png"><link rel="shortcut icon" href="/images/favicon.png"><link rel="canonical" href="https://himoqiuhan.github.io/2023/06/14/Notes-TA100-T2600/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '技术美术百人计划学习笔记（图形2.5-2.6）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-27 23:13:59'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="css/resources.css"><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="css/progress_bar.css"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="楸涵の小窝" type="application/atom+xml">
+</head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="/css/progress_bar.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/images/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">50</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fab fa-facebook-messenger"></i><span> Links</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-meteor"></i><span> AboutMe</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/97358036_p0_master1200.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="楸涵の小窝"><span class="site-name">楸涵の小窝</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fab fa-facebook-messenger"></i><span> Links</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-meteor"></i><span> AboutMe</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">技术美术百人计划学习笔记（图形2.5-2.6）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-06-14T00:48:57.000Z" title="发表于 2023-06-14 08:48:57">2023-06-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-27T15:13:59.652Z" title="更新于 2024-07-27 23:13:59">2024-07-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Notes/">Notes</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="技术美术百人计划学习笔记（图形2.5-2.6）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100T2600.png" alt="【图形渲染】 2.5 - 2.6 Gamma矫正、LDR与HDR"></p>
+<h2 id="Gamma矫正">Gamma矫正</h2>
+<h3 id="Gamma矫正-2">Gamma矫正</h3>
+<h4 id="颜色空间">颜色空间</h4>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-78.png" alt="TA100-78" style="zoom:80%;" />
+<p>sRGB和Rec-709能表达的颜色空间范围是差不多的，他的三原色位置是差不多的。它们之间的区别就在于传递函数不同</p>
+<h4 id="传递函数">传递函数</h4>
+<p>把颜色显示到一个电子设备上时，需要把颜色转换成一个视频信号，这时候就需要一个传递函数</p>
+<p>一个传递函数分为两部分：</p>
+<ul>
+<li>OETF：光转电传递函数，负责把场景线性光转到非线性视频信号值</li>
+<li>EOTF：电转光传递函数，负责把非线性视频信号值转换成显示光亮度</li>
+</ul>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-79.png" alt="TA100-79" style="zoom:80%;" />
+<h4 id="Gamma矫正-3">Gamma矫正</h4>
+<p>Gamma矫正简单来说就是指<strong>对线性三色值和非线性视频信号之间进行编码和解码的过程</strong>，就比如说当相机拍摄到自然中的线性的光信号，传递到电脑中进行存储时，就需要进行一个Gamma的编码操作，获得非线性的视频信号；最后通过显示器显示时，又需要将非线性的视频信号还原回一个线性的光信号，这时就需要进行一个Gamma的解码操作，最后得到我们所见到的样子（线性的光信号）</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-80.png" alt="TA100-80"></p>
+<p>Gamma矫正的实例：简单理解为就是<strong>线性显示、非线性存储</strong>。</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-82.png" alt="TA100-82" style="zoom:80%;" />
+<h4 id="进行Gamma矫正的原因">进行Gamma矫正的原因</h4>
+<p>这其实和人眼的特性有关，<strong>人眼对暗部的变化要更加敏感一点</strong>。如果要存储更多的有效信息，就需要更多的位置去存储暗部值，即在存储暗部时用更高精度的值去存储，而对于亮部则可以用相对精度较低的值去存储。</p>
+<p>所以，非线性转换的目的主要是为了<strong>优化存储空间和带宽</strong>，传递函数能够更好地帮我们利用编码空间。</p>
+<h4 id="韦伯定律">韦伯定律</h4>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-83.png" alt="TA100-83" style="zoom: 67%;" />
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-84.png" alt="TA100-84" style="zoom: 80%;" />
+<p>韦伯定律:即感觉的差别闽限随原来刺激量的变化而变化，而且表现为一定的规律性，用公式来表示，就是ΔΦ/Φ=c，其中Φ为原刺激量，ΔΦ为此时的差别闽限，c为常数，又称为韦柏率。</p>
+<p>简单来说就是，当这次通过一定的刺激爽到了，下次要获得同样的爽度就需要更多的刺激。</p>
+<h4 id="什么是中灰值？（环境对亮度的影响）">什么是中灰值？（环境对亮度的影响）</h4>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-85.png" alt="TA100-85 纯灰色的条看上去左右部分明暗不同"></p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-86.png" alt="TA100-86" style="zoom:67%;" />
+<p>所以说<strong>中灰值并非一个明确的值，而是取决于实际的视觉感受</strong></p>
+<h4 id="小结">小结</h4>
+<ol>
+<li>人眼对暗部变化比亮部更加敏感</li>
+<li>我们目前所使用的真彩格式RGBA32，每个颜色通道只有8位用于记录信息，为了合理使用带宽和存储空间，需要进行非线性转换</li>
+<li>目前我们所普遍使用的sRGB颜色空间标准，他的传递函数gamma值为2.2</li>
+</ol>
+<h3 id="线性工作流">线性工作流</h3>
+<ul>
+<li>线性工作流就是在生产的各个环节中，正确使用gamma编码和gamma解码，使得最终得到的颜色数据与最初输入的物理数据保持一致</li>
+<li>如果使用Gamma空间的贴图，在传给着色器前需要从Gamma空间转到线性空间，以确保获得正确的计算结果</li>
+</ul>
+<p>如果不在线性空间下进行渲染工作：</p>
+<p>Gamma空间中进行亮度计算时，会容易过曝：因为光线信息在经过Gamma编码后，他的值比实际上的要大</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-87.png" alt="TA100-87 Gamma空间中进行亮度计算容易过曝"></p>
+<p>进行颜色混合时，也会让亮度过高，出现”黑边“</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-88.png" alt="TA100-88 颜色重叠区域出现“黑边”"></p>
+<p>进行光照渲染时，如果把中灰色以0.5作为实际的物理光强进行计算的话，就会出现如下左图的情况；但是实际上中灰色的物理光强度应该是0.18</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-89.png" alt="TA100-89" style="zoom:80%;" />
+<h3 id="Unity中的颜色空间">Unity中的颜色空间</h3>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-90.png" alt="TA100-90" style="zoom:80%;" />
+<ul>
+<li>当选择Gamma Space时，Unity不会做任何处理</li>
+<li>当选择Linear Space时，引擎的渲染流程在线性空间中计算。理想情况下项目使用线性空间的贴图颜色，不需要勾选sRGB选项；如果勾选了sRGB选项，unity则会通过硬件特性采样时进行线性转换。</li>
+</ul>
+<h4 id="硬件支持">硬件支持</h4>
+<p>线性空间需要图形API的硬件支持，目前支持的平台有：</p>
+<ol>
+<li>Windows，Mac OS x和Linux</li>
+<li>Xbox One</li>
+<li>PS4（新的PS5肯定支持）</li>
+<li>Android</li>
+<li>IOS</li>
+<li>WebGL（新的WebGPU肯定支持）</li>
+</ol>
+<h4 id="硬件特性支持">硬件特性支持</h4>
+<p>主要由两个硬件特性来支持：</p>
+<ul>
+<li>sRGB Frame Buffer
+<ul>
+<li>将shader的计算结果输出到显示器前进行Gamma矫正</li>
+<li>作为纹理被读取时自动会把存储的颜色从sRGB空间转换到线性空间</li>
+<li>调用ReadPixels()、ReadBackImage()时，会直接返回sRGB空间下的颜色</li>
+<li>sRGB Frame Buffer只支持每通道为8bit的格式，不支持浮点格式</li>
+<li>HDR开启后会先把渲染结果绘制到浮点格式的Frame Buffer中，最后绘制到sRGB Frame Buffer上输出</li>
+</ul>
+</li>
+<li>sRGB Sampler
+<ul>
+<li>将sRGB的贴图进行线性采样的转换</li>
+</ul>
+</li>
+</ul>
+<p>使用硬件特性完成sRGB贴图的线性采样和shader计算结果的gamma矫正，比起在shader里对贴图采样和计算结果的矫正要快</p>
+<h3 id="资源导出问题">资源导出问题</h3>
+<h4 id="SP贴图导出">SP贴图导出</h4>
+<p>SP贴图导出时，线性的颜色值经过了gamma变换，颜色被提亮了，所以在unity中需要勾选sRGB选项，让他在采样时能还原回线性值</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-91.png" alt="TA100-91"></p>
+<h4 id="PS中相关设置">PS中相关设置</h4>
+<p>如果使用线性空间，一般来说PS可以什么都不改，导出的贴图只要勾上sRGB即可</p>
+<p>如果调整PS的gamma值为1，导出的贴图在unity中也不需要勾选sRGB了</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-92.png" alt="TA100-92"></p>
+<ul>
+<li>PS对颜色管理特别精准，Unity中看到的颜色要经过显示器的gamma变换，而PS不会，PS会读取显示器的Color Profile，反向补偿回去。所以PS里使用的是一个真实的颜色值</li>
+<li>PS有第二个Color Profile（Document Color Profile）。通常它的默认值就是sRGB Color Profile，和显示器的Color Profile一致，颜色是被这个Color Profile压暗了，所以PS中看到的结果才和Unity的一样（通过一个灰度值来控制颜色的显示，并且这个灰度值和显示器的gamma值一致，让我们看着和unity一样）</li>
+</ul>
+<p>Unity在进行半透明混合时，会先将它们转换到一个线性空间下，然后再进行混合。但是PS中，图层和图层之间做混合的时候，每个上层的图层都会读取他们的Color Profile，经过一个Gamma变换，再做混合，得到的结果就会偏暗一些。</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-93.png" alt="TA100-93" style="zoom:80%;" />
+<h3 id="Unity中的颜色空间转换函数">Unity中的颜色空间转换函数</h3>
+<p>Unity CG.cginc文件中封装的函数</p>
+<p>其中，带有Exact后缀的的函数计算精确，但消耗高；不带有Exact后缀的函数是一种近似解法</p>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><span class="line">inline <span class="type">float</span> GammaToLinearSpaceExact (<span class="type">float</span> value)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (value &lt;= <span class="number">0.04045</span>F)</span><br><span class="line">        <span class="keyword">return</span> value / <span class="number">12.92</span>F;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (value &lt; <span class="number">1.0</span>F)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">pow</span>((value + <span class="number">0.055</span>F)/<span class="number">1.055</span>F, <span class="number">2.4</span>F);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">pow</span>(value, <span class="number">2.2</span>F);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">inline half3 GammaToLinearSpace (half3 sRGB)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Approximate version from http://chilliant.blogspot.com.au/2012/08/srgb-approximations-for-hlsl.html?m=1</span></span><br><span class="line">    <span class="keyword">return</span> sRGB * (sRGB * (sRGB * <span class="number">0.305306011</span>h + <span class="number">0.682171111</span>h) + <span class="number">0.012522878</span>h);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Precise version, useful for debugging.</span></span><br><span class="line">    <span class="comment">//return half3(GammaToLinearSpaceExact(sRGB.r), GammaToLinearSpaceExact(sRGB.g), GammaToLinearSpaceExact(sRGB.b));</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">inline <span class="type">float</span> LinearToGammaSpaceExact (<span class="type">float</span> value)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (value &lt;= <span class="number">0.0</span>F)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0.0</span>F;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (value &lt;= <span class="number">0.0031308</span>F)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">12.92</span>F * value;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (value &lt; <span class="number">1.0</span>F)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1.055</span>F * <span class="built_in">pow</span>(value, <span class="number">0.4166667</span>F) - <span class="number">0.055</span>F;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">pow</span>(value, <span class="number">0.45454545</span>F);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">inline half3 LinearToGammaSpace (half3 linRGB)</span><br><span class="line">&#123;</span><br><span class="line">    linRGB = <span class="built_in">max</span>(linRGB, half3(<span class="number">0.</span>h, <span class="number">0.</span>h, <span class="number">0.</span>h));</span><br><span class="line">    <span class="comment">// An almost-perfect approximation from http://chilliant.blogspot.com.au/2012/08/srgb-approximations-for-hlsl.html?m=1</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">max</span>(<span class="number">1.055</span>h * <span class="built_in">pow</span>(linRGB, <span class="number">0.416666667</span>h) - <span class="number">0.055</span>h, <span class="number">0.</span>h);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Exact version, useful for debugging.</span></span><br><span class="line">    <span class="comment">//return half3(LinearToGammaSpaceExact(linRGB.r), LinearToGammaSpaceExact(linRGB.g), LinearToGammaSpaceExact(linRGB.b));</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="LDR与HDR">LDR与HDR</h2>
+<h3 id="基本概念">基本概念</h3>
+<ul>
+<li>HDR：High Dynamic Range</li>
+<li>LDR：Low Dynamic Range</li>
+<li>动态范围 = 最高亮度 / 最低亮度</li>
+</ul>
+<p>将场景中高动态范围的光线信息，转换到显示设备上可显示出来的低动态范围的视频信息，这一过程被称为Tone Mapping</p>
+<p>Tips：电脑显示器的最高亮度是由之前经验积累下来的一个，让人眼舒适的，相对统一的亮度。</p>
+<h4 id="LDR">LDR</h4>
+<ul>
+<li>
+<p>通常LDR的精度范围是8位（2的8次方）</p>
+</li>
+<li>
+<p>0-1的单通道</p>
+</li>
+<li>
+<p>常用的存储格式为jpg、png、tga</p>
+</li>
+<li>
+<p>拾色器、一般的图片，电脑屏幕都是LDR</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100A2600-1.png" style="zoom:50%;" />
+</li>
+</ul>
+<h4 id="HDR">HDR</h4>
+<ul>
+<li>远高于8位的精度</li>
+<li>单通道的最大值可超过1</li>
+<li>常用HDR图片存储格式有hdr、tif、exr、raw</li>
+<li>HDRI、真实世界的光都是HRD</li>
+</ul>
+<h4 id="相机记录信息的过程">相机记录信息的过程</h4>
+<ul>
+<li>首先，将曝光值进行计算，将曝光值重新映射回相机能够感应的范围内（受到光圈、快门时间，以及传感器灵敏度等的影响）</li>
+<li>再把值进行输出（线性），存储进数码相机的格式内</li>
+<li>之后会经过一个线性变换（白平衡、色彩矫正、色调验色以及伽马矫正等这一系列过程），最终会得到一张LUT图</li>
+<li>不同相机厂商LUT图的格式是不同的</li>
+</ul>
+<h3 id="为什么需要HDR">为什么需要HDR</h3>
+<p>LDR是对现实颜色进行压缩并且呈现出来，具有一定局限性，在进行后期效果调整和后续加工会因为颜色精度不够而难以进行</p>
+<p>HDR有着更好的色彩，更高的动态范围和更丰富的细节，并且能够有效地防止画面过曝，亮度值超过1的颜色也能很好的表现出来。使得像素光亮度变得正常，视觉传达更加真实。</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100A2600-2.png" alt=""></p>
+<p>只有HDR才有超过1的数值，才会有Bloom的效果——高质量的Bloom才能更好体现画面的渲染品质</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100A2600-3.png" alt=""></p>
+<h3 id="在Unity中设置HDR">在Unity中设置HDR</h3>
+<h4 id="Camera的HDR">Camera的HDR</h4>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100A2600-4.png" alt=""></p>
+<p>Unity Camera基本参数中有HDR，如果开启的话，Unity会将场景渲染到HDR图像缓冲区，下一步进行后处理，在Tone mapping过程中会把HDR转换成LDR，再将LDR图像（R8G8B8）发送给显示器</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/Untitled.jpeg" alt="TA100-98" style="zoom:50%;" />
+<h4 id="Lightmap的HDR">Lightmap的HDR</h4>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100A2600-6.png" alt=""></p>
+<p>将Lightmap编码质量设置为High Quality，将会为Lightmap开启HDR光照贴图的支持</p>
+<h4 id="拾色器的HDR">拾色器的HDR</h4>
+<ul>
+<li>使用Intensity滑动条可以调整颜色的强度</li>
+<li>滑动条每增加1，提供的光亮增加一倍</li>
+</ul>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100A2600-7.png" alt="TA100A2600-7"></p>
+<h4 id="优缺点">优缺点</h4>
+<p>优点：</p>
+<ul>
+<li>画面中亮度超过1的部分不会被截为1，增加亮部的细节并减少曝光</li>
+<li>减少画面较暗部分的色阶感（用更大的精度去存储暗部）</li>
+<li>更好的支持Bloom效果</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>渲染流程中多了Tone mapping这一步，渲染速度慢</li>
+<li>占据更多显存</li>
+<li>不支持硬件抗锯齿</li>
+<li>低端手机不支持HDR</li>
+</ul>
+<h3 id="Bloom">Bloom</h3>
+<p>渲染出原图后，提取原图中较亮的部分，对提取出来的图片进行高斯模糊，然后再叠加到原图上</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100A2600-8.png" alt=""></p>
+<p>Unity中的Bloom流程：</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100A2600-9.png" alt=""></p>
+<h3 id="HDR与Tone-Mapping">HDR与Tone Mapping</h3>
+<h4 id="Tone-Mapping的概念">Tone Mapping的概念</h4>
+<ul>
+<li>
+<p>色调映射</p>
+</li>
+<li>
+<p>将HDR转化为LDR</p>
+</li>
+<li>
+<p>如果是线性映射的话效果极差</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100A2600-10.png" alt=""></p>
+</li>
+<li>
+<p>所以一般使用曲线，把亮度区域和阴影区域向中等亮度方向压缩→S曲线</p>
+</li>
+</ul>
+<h4 id="Tone-Mapping映射曲线">Tone Mapping映射曲线</h4>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100A2600-11.png" alt="左图HDR，右图LDR（有点过曝的感觉）"></p>
+<p>HDR的Tone Mapping映射曲线会<strong>把暗部压得更低一些，亮部也往回缩一点，让整体效果看起来更加真实</strong></p>
+<h5 id="ACES映射曲线">ACES映射曲线</h5>
+<ul>
+<li>Academy Color Encoding System学院颜色编码系统</li>
+<li>最流行、最被广泛使用的Tonemapping映射曲线</li>
+<li>效果：对比度提高，很好地保留暗处和亮处的细节</li>
+</ul>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100A2600-12.png" alt=""></p>
+<h5 id="其他类型的映射曲线">其他类型的映射曲线</h5>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100A2600-13.png" alt=""></p>
+<h3 id="LUT">LUT</h3>
+<p>Look-Up Table，简单来说就是滤镜</p>
+<p>与Tone mapping不同的是，LUT是对LDR图进行处理，而Tone mapping则是处理HDR图</p>
+<p>可以调整RGB三个通达的LUT被称为3D LUT，格式有下图所示的那几种</p>
+<p>![TA100-107](<a target="_blank" rel="noopener" href="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/Untitled">http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/Untitled</a> 12.png)</p>
+<p>Tips：可以在PS中调整LUT，导出的LUT作为滤镜去调整画面（相当于整个画面的滤镜）</p>
+<p>LUT的效果比较：</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100-108.png" alt="TA100-108 出处： UE4 画质增强Lut使用方法_ue4 lut_Deveuper的博客-CSDN博客"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://himoqiuhan.github.io">楸涵</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://himoqiuhan.github.io/2023/06/14/Notes-TA100-T2600/">https://himoqiuhan.github.io/2023/06/14/Notes-TA100-T2600/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://himoqiuhan.github.io" target="_blank">楸涵の小窝</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/TA/">TA</a><a class="post-meta__tags" href="/tags/%E7%99%BE%E4%BA%BA%E8%AE%A1%E5%88%92/">百人计划</a><a class="post-meta__tags" href="/tags/Shader/">Shader</a></div><div class="post_share"><div class="social-share" data-image="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/06/14/Notes-TA100-T2400/" title="技术美术百人计划学习笔记（图形2.1-2.4）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">技术美术百人计划学习笔记（图形2.1-2.4）</div></div></a></div><div class="next-post pull-right"><a href="/2023/06/14/Notes-TA100-Ex100/" title="技术美术百人计划学习笔记（先行版-基础渲染光照介绍）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">技术美术百人计划学习笔记（先行版-基础渲染光照介绍）</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/06/14/Notes-TA100-Ex100/" title="技术美术百人计划学习笔记（先行版-基础渲染光照介绍）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-14</div><div class="title">技术美术百人计划学习笔记（先行版-基础渲染光照介绍）</div></div></a></div><div><a href="/2023/06/13/Notes-TA100-T1400/" title="技术美术百人计划学习笔记（图形1.1-1.4）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-13</div><div class="title">技术美术百人计划学习笔记（图形1.1-1.4）</div></div></a></div><div><a href="/2023/06/14/Notes-TA100-T2400/" title="技术美术百人计划学习笔记（图形2.1-2.4）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-14</div><div class="title">技术美术百人计划学习笔记（图形2.1-2.4）</div></div></a></div><div><a href="/2023/06/14/Notes-TA100-T2700/" title="技术美术百人计划学习笔记（图形2.7 Bump图）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-14</div><div class="title">技术美术百人计划学习笔记（图形2.7 Bump图）</div></div></a></div><div><a href="/2023/06/14/Notes-TA100-T2800/" title="技术美术百人计划学习笔记（图形2.8 Flow Map流动效果实现）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-14</div><div class="title">技术美术百人计划学习笔记（图形2.8 Flow Map流动效果实现）</div></div></a></div><div><a href="/2023/08/10/Notes-TA100-T3300/" title="技术美术百人计划学习笔记（图形3.3 曲面细分与几何着色器）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-08-10</div><div class="title">技术美术百人计划学习笔记（图形3.3 曲面细分与几何着色器）</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/images/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">楸涵</div><div class="author-info__description">嘿！一起突破次元壁吗！</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">50</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" href="/about/"><i class="fas fa-meteor"></i><span>About Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/himoqiuhan" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://www.zhihu.com/people/qiu-han-71-64/posts" target="_blank" title="Zhihu"><i class="fab fa-zhihu" style="color: #24292e;"></i></a><a class="social-icon" href="https://space.bilibili.com/374860285" target="_blank" title="Bilibili"><i class="fab fa-bilibili" style="color: #24292e;"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561198866659933" target="_blank" title="Steam"><i class="fab fa-steam" style="color: #24292e;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><p>欢迎来和我聊天！</p> <p>QQ：1419091648</p> <p>微信：Himo_qiuhan</p></div></div><div class="card-widget card_portfolio"><div class="item-headline"><i></i><span>作品集</span></div><div class="item-content"></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Gamma%E7%9F%AB%E6%AD%A3"><span class="toc-number">1.</span> <span class="toc-text">Gamma矫正</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Gamma%E7%9F%AB%E6%AD%A3-2"><span class="toc-number">1.1.</span> <span class="toc-text">Gamma矫正</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A2%9C%E8%89%B2%E7%A9%BA%E9%97%B4"><span class="toc-number">1.1.1.</span> <span class="toc-text">颜色空间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%A0%E9%80%92%E5%87%BD%E6%95%B0"><span class="toc-number">1.1.2.</span> <span class="toc-text">传递函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Gamma%E7%9F%AB%E6%AD%A3-3"><span class="toc-number">1.1.3.</span> <span class="toc-text">Gamma矫正</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%9B%E8%A1%8CGamma%E7%9F%AB%E6%AD%A3%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="toc-number">1.1.4.</span> <span class="toc-text">进行Gamma矫正的原因</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9F%A6%E4%BC%AF%E5%AE%9A%E5%BE%8B"><span class="toc-number">1.1.5.</span> <span class="toc-text">韦伯定律</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%AD%E7%81%B0%E5%80%BC%EF%BC%9F%EF%BC%88%E7%8E%AF%E5%A2%83%E5%AF%B9%E4%BA%AE%E5%BA%A6%E7%9A%84%E5%BD%B1%E5%93%8D%EF%BC%89"><span class="toc-number">1.1.6.</span> <span class="toc-text">什么是中灰值？（环境对亮度的影响）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">1.1.7.</span> <span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E5%B7%A5%E4%BD%9C%E6%B5%81"><span class="toc-number">1.2.</span> <span class="toc-text">线性工作流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Unity%E4%B8%AD%E7%9A%84%E9%A2%9C%E8%89%B2%E7%A9%BA%E9%97%B4"><span class="toc-number">1.3.</span> <span class="toc-text">Unity中的颜色空间</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6%E6%94%AF%E6%8C%81"><span class="toc-number">1.3.1.</span> <span class="toc-text">硬件支持</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6%E7%89%B9%E6%80%A7%E6%94%AF%E6%8C%81"><span class="toc-number">1.3.2.</span> <span class="toc-text">硬件特性支持</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B5%84%E6%BA%90%E5%AF%BC%E5%87%BA%E9%97%AE%E9%A2%98"><span class="toc-number">1.4.</span> <span class="toc-text">资源导出问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SP%E8%B4%B4%E5%9B%BE%E5%AF%BC%E5%87%BA"><span class="toc-number">1.4.1.</span> <span class="toc-text">SP贴图导出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PS%E4%B8%AD%E7%9B%B8%E5%85%B3%E8%AE%BE%E7%BD%AE"><span class="toc-number">1.4.2.</span> <span class="toc-text">PS中相关设置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Unity%E4%B8%AD%E7%9A%84%E9%A2%9C%E8%89%B2%E7%A9%BA%E9%97%B4%E8%BD%AC%E6%8D%A2%E5%87%BD%E6%95%B0"><span class="toc-number">1.5.</span> <span class="toc-text">Unity中的颜色空间转换函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LDR%E4%B8%8EHDR"><span class="toc-number">2.</span> <span class="toc-text">LDR与HDR</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">2.1.</span> <span class="toc-text">基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#LDR"><span class="toc-number">2.1.1.</span> <span class="toc-text">LDR</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HDR"><span class="toc-number">2.1.2.</span> <span class="toc-text">HDR</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9B%B8%E6%9C%BA%E8%AE%B0%E5%BD%95%E4%BF%A1%E6%81%AF%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="toc-number">2.1.3.</span> <span class="toc-text">相机记录信息的过程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81HDR"><span class="toc-number">2.2.</span> <span class="toc-text">为什么需要HDR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8Unity%E4%B8%AD%E8%AE%BE%E7%BD%AEHDR"><span class="toc-number">2.3.</span> <span class="toc-text">在Unity中设置HDR</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Camera%E7%9A%84HDR"><span class="toc-number">2.3.1.</span> <span class="toc-text">Camera的HDR</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Lightmap%E7%9A%84HDR"><span class="toc-number">2.3.2.</span> <span class="toc-text">Lightmap的HDR</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8B%BE%E8%89%B2%E5%99%A8%E7%9A%84HDR"><span class="toc-number">2.3.3.</span> <span class="toc-text">拾色器的HDR</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">2.3.4.</span> <span class="toc-text">优缺点</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bloom"><span class="toc-number">2.4.</span> <span class="toc-text">Bloom</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HDR%E4%B8%8ETone-Mapping"><span class="toc-number">2.5.</span> <span class="toc-text">HDR与Tone Mapping</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Tone-Mapping%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-number">2.5.1.</span> <span class="toc-text">Tone Mapping的概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Tone-Mapping%E6%98%A0%E5%B0%84%E6%9B%B2%E7%BA%BF"><span class="toc-number">2.5.2.</span> <span class="toc-text">Tone Mapping映射曲线</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#ACES%E6%98%A0%E5%B0%84%E6%9B%B2%E7%BA%BF"><span class="toc-number">2.5.2.1.</span> <span class="toc-text">ACES映射曲线</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%98%A0%E5%B0%84%E6%9B%B2%E7%BA%BF"><span class="toc-number">2.5.2.2.</span> <span class="toc-text">其他类型的映射曲线</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LUT"><span class="toc-number">2.6.</span> <span class="toc-text">LUT</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/28/Notes-TA100-A4510/" title="技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）"/></a><div class="content"><a class="title" href="/2024/07/28/Notes-TA100-A4510/" title="技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）">技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）</a><time datetime="2024-07-28T09:20:57.000Z" title="发表于 2024-07-28 17:20:57">2024-07-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/02/13/Anima-SoundEuphonium/" title="《響け！ユーフォニアム》杂谈"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/SoundEuphonium-cover.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《響け！ユーフォニアム》杂谈"/></a><div class="content"><a class="title" href="/2024/02/13/Anima-SoundEuphonium/" title="《響け！ユーフォニアム》杂谈">《響け！ユーフォニアム》杂谈</a><time datetime="2024-02-13T06:14:39.000Z" title="发表于 2024-02-13 14:14:39">2024-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-Avatar/" title="【Unity】仿原神渲染2.0技术文档-角色渲染篇"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/c29cb1345f98a9f92545947d81d692c.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Unity】仿原神渲染2.0技术文档-角色渲染篇"/></a><div class="content"><a class="title" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-Avatar/" title="【Unity】仿原神渲染2.0技术文档-角色渲染篇">【Unity】仿原神渲染2.0技术文档-角色渲染篇</a><time datetime="2023-12-07T13:17:37.000Z" title="发表于 2023-12-07 21:17:37">2023-12-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-PostProcess/" title="【Unity】仿原神渲染2.0技术文档-后处理篇"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/c29cb1345f98a9f92545947d81d692c.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Unity】仿原神渲染2.0技术文档-后处理篇"/></a><div class="content"><a class="title" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-PostProcess/" title="【Unity】仿原神渲染2.0技术文档-后处理篇">【Unity】仿原神渲染2.0技术文档-后处理篇</a><time datetime="2023-12-07T13:17:30.000Z" title="发表于 2023-12-07 21:17:30">2023-12-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/01/Anima-NaginoAsukara/" title="《来自风平浪静的明天》浅谈"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/NaginoAsuKara-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《来自风平浪静的明天》浅谈"/></a><div class="content"><a class="title" href="/2023/12/01/Anima-NaginoAsukara/" title="《来自风平浪静的明天》浅谈">《来自风平浪静的明天》浅谈</a><time datetime="2023-12-01T13:31:58.000Z" title="发表于 2023-12-01 21:31:58">2023-12-01</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2024 By 楸涵</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">欢迎来到楸涵的小窝！</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(() => {
+  let initFn = window.walineFn || null
+
+  const initWaline = (Fn) => {
+    const waline = Fn(Object.assign({
+      el: '#waline-wrap',
+      serverURL: 'https://blog-comment-68npiieuq-himoqiuhan.vercel.app/',
+      pageview: false,
+      dark: 'html[data-theme="dark"]',
+      path: window.location.pathname,
+      comment: false,
+    }, null))
+
+    const destroyWaline = () => {
+      waline.destroy()
+    }
+
+    btf.addGlobalFn('pjax', destroyWaline, 'destroyWaline')
+  }
+
+  const loadWaline = async () => {
+    if (initFn) initWaline(initFn)
+    else {
+      await getCSS('https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.min.css')
+      const { init } = await import('https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.min.js')
+      initFn = init || Waline.init
+      initWaline(initFn)
+      window.walineFn = initFn
+    }
+  }
+
+  if ('Waline' === 'Waline' || !true) {
+    if (true) btf.loadComment(document.getElementById('waline-wrap'),loadWaline)
+    else setTimeout(loadWaline, 0)
+  } else {
+    window.loadOtherComment = loadWaline
+  }
+})()</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

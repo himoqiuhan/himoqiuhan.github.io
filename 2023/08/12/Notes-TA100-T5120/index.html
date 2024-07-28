@@ -1,0 +1,371 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>技术美术百人计划学习笔记（图形5.1.2 基于物理的相机） | 楸涵の小窝</title><meta name="author" content="楸涵"><meta name="copyright" content="楸涵"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="介绍了真实世界中相机的运作原理、各个参数的影响、Bloom的物理原理，以及Unity的基于物理的相机">
+<meta property="og:type" content="article">
+<meta property="og:title" content="技术美术百人计划学习笔记（图形5.1.2 基于物理的相机）">
+<meta property="og:url" content="https://himoqiuhan.github.io/2023/08/12/Notes-TA100-T5120/index.html">
+<meta property="og:site_name" content="楸涵の小窝">
+<meta property="og:description" content="介绍了真实世界中相机的运作原理、各个参数的影响、Bloom的物理原理，以及Unity的基于物理的相机">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png">
+<meta property="article:published_time" content="2023-08-12T05:01:11.000Z">
+<meta property="article:modified_time" content="2024-07-27T15:13:59.654Z">
+<meta property="article:author" content="楸涵">
+<meta property="article:tag" content="TA">
+<meta property="article:tag" content="百人计划">
+<meta property="article:tag" content="Shader">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png"><link rel="shortcut icon" href="/images/favicon.png"><link rel="canonical" href="https://himoqiuhan.github.io/2023/08/12/Notes-TA100-T5120/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '技术美术百人计划学习笔记（图形5.1.2 基于物理的相机）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-27 23:13:59'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="css/resources.css"><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="css/progress_bar.css"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="楸涵の小窝" type="application/atom+xml">
+</head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="/css/progress_bar.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/images/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">50</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fab fa-facebook-messenger"></i><span> Links</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-meteor"></i><span> AboutMe</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/97358036_p0_master1200.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="楸涵の小窝"><span class="site-name">楸涵の小窝</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fab fa-facebook-messenger"></i><span> Links</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-meteor"></i><span> AboutMe</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">技术美术百人计划学习笔记（图形5.1.2 基于物理的相机）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-08-12T05:01:11.000Z" title="发表于 2023-08-12 13:01:11">2023-08-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-27T15:13:59.654Z" title="更新于 2024-07-27 23:13:59">2024-07-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Notes/">Notes</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="技术美术百人计划学习笔记（图形5.1.2 基于物理的相机）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100T5100.png" alt=""></p>
+<h2 id="曝光三角形">曝光三角形</h2>
+<h3 id="曝光主要由三个参数控制">曝光主要由三个参数控制</h3>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230910152658446.png" alt=""></p>
+<ul>
+<li><strong>快门速度（Shutter Speed）</strong>：快门开启的有效时间长度的衡量方式，代表了这个相机拍摄一个图像记录多少光线信息。----可以获得<strong>运动模糊（Motion Blur）</strong></li>
+<li><strong>光圈（Aperture）</strong>：控制一个瞬间进光量的多少。----可以获得<strong>景深（Depth of Field）</strong></li>
+<li><strong>感光度（ISO）</strong>：衡量底片对光的敏感程度。----可以获得<strong>噪点（Grain）</strong></li>
+</ul>
+<p>以上三个参数协同工作，调节进入传感器（Sensor）的光量（由光圈和快门速度控制）和该表面的感光度（传统的胶片或现代的数字ISO）</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230910152719116.png" alt="光先通过光圈(Aperture)控制后，再通过快门（Shutter），最后再到达传感器（ Sensor ）上"></p>
+<h3 id="摄像机流水线">摄像机流水线</h3>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100T5120-1.png" alt="摄像机流水线"></p>
+<ul>
+<li>由场景亮度（Scene Luminance）光传递到镜头的光圈（Lens），由光圈（Lens）传递到传感器亮度（Sensor illuminance）</li>
+<li>由传感器亮度传递到快门 （Shutter），由快门 （Shutter）传递到传感器曝光（Sensor Exposure）</li>
+<li>由传感器曝光（Sensor Exposure）传递到电耦合元件（CCD），由电耦合元件（CCD）传递到模拟电压（Analog Voltages），模拟电压（Analog Voltages）再传递到模拟数字转换器（ADC），模拟数字转换器（ADC）再输出数字值（Digital Values）</li>
+<li>对数字值（Digital Values）进行重映射（Remapping）最后输出像素值（Pixel Values）</li>
+</ul>
+<p>摄影师艺术家则可以控制<strong>相对光圈，快门时间，传感器灵敏度/增益三个主要参数来设置曝光</strong></p>
+<p>以人眼为例：</p>
+<ul>
+<li>光圈(Aperture) 的功能就像眼睛的虹膜一样，可以张开并收缩其开口的直径来限制允许进入眼睛的光量</li>
+<li>快门速度(Shutter Speed) 类似于眨眼，只是在我们清醒时眼睑通常是打开的。想象一下，你的眼皮在闭上之前瞬间张开以捕捉单个图像，那就像是相机的快门</li>
+<li>感光度(ISO) 类似于眼睛后部视杆和视锥细胞的灵敏度</li>
+</ul>
+<h3 id="曝光补偿">曝光补偿</h3>
+<p>曝光补偿是一种曝光控制方式，一般常见在±2~3EV。以前胶片时代只能调1个EV，而现在数码能调动1~3个EV。<strong>EV值每增加1.0，相当于进光量增加一倍。EV值每减小1.0，相当于进光量减小一倍</strong>。如果环境光源偏暗调节上述三个参数（快门速度、光圈、感光度）达不到效果或者手动挡调参失败，即可增加曝光值(如调整为+1EV、+2EV)以突显画面的清晰度</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230910153030474.png" alt=""></p>
+<p>曝光补偿就是有意识地变更相机自动演算出的“合适”曝光参数，让照片更明亮或者更昏暗的拍摄手法。拍摄者可以根据自己的想法调节照片的明暗程度，创造出独特的视觉效果等。一般会使用变更光圈值或者快门速度来进行曝光值的调节。<strong>曝光补偿则放在最后</strong></p>
+<h3 id="直方图">直方图</h3>
+<p>直方图是用以表示数字图像中亮度分布的直方图，标绘了图像中每个亮度值的像素数。可以借助观察该直方图了解需要如何调整亮度分布</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230910153110824.png" alt=""></p>
+<p>这种直方图中，横坐标的左侧为纯黑、较暗的区域，而右侧为较亮、纯白的区域。因此，一张较暗图片的图像直方图中的数据多集中于左侧和中间部分；而整体明亮、只有少量阴影的图像则相反</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230910153154292.png" alt=""></p>
+<p>直方图是用来观察照片是否曝光的重要利器，现代数码相机内应该都会内置直方图。直方图主要是为了帮助我们在拍摄的过程中有一个参考，以确保我们所拍摄的照片不会丢失高光或者阴影中的任何细节，帮助我们在拍摄照片的时候就能够分析这张照片有没有丢失细节，或者是否过曝</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100T5120-2.png" alt=""></p>
+<h2 id="快门速度">快门速度</h2>
+<h3 id="快门">快门</h3>
+<p>快门 (Shutter) 类似于眨眼，只是在我们清醒时眼睑通常是打开的。想象一下，你的眼皮在闭上之前瞬间张开以捕捉单个图像，那就像是相机的快门</p>
+<blockquote>
+<p>大部分相机的快门需要半按才能对焦，对焦完成可以全按拍摄</p>
+</blockquote>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230910153323590.png" alt=""></p>
+<p>几乎所有现代单反和数码单反相机都使用<strong>焦平面快门</strong>。焦平面快门的工作方式更像车库的门。但有第二扇门，称为帘幕。在第一个帘幕打开后，帘幕紧跟在第一个帘幕后面以关闭图像传感器或胶片。这种双帘设计可实现传感器或胶片上的光线平衡，从而使曝光均匀。这种设计允许在当今的单镜头反光（SLR） 和数码单反相机（DSLR） 相机上实现极快的操作，最高可达 1/8000 秒。</p>
+<p>如今的快门已经数字化了。许多<strong>现代数码相机操作电子快门</strong>，我们只需在按下的瞬间为数字传感器供电。所以电子快门速度可以非常快。快门打开和关闭到整个传感器的过程一次完成，滚动电子快门在横跨其宽度的时间内激活一行像素</p>
+<h3 id="快门速度-2">快门速度</h3>
+<p>定义：快门速度是衡量相机快门打开的时间——允许光线照射到感光传感器的时间</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100T5120-3.png" alt=""></p>
+<p>焦平面快门和滚动电子快门，由于它们的设计和功能，当图像平面上有快速运动时，都会导致图像产生有趣的失真</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230910153438492.png" alt=""></p>
+<p>所以当我们拍摄高度运动的物体，如汽车，奔跑的人时，<strong>快门速度应该调快，才可以弥补这种视觉残影的效果。但是这意味着感光器收到的光线不足</strong>，也就是接下来要解决的问题</p>
+<h2 id="光圈">光圈</h2>
+<p>光圈是一个用来<strong>控制光线透过镜头，进入机身内传感器光量</strong>的装置，通常是在镜头内。已经制造好的镜头，我们不可能随意改变镜头的直径，但是我们可以通过在镜头内部加入多边形或者圆形，且面积可变的孔状光栅片来达到控制镜头通光量，这个装置就叫做光圈</p>
+<p>光圈(Aperture) 的功能就像眼睛的虹膜一样，可以张开并收缩其开口的直径来<strong>限制允许进入眼睛的光量</strong></p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230910153542931.png" alt=""></p>
+<h3 id="光圈大小">光圈大小</h3>
+<p>表达光圈大小我们是用F数表示通常称为f-number(N)，记作F/。透镜的焦距(F)与孔径(D)的比，我们记为N= F/D ,孔径(D)越大，进入相机的光线就越多。光圈不等同于F数，恰恰相反，<strong>光圈大小与F数大小成反比</strong>，F数又称光圈数。如大光圈的镜头，F数小，光圈数小；小光圈的镜头，F数大</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230910153627625.png" alt="不同F值光圈的图形表示"></p>
+<p>比如F/1.2、F/1.8、F/2.8这三组数值都表示大光圈（一般F/+一个数值特指光圈数值），其中F/1.2的光圈最大，而F/18、F/22、F/32则表示小光圈，其中F/32最小</p>
+<p>【光圈的计算】</p>
+<p>光圈可以理解为一个圆形，圆的面积公式是：面积 =  π 乘以半径的平方</p>
+<blockquote>
+<p>光圈大小的相邻间隔都是以根号二为倍数的（也就是以面积为两倍的相邻间隔进行区分）</p>
+</blockquote>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230910153718679.png" alt="光圈的计算方式"></p>
+<p>所以如果将相机光圈设置为 F/8，拍摄一张图，然后将光圈调整到 F/5.6，那么通过镜头的光量则增加了一倍（x2）。从 F/8 改为F/4 会使光量增加三倍（x4）。从 F/11 到 F/16 则减少了一半的光量（x1/2）。遵循<strong>反平方定律</strong></p>
+<p>【光圈与景深】</p>
+<p>如果将光圈从 f/16 扩大到 f/11，进光面积增加为原来2倍， 照片将获得 +1 EV （曝光值）结果，f/16 到 f/8 使光圈开口尺寸加倍，进光面积增加为原来四倍，则表示 +2 EV 偏移。回到上面，曝光部分，如果我们光圈小了，则可以通过控制EV来增强。</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230910153757032.png" alt=""></p>
+<p>同时，在光圈大的图像中，拍摄主体的边缘会有明显的模糊效果，这个效果被称为<strong>景深</strong></p>
+<blockquote>
+<p>景深定义：在图像中<strong>看起来清晰对焦的最近和最远对象之间的一个距离量</strong>。例如摄影过程中，主物体清晰对焦，但其余部分会模糊。<strong>景深起到了感知深度的作用</strong>。</p>
+</blockquote>
+<p>【衍射现象】</p>
+<p>光圈不仅控制通过镜头的光量，还影响光线穿过镜头时的角度。<strong>光线经过孔径光栅时被轻微弯曲</strong>，光的这种弯曲称为“<strong>衍射</strong>”，是光的波动特性</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230910153849851.png" alt=""></p>
+<p>缩小镜头的孔径光栅时，会使衍射更接近图像的中心。很多摄影师在刚开始了解光圈的时候，因为光圈对景深的影响，认为最大化锐度的关键是小光圈。然而这是不正确的。<strong>由于存在衍射，尽管通过缩小光圈来去除景深，但图像中的衍射量也在增加，这就会导致图像失去清晰度。<strong>光圈的中间地带，即</strong>景深且衍射可控的区域</strong>，被称为镜头的“最佳位置” ，<strong>一般是在 f/4 和 f/11 之间的区域，具体数值取决于镜头的设计</strong></p>
+<h2 id="ISO感光度">ISO感光度</h2>
+<p>感光度(ISO) 类似于眼睛后部视杆和视锥细胞的灵敏度，与快门速度一样是线性的。ISO 为 200 对光的敏感度是 ISO 等级为 400 的一半。ISO 加倍，感光度加倍。一半的 ISO，一半的感光度</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230910154023733.png" alt="不同的ISO会使画面亮度不一样"></p>
+<p>因此，假设所有其他条件都不变，如果将相机的 ISO 从 400 更改为 200，则得到-1的EV （曝光）偏移，ISO 800 更改为 ISO 1600 ，感光度加倍，则+1 EV偏移</p>
+<h2 id="胶片颗粒Grain">胶片颗粒Grain</h2>
+<p>提升数码相机的ISO是通过两种方式实现的：</p>
+<ol>
+<li>强行提高每个像素点的亮度和对比度；</li>
+<li>使用多个像素点共同完成原来只要一个像素点来完成的任务。</li>
+</ol>
+<p>这也导致了一个效果——数字噪点（Grain）ISO 越高，图像中引入的数字噪点就越多。少量的胶片颗粒感可以改善照片的感觉和质感，但是这并不是可以为之的</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230910154120666.png" alt="image-20230910154120666"></p>
+<h2 id="相机与引擎">相机与引擎</h2>
+<h3 id="构建HDRP下基于物理的摄像机环境">构建HDRP下基于物理的摄像机环境</h3>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100T5120-4.png" alt=""></p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100T5120-5.png" alt=""></p>
+<p>HDRP渲染管线环境，我们在Camera组件下找到Camera Body和 Lens 以及Aperture，勾选上Physical Camera同时将Volume组件挂上Exposure和Depth of field并且设置Mode为Camera。即可启用基于物理的相机。</p>
+<p>这里的基于物理是根据相机和摄影知识理论构建的，但是目前阶段不算是很完善，比如Grain并不会因为ISO过高而产生效果，需要自己额外再Volume组件设置。也不会因为光圈越小产生衍射</p>
+<h3 id="快门速度、光圈、感光度的调节">快门速度、光圈、感光度的调节</h3>
+<p>快门速度：其他属性都不变的情况下，快门速度越快，曝光就越低，呈<strong>线性下降</strong></p>
+<p>光圈：其他属性都不变的情况下，光圈数越大，曝光就越小，呈<strong>指数下降</strong> ，景深效果越弱</p>
+<p>感光度：其他属性都不变的情况下，感光度越小，曝光值越小。因为没有Grain效果 ，所以高感光度所产生的Grain效果并没有增加上</p>
+<h3 id="焦距-Focus-Distance-和焦长-Focal-Lengh">焦距(Focus Distance)和焦长(Focal Lengh)</h3>
+<p>焦距主要用来对焦，单反相机一般会自动对焦，也可以手动对焦</p>
+<p>焦长则模拟了不同类型的镜头，从拍摄花草鱼虫的微距镜头一直到打鸟射月的长焦镜头的模拟</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100T5120-6.png" alt=""></p>
+<h2 id="自发光与Bloom">自发光与Bloom</h2>
+<p>【Bloom的原因】</p>
+<ol>
+<li>高亮的值使得数码相机的传感器饱和，并且<strong>泄漏到临近的传感器单元</strong></li>
+<li>光线在摄像机镜头内反射</li>
+<li>相机镜头内或者表面有灰尘</li>
+</ol>
+<p>像素的最终亮度取决于相机的设置，EV值决定了是否产生Bloom的效果。当入射的亮度超过了传感器本身最大的亮度值，就会产生Bloom</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230910154411206.png" alt=""></p>
+<p>【难题：特效设计师想要白天和夜晚效果一致的Bloom】</p>
+<p>–对于自发光表面：可以给设计师提供工具控制Bloom：</p>
+<ol>
+<li>给自发光表面定义“曝光补偿”，用于调整它的强度，确保该强度超过饱和点。</li>
+<li>该项是场景全局值，额外的曝光被注入场景内，使得自发光表面变量或者变暗。</li>
+</ol>
+<p>【HDRP对于自发光的强度控制】</p>
+<p><code>_EmissiveIntensity</code> 不是一个独立的属性。 着色器仅使用 <code>_EmissiveIntensity</code> 来序列化 UI 中的属性，并将最终结果存储在 <code>_EmissiveColor</code> 属性中</p>
+<h2 id="Sunny-16法则">Sunny-16法则</h2>
+<ul>
+<li>
+<p>是摄影术中不借助电子测光表来<strong>估计照相机的光圈大小和快门长短的方式</strong></p>
+</li>
+<li>
+<p><strong>阳光16法则示例：在室外阳光下，光圈为F/16 ，ISO为100，快门时间为1/125s</strong></p>
+</li>
+<li>
+<p>在<strong>室外阳光下</strong>，如果光圈是 f/16，则快门速度应是所用胶片的国际感光度指数的倒数</p>
+<ul>
+<li>例如，在<strong>室外阳光下</strong>，如用光圈是 f/16，而ISO为100，则快门应为 1/100s（或者1/125）。</li>
+</ul>
+</li>
+<li>
+<p>“16”，并不是光圈非f/16不可，如选用f/11,则快门速度当提高一倍成为 1/200秒，以此类推。</p>
+<ul>
+<li>其次，<strong>要根据天气状况作调整</strong>，如并非阳光普照，而是多云，ISO为100，如果快门速度仍旧取 1/100s，则光圈应从1/16开大一倍到1/11；依此类推。</li>
+</ul>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://himoqiuhan.github.io">楸涵</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://himoqiuhan.github.io/2023/08/12/Notes-TA100-T5120/">https://himoqiuhan.github.io/2023/08/12/Notes-TA100-T5120/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://himoqiuhan.github.io" target="_blank">楸涵の小窝</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/TA/">TA</a><a class="post-meta__tags" href="/tags/%E7%99%BE%E4%BA%BA%E8%AE%A1%E5%88%92/">百人计划</a><a class="post-meta__tags" href="/tags/Shader/">Shader</a></div><div class="post_share"><div class="social-share" data-image="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/08/12/Notes-TA100-T5110/" title="技术美术百人计划学习笔记（图形5.1.1 基于物理的光照模型）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">技术美术百人计划学习笔记（图形5.1.1 基于物理的光照模型）</div></div></a></div><div class="next-post pull-right"><a href="/2023/08/12/Notes-TA100-T5130/" title="技术美术百人计划学习笔记（图形5.1.3 基于物理的灯光）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">技术美术百人计划学习笔记（图形5.1.3 基于物理的灯光）</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/06/14/Notes-TA100-Ex100/" title="技术美术百人计划学习笔记（先行版-基础渲染光照介绍）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-14</div><div class="title">技术美术百人计划学习笔记（先行版-基础渲染光照介绍）</div></div></a></div><div><a href="/2023/06/13/Notes-TA100-T1400/" title="技术美术百人计划学习笔记（图形1.1-1.4）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-13</div><div class="title">技术美术百人计划学习笔记（图形1.1-1.4）</div></div></a></div><div><a href="/2023/06/14/Notes-TA100-T2600/" title="技术美术百人计划学习笔记（图形2.5-2.6）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-14</div><div class="title">技术美术百人计划学习笔记（图形2.5-2.6）</div></div></a></div><div><a href="/2023/06/14/Notes-TA100-T2400/" title="技术美术百人计划学习笔记（图形2.1-2.4）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-14</div><div class="title">技术美术百人计划学习笔记（图形2.1-2.4）</div></div></a></div><div><a href="/2023/06/14/Notes-TA100-T2700/" title="技术美术百人计划学习笔记（图形2.7 Bump图）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-14</div><div class="title">技术美术百人计划学习笔记（图形2.7 Bump图）</div></div></a></div><div><a href="/2023/06/14/Notes-TA100-T2800/" title="技术美术百人计划学习笔记（图形2.8 Flow Map流动效果实现）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-14</div><div class="title">技术美术百人计划学习笔记（图形2.8 Flow Map流动效果实现）</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/images/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">楸涵</div><div class="author-info__description">嘿！一起突破次元壁吗！</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">50</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" href="/about/"><i class="fas fa-meteor"></i><span>About Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/himoqiuhan" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://www.zhihu.com/people/qiu-han-71-64/posts" target="_blank" title="Zhihu"><i class="fab fa-zhihu" style="color: #24292e;"></i></a><a class="social-icon" href="https://space.bilibili.com/374860285" target="_blank" title="Bilibili"><i class="fab fa-bilibili" style="color: #24292e;"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561198866659933" target="_blank" title="Steam"><i class="fab fa-steam" style="color: #24292e;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><p>欢迎来和我聊天！</p> <p>QQ：1419091648</p> <p>微信：Himo_qiuhan</p></div></div><div class="card-widget card_portfolio"><div class="item-headline"><i></i><span>作品集</span></div><div class="item-content"></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%9D%E5%85%89%E4%B8%89%E8%A7%92%E5%BD%A2"><span class="toc-number">1.</span> <span class="toc-text">曝光三角形</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%9D%E5%85%89%E4%B8%BB%E8%A6%81%E7%94%B1%E4%B8%89%E4%B8%AA%E5%8F%82%E6%95%B0%E6%8E%A7%E5%88%B6"><span class="toc-number">1.1.</span> <span class="toc-text">曝光主要由三个参数控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%91%84%E5%83%8F%E6%9C%BA%E6%B5%81%E6%B0%B4%E7%BA%BF"><span class="toc-number">1.2.</span> <span class="toc-text">摄像机流水线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%9D%E5%85%89%E8%A1%A5%E5%81%BF"><span class="toc-number">1.3.</span> <span class="toc-text">曝光补偿</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B4%E6%96%B9%E5%9B%BE"><span class="toc-number">1.4.</span> <span class="toc-text">直方图</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%AB%E9%97%A8%E9%80%9F%E5%BA%A6"><span class="toc-number">2.</span> <span class="toc-text">快门速度</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E9%97%A8"><span class="toc-number">2.1.</span> <span class="toc-text">快门</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E9%97%A8%E9%80%9F%E5%BA%A6-2"><span class="toc-number">2.2.</span> <span class="toc-text">快门速度</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%89%E5%9C%88"><span class="toc-number">3.</span> <span class="toc-text">光圈</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%89%E5%9C%88%E5%A4%A7%E5%B0%8F"><span class="toc-number">3.1.</span> <span class="toc-text">光圈大小</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ISO%E6%84%9F%E5%85%89%E5%BA%A6"><span class="toc-number">4.</span> <span class="toc-text">ISO感光度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%B6%E7%89%87%E9%A2%97%E7%B2%92Grain"><span class="toc-number">5.</span> <span class="toc-text">胶片颗粒Grain</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E6%9C%BA%E4%B8%8E%E5%BC%95%E6%93%8E"><span class="toc-number">6.</span> <span class="toc-text">相机与引擎</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E5%BB%BAHDRP%E4%B8%8B%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E6%91%84%E5%83%8F%E6%9C%BA%E7%8E%AF%E5%A2%83"><span class="toc-number">6.1.</span> <span class="toc-text">构建HDRP下基于物理的摄像机环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E9%97%A8%E9%80%9F%E5%BA%A6%E3%80%81%E5%85%89%E5%9C%88%E3%80%81%E6%84%9F%E5%85%89%E5%BA%A6%E7%9A%84%E8%B0%83%E8%8A%82"><span class="toc-number">6.2.</span> <span class="toc-text">快门速度、光圈、感光度的调节</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%84%A6%E8%B7%9D-Focus-Distance-%E5%92%8C%E7%84%A6%E9%95%BF-Focal-Lengh"><span class="toc-number">6.3.</span> <span class="toc-text">焦距(Focus Distance)和焦长(Focal Lengh)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%8F%91%E5%85%89%E4%B8%8EBloom"><span class="toc-number">7.</span> <span class="toc-text">自发光与Bloom</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sunny-16%E6%B3%95%E5%88%99"><span class="toc-number">8.</span> <span class="toc-text">Sunny-16法则</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/28/Notes-TA100-A4510/" title="技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）"/></a><div class="content"><a class="title" href="/2024/07/28/Notes-TA100-A4510/" title="技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）">技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）</a><time datetime="2024-07-28T09:20:57.000Z" title="发表于 2024-07-28 17:20:57">2024-07-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/02/13/Anima-SoundEuphonium/" title="《響け！ユーフォニアム》杂谈"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/SoundEuphonium-cover.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《響け！ユーフォニアム》杂谈"/></a><div class="content"><a class="title" href="/2024/02/13/Anima-SoundEuphonium/" title="《響け！ユーフォニアム》杂谈">《響け！ユーフォニアム》杂谈</a><time datetime="2024-02-13T06:14:39.000Z" title="发表于 2024-02-13 14:14:39">2024-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-Avatar/" title="【Unity】仿原神渲染2.0技术文档-角色渲染篇"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/c29cb1345f98a9f92545947d81d692c.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Unity】仿原神渲染2.0技术文档-角色渲染篇"/></a><div class="content"><a class="title" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-Avatar/" title="【Unity】仿原神渲染2.0技术文档-角色渲染篇">【Unity】仿原神渲染2.0技术文档-角色渲染篇</a><time datetime="2023-12-07T13:17:37.000Z" title="发表于 2023-12-07 21:17:37">2023-12-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-PostProcess/" title="【Unity】仿原神渲染2.0技术文档-后处理篇"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/c29cb1345f98a9f92545947d81d692c.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Unity】仿原神渲染2.0技术文档-后处理篇"/></a><div class="content"><a class="title" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-PostProcess/" title="【Unity】仿原神渲染2.0技术文档-后处理篇">【Unity】仿原神渲染2.0技术文档-后处理篇</a><time datetime="2023-12-07T13:17:30.000Z" title="发表于 2023-12-07 21:17:30">2023-12-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/01/Anima-NaginoAsukara/" title="《来自风平浪静的明天》浅谈"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/NaginoAsuKara-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《来自风平浪静的明天》浅谈"/></a><div class="content"><a class="title" href="/2023/12/01/Anima-NaginoAsukara/" title="《来自风平浪静的明天》浅谈">《来自风平浪静的明天》浅谈</a><time datetime="2023-12-01T13:31:58.000Z" title="发表于 2023-12-01 21:31:58">2023-12-01</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2024 By 楸涵</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">欢迎来到楸涵的小窝！</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(() => {
+  let initFn = window.walineFn || null
+
+  const initWaline = (Fn) => {
+    const waline = Fn(Object.assign({
+      el: '#waline-wrap',
+      serverURL: 'https://blog-comment-68npiieuq-himoqiuhan.vercel.app/',
+      pageview: false,
+      dark: 'html[data-theme="dark"]',
+      path: window.location.pathname,
+      comment: false,
+    }, null))
+
+    const destroyWaline = () => {
+      waline.destroy()
+    }
+
+    btf.addGlobalFn('pjax', destroyWaline, 'destroyWaline')
+  }
+
+  const loadWaline = async () => {
+    if (initFn) initWaline(initFn)
+    else {
+      await getCSS('https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.min.css')
+      const { init } = await import('https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.min.js')
+      initFn = init || Waline.init
+      initWaline(initFn)
+      window.walineFn = initFn
+    }
+  }
+
+  if ('Waline' === 'Waline' || !true) {
+    if (true) btf.loadComment(document.getElementById('waline-wrap'),loadWaline)
+    else setTimeout(loadWaline, 0)
+  } else {
+    window.loadOtherComment = loadWaline
+  }
+})()</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

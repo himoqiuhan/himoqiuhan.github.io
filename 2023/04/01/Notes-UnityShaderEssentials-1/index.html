@@ -1,0 +1,831 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>《Unity Shader入门精要》笔记（一） | 楸涵の小窝</title><meta name="author" content="楸涵"><meta name="copyright" content="楸涵"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="此章包含一些shader基础和透明效果">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Unity Shader入门精要》笔记（一）">
+<meta property="og:url" content="https://himoqiuhan.github.io/2023/04/01/Notes-UnityShaderEssentials-1/index.html">
+<meta property="og:site_name" content="楸涵の小窝">
+<meta property="og:description" content="此章包含一些shader基础和透明效果">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/41TN3CwhyZL._SY346_.jpg">
+<meta property="article:published_time" content="2023-03-31T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-07-27T15:13:59.655Z">
+<meta property="article:author" content="楸涵">
+<meta property="article:tag" content="TA">
+<meta property="article:tag" content="Unity">
+<meta property="article:tag" content="Shader">
+<meta property="article:tag" content="《UnityShader入门精要》">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/41TN3CwhyZL._SY346_.jpg"><link rel="shortcut icon" href="/images/favicon.png"><link rel="canonical" href="https://himoqiuhan.github.io/2023/04/01/Notes-UnityShaderEssentials-1/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '《Unity Shader入门精要》笔记（一）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-27 23:13:59'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="css/resources.css"><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="css/progress_bar.css"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="楸涵の小窝" type="application/atom+xml">
+</head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="/css/progress_bar.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/images/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">50</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fab fa-facebook-messenger"></i><span> Links</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-meteor"></i><span> AboutMe</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/100789898_p0_master1200.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="楸涵の小窝"><span class="site-name">楸涵の小窝</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fab fa-facebook-messenger"></i><span> Links</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-meteor"></i><span> AboutMe</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">《Unity Shader入门精要》笔记（一）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-03-31T16:00:00.000Z" title="发表于 2023-04-01 00:00:00">2023-04-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-27T15:13:59.655Z" title="更新于 2024-07-27 23:13:59">2024-07-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Notes/">Notes</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">5.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>21分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="《Unity Shader入门精要》笔记（一）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="血与泪水">血与泪水</h2>
+<blockquote>
+<p>一些自己在学习过程中花了很久才去解决的bug，记录一下加深印象</p>
+</blockquote>
+<ul>
+<li>Properties不要乱改属性的名字，有些特定的属性名会和Fallback的其他shader有些关系，避免用不规范的属性名带来一些未知bug</li>
+<li>如果shader没有报错，先去看看vertex和fragment有没有被有效编译
+<ul>
+<li>比如说#pragma vertex vert有没有被有被写成#pragma vretex vert</li>
+</ul>
+</li>
+<li>a2v结构体中获取的UV坐标TEXCOORD0用float2接收即可，且在TRANSFORM_TEX时就有多个需要控制纹理缩放，都是共用那同一个TEXCOORD的UV坐标</li>
+</ul>
+<p><strong>一些注意事项：</strong></p>
+<ol>
+<li>
+<p>ComputeScreenPos和ComputeGrabScreenPos获得的srcPos在用于读取贴图前需要进行透视除法</p>
+<ul>
+<li>ComputeScreenPos：使用摄像机的深度和法线纹理时</li>
+<li>ComputeGrabScreenPos：使用GrabPass时</li>
+</ul>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/image-20230610162319552.png" alt=""></p>
+</li>
+<li>
+<p>顶点动画如果在模型空间下进行计算需要禁用批处理，但因此会带来一定的性能下降，增加Draw Call，因此我们应该尽量避免在模型空间下用一些绝对位置和方向进行计算</p>
+</li>
+<li>
+<p>顶点动画需要我们自己提供shadowcaster以实现正确的阴影投射效果</p>
+</li>
+</ol>
+<h2 id="渲染流水线">渲染流水线</h2>
+<h3 id="应用阶段-CPU">应用阶段(CPU)</h3>
+<p><strong>输出渲染所需的几何信息(渲染图元rendering primitives)</strong></p>
+<ol>
+<li>
+<p>将数据从硬盘加载到RAM，再加载到VRAM上</p>
+</li>
+<li>
+<p>设置渲染状态</p>
+</li>
+<li>
+<p>调用Draw Call</p>
+<ul>
+<li>
+<p>由CPU发起，GPU接收</p>
+</li>
+<li>
+<p>命令仅仅指向一个需要被渲染的图元列表</p>
+</li>
+<li>
+<p>通过命令缓冲区实现CPU与GPU的并行（改变渲染状态的命令比Draw Call的调用更加耗时）</p>
+</li>
+<li>
+<p>Draw Call不宜过多</p>
+<ul>
+<li>
+<p>原因：每次调用Draw Call之前，CPU需要向GPU发送很多数据以改变渲染状态，并且还需要完成很多工作（例如检查渲染状态）</p>
+</li>
+<li>
+<p>解决：Batch Rendering（使用同一种渲染状态，渲染多个模型）</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/Untitled.png" alt=""></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="几何阶段-GPU">几何阶段(GPU)</h3>
+<p><strong>输出屏幕空间的二维顶点坐标、每个顶点对应的深度值、着色等相关信息</strong></p>
+<ol>
+<li>Vertex Shader
+<ul>
+<li><strong>每个顶点</strong>都会调用一次Vertex Shader</li>
+<li>顶点之间的Vertex Shader<strong>相互独立</strong>，即无法得到顶点之间的关系</li>
+<li>工作主要是坐标变化和逐顶点光照
+<ul>
+<li>坐标变换：模型空间到齐次裁剪空间</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>曲面细分着色器
+<ul>
+<li>可选</li>
+<li>细分图元</li>
+</ul>
+</li>
+<li>几何着色器
+<ul>
+<li>作用就是将一个图元变换为另一个完全不同的图元，或者修改图元的位置</li>
+</ul>
+</li>
+<li>Clipping
+<ul>
+<li>用于处理部分在视野内的图元</li>
+<li>在视野外部的顶点应该使用一个新的顶点来代替，顶点位于交界处</li>
+</ul>
+</li>
+<li>屏幕映射
+<ul>
+<li>输出<strong>窗口坐标系</strong>（屏幕坐标+z坐标）</li>
+</ul>
+</li>
+</ol>
+<h3 id="光栅化阶段-GPU">光栅化阶段(GPU)</h3>
+<p><strong>决定每个渲染图元中的哪些像素应该被绘制在屏幕上</strong></p>
+<ol>
+<li>三角形设置
+<ul>
+<li>计算三角网格表示数据的过程（计算每条边上的像素坐标，用于得到整个三角形网格对像素覆盖情况）</li>
+</ul>
+</li>
+<li>三角形遍历（扫描变换）
+<ul>
+<li>检查像素是否被三角形覆盖，若覆盖则生成一个fragment</li>
+<li>一个fragment != 一个像素
+<ul>
+<li>fragment是包含了很多<strong>状态的集合</strong>，包括但不限于屏幕坐标、深度信息、法线、纹理坐标等</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Fragment Shader
+<ul>
+<li>输出一个或多个<strong>颜色值</strong></li>
+<li>每个Fragment之间<strong>相互独立</strong>，Fragment Shader仅可以影响单个Fragment</li>
+</ul>
+</li>
+<li>逐片元操作
+<ul>
+<li>解释
+<ul>
+<li>Per-Fragment Operation（OpenGL）+Output-Merge（DirectX）</li>
+</ul>
+</li>
+<li>主要任务
+<ol>
+<li>决定片元的可见性（很多测试工作，如Depth Test、Stencil Test）</li>
+<li>如果片元通过了所有的测试，则与Color Buffer中的颜色进行混合</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="Vert-Frag-Shader基础结构">Vert/Frag Shader基础结构</h2>
+<h3 id="一段简易的Vertex-Fragment-Shader">一段简易的Vertex + Fragment Shader</h3>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><span class="line">Shader &quot;Custom/UnityShader/Chapter5-SimpleShader&quot;<span class="comment">//当前shader的路径及名称</span></span><br><span class="line">&#123;</span><br><span class="line">    Properties<span class="comment">//属性---&gt;材质面板的可调节参数</span></span><br><span class="line">    &#123;</span><br><span class="line">        _Color (&quot;Color Tint&quot;,Color) = (<span class="number">1.0</span>, <span class="number">1.0</span>, <span class="number">1.0</span>, <span class="number">1.0</span>)<span class="comment">//Properties语义块支持的属性</span></span><br><span class="line">    &#125;</span><br><span class="line">    SubShader </span><br><span class="line">    &#123;</span><br><span class="line">        Pass &#123;</span><br><span class="line">            CGPROGRAM</span><br><span class="line">						</span><br><span class="line">			<span class="comment">//编译指令</span></span><br><span class="line">            <span class="meta">#pragma vertex vert//告诉Unity哪个函数包含了vertex/fragment shader的代码</span></span><br><span class="line">            <span class="meta">#pragma fragment frag</span></span><br><span class="line"></span><br><span class="line">            fixed4 _Color;<span class="comment">//需要定义一个与属性名称和变量类型都匹配的变量 变量类型匹配表</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">//自定义的结构体，用于存放传入vertex shader的变量信息</span></span><br><span class="line">			<span class="comment">//a2v = Appliacation to Vertex Shader</span></span><br><span class="line">            struct a2v</span><br><span class="line">            &#123;</span><br><span class="line">                float4 vertex : POSITION;<span class="comment">// Unity支持的常用语义</span></span><br><span class="line">                float3 normal : NORMAL;</span><br><span class="line">                float4 texcoord : TEXCOORD0;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//v2f = Vertex Shader to Fragment Shader</span></span><br><span class="line">            struct v2f</span><br><span class="line">            &#123;</span><br><span class="line">                float4 pos:SV_POSITION;</span><br><span class="line">                float3 color:COLOR0;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">			<span class="comment">//vertex shader代码</span></span><br><span class="line">            v2f vert(a2v v)</span><br><span class="line">            &#123;</span><br><span class="line">                v2f o;<span class="comment">//声明输出结构</span></span><br><span class="line">                o.pos = UnityObjectToClipPos(v.vertex);<span class="comment">//UnityCG.cginc中的帮助函数</span></span><br><span class="line">                o.color = v.normal*<span class="number">0.5</span> + fixed3(<span class="number">0.5</span>,<span class="number">0.5</span>,<span class="number">0.5</span>);</span><br><span class="line">                <span class="keyword">return</span> o;</span><br><span class="line">            &#125;</span><br><span class="line">			<span class="comment">//fragment shader代码</span></span><br><span class="line">            float4 frag(v2f i):SV_Target</span><br><span class="line">            &#123;</span><br><span class="line">                fixed3 c = i.color;</span><br><span class="line">                c *= _Color.rgb;</span><br><span class="line">                <span class="keyword">return</span> fixed4(c,<span class="number">1.0</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            ENDCG</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="附录1：Properties语义块支持的属性类型">附录1：Properties语义块支持的属性类型</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">属性类型</th>
+<th style="text-align:center">使用举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Int</td>
+<td style="text-align:center">_Int(“Int”, Int) = 2</td>
+</tr>
+<tr>
+<td style="text-align:center">Float</td>
+<td style="text-align:center">_Float(“Float”, Float) = 1.5</td>
+</tr>
+<tr>
+<td style="text-align:center">Range(min, max)</td>
+<td style="text-align:center">_Range(“Range”, Range(0.0, 0.5)) = 3.0</td>
+</tr>
+<tr>
+<td style="text-align:center">Color</td>
+<td style="text-align:center">_Color(“Color”, Color) = (1,1,1,1)</td>
+</tr>
+<tr>
+<td style="text-align:center">Vector</td>
+<td style="text-align:center">_Vector(“Vector”, Vector) = (2,3,4,5)</td>
+</tr>
+<tr>
+<td style="text-align:center">2D</td>
+<td style="text-align:center">_2D(“2D”, 2D) = “”{}</td>
+</tr>
+<tr>
+<td style="text-align:center">cube</td>
+<td style="text-align:center">_Cube(“Cube”, Cube) = “white”{}</td>
+</tr>
+<tr>
+<td style="text-align:center">3D</td>
+<td style="text-align:center">_3D(“3D”, 3d) = “black”{}</td>
+</tr>
+</tbody>
+</table>
+<h3 id="附录2：ShaderLab属性类型与CG变量类型匹配表">附录2：ShaderLab属性类型与CG变量类型匹配表</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">ShaderLab</th>
+<th style="text-align:center">CG</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Color, Vector</td>
+<td style="text-align:center">float4, half4, fixed4</td>
+</tr>
+<tr>
+<td style="text-align:center">Range, Float</td>
+<td style="text-align:center">float, half, fixed</td>
+</tr>
+<tr>
+<td style="text-align:center">2D</td>
+<td style="text-align:center">sampler2D</td>
+</tr>
+<tr>
+<td style="text-align:center">Cube</td>
+<td style="text-align:center">samplerCube</td>
+</tr>
+<tr>
+<td style="text-align:center">3D</td>
+<td style="text-align:center">sampler3D</td>
+</tr>
+</tbody>
+</table>
+<h3 id="附录三：-Unity支持的常用语义">附录三： Unity支持的常用语义</h3>
+<h4 id="应用阶段传递模型数据到顶点着色器：">应用阶段传递模型数据到顶点着色器：</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">语义</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">POSITION</td>
+<td style="text-align:center">模型空间中的顶点位置，通常为float4</td>
+</tr>
+<tr>
+<td style="text-align:center">NORMAL</td>
+<td style="text-align:center">顶点法线，通常为float3</td>
+</tr>
+<tr>
+<td style="text-align:center">TANGENT</td>
+<td style="text-align:center">顶点法线，通常为float4</td>
+</tr>
+<tr>
+<td style="text-align:center">TEXCOORDn</td>
+<td style="text-align:center">顶点的纹理坐标，TEXCOORD表示第一组纹理坐标，通常为float2或float4</td>
+</tr>
+<tr>
+<td style="text-align:center">COLOR</td>
+<td style="text-align:center">顶点颜色，通常为fixed4或float4</td>
+</tr>
+</tbody>
+</table>
+<h4 id="顶点着色器到片元着色器：">顶点着色器到片元着色器：</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">语义</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">SV_POSITION</td>
+<td style="text-align:center">裁剪空间中的顶点坐标，</td>
+</tr>
+<tr>
+<td style="text-align:center">COLOR0</td>
+<td style="text-align:center">通常用于输出第一组顶点的颜色，非必须</td>
+</tr>
+<tr>
+<td style="text-align:center">COLOR1</td>
+<td style="text-align:center">通常用于输出第二组顶点的颜色，非必须</td>
+</tr>
+<tr>
+<td style="text-align:center">TEXCOORD0~TEXCOORD7</td>
+<td style="text-align:center">通常用于输出纹理坐标，非必须</td>
+</tr>
+</tbody>
+</table>
+<h4 id="片元着色器输出">片元着色器输出</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">语义</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">SV_Target</td>
+<td style="text-align:center">输出值将会存储到render targe中</td>
+</tr>
+</tbody>
+</table>
+<h2 id="基础光照模型：Blinn-Phong">基础光照模型：Blinn-Phong</h2>
+<h3 id="原理解析">原理解析</h3>
+<p>Color = Ambient + Diffuse + Specular</p>
+<ul>
+<li>
+<p>Ambient</p>
+<p>由Lighting.cginc中的函数<code>UNITY_LIGHTMODEL_AMBIENT</code>直接获取</p>
+</li>
+<li>
+<p>Diffuse</p>
+<p>逐像素的Lambert/half Lambert，在fragment中进行计算</p>
+<p>Diffuse颜色=光照颜色*漫反射颜色*[0-1]范围的光线与表面法线的点积</p>
+</li>
+<li>
+<p>Specular</p>
+<p>逐像素的高光计算，在fragment中进行计算</p>
+<p>Specular颜色=光照颜色*高光反射颜色*max(0,光线、视线的中间向量与表面法线的点积)</p>
+<blockquote>
+<p>因为对高光不用进行右侧钳制，所以用max钳制左侧即可，且节省性能</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="代码演示">代码演示</h3>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><span class="line">Shader &quot;ShaderLearning/BasicLighting/BlingPhongShadingModel&quot;</span><br><span class="line">&#123;</span><br><span class="line">    Properties</span><br><span class="line">    &#123;</span><br><span class="line">        _Diffuse(&quot;Diffuse Color&quot;,Color) = (<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line">        _Specular(&quot;Specular Color&quot;,Color) = (<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line">        _Glossy(&quot;Glossy&quot;,Range(<span class="number">8.0</span>,<span class="number">256.0</span>)) = <span class="number">20.0</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    SubShader</span><br><span class="line">    &#123;</span><br><span class="line">        pass</span><br><span class="line">        &#123;</span><br><span class="line">            Tags &#123;&quot;LightMode&quot;=&quot;ForwardBase&quot;&#125;</span><br><span class="line"></span><br><span class="line">            CGPROGRAM</span><br><span class="line">            <span class="meta">#pragma vertex vert</span></span><br><span class="line">            <span class="meta">#pragma fragment frag</span></span><br><span class="line"></span><br><span class="line">            <span class="meta">#include &quot;Lighting.cginc&quot;</span></span><br><span class="line"></span><br><span class="line">            fixed4 _Diffuse;</span><br><span class="line">            fixed4 _Specular;</span><br><span class="line">            <span class="type">float</span> _Glossy;</span><br><span class="line">            struct a2v</span><br><span class="line">            &#123;</span><br><span class="line">                float4 vertex : POSITION;</span><br><span class="line">                float3 normal : NORMAL;</span><br><span class="line">            &#125;;</span><br><span class="line">            struct v2f</span><br><span class="line">            &#123;</span><br><span class="line">                float4 pos : SV_POSITION;</span><br><span class="line">                float3 worldNormal : TEXCOORD0;</span><br><span class="line">                float3 worldPos : TEXCOORD1;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            v2f vert(a2v v)</span><br><span class="line">            &#123;</span><br><span class="line">                v2f o;</span><br><span class="line">                o.pos = UnityObjectToClipPos(v.vertex);</span><br><span class="line">                o.worldNormal = UnityObjectToWorldNormal(v.normal);</span><br><span class="line">                o.worldPos = mul(_Object2World,v.vertex).xyz;</span><br><span class="line">                <span class="keyword">return</span> o;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            fixed4 frag(v2f i) : SV_TARGET</span><br><span class="line">            &#123;</span><br><span class="line">				<span class="comment">//计算环境光</span></span><br><span class="line">                fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;</span><br><span class="line">				<span class="comment">//计算世界空间下的光照方向</span></span><br><span class="line">                fixed3 worldLightDir = <span class="built_in">normalize</span>(UnityWorldSpaceLightDir(i.worldPos));</span><br><span class="line">				<span class="comment">//计算漫反射颜色</span></span><br><span class="line">                fixed3 diffuse = _Diffuse.rgb * _LightColor0.rgb * saturate(<span class="built_in">dot</span>(worldLightDir,i.worldNormal));</span><br><span class="line">				<span class="comment">//计算高光反射颜色</span></span><br><span class="line">                fixed3 viewDir = <span class="built_in">normalize</span>(UnityWorldSpaceViewDir(i.worldPos));</span><br><span class="line">                fixed3 halfDir = <span class="built_in">normalize</span>(worldLightDir + viewDir);</span><br><span class="line">                fixed3 specular = _Specular.rgb * _LightColor0.rgb * <span class="built_in">pow</span>(<span class="built_in">max</span>(<span class="number">0</span>,<span class="built_in">dot</span>(halfDir,i.worldNormal)),_Glossy);</span><br><span class="line">				<span class="comment">//返回求和颜色</span></span><br><span class="line">                <span class="keyword">return</span> fixed4((ambient + diffuse + specular),<span class="number">1.0</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            ENDCG</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    FallBack &quot;Specular&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="UnityCG-cginc中常用的帮助函数">UnityCG.cginc中常用的帮助函数</h3>
+<p>官方文档：<a target="_blank" rel="noopener" href="https://docs.unity3d.com/Manual/SL-BuiltinFunctions.html">Unity - Manual: Built-in shader helper functions (unity3d.com)</a></p>
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>输入</th>
+<th>返回</th>
+<th>是否normalize</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>float3 UnityWorldSpaceViewDir(float3 v)</td>
+<td>世界空间下的顶点位置</td>
+<td>世界空间中从该点到摄像机的观察方向</td>
+<td>否</td>
+</tr>
+<tr>
+<td>float3 ObjSpaceViewDir(float4 v)</td>
+<td>模型空间下的顶点位置</td>
+<td>模型空间中从该点到摄像机的观察方向</td>
+<td>否</td>
+</tr>
+<tr>
+<td>float3 UnityWorldSpaceLightDir(float3 v)</td>
+<td>世界空间下的顶点位置</td>
+<td>世界空间中从该点到光源的光照方向</td>
+<td>否</td>
+</tr>
+<tr>
+<td>float3 ObjSpaceLightDir(float4 v)</td>
+<td>模型空间下的法线方向</td>
+<td>模型空间中从该点到摄像机的光照方向</td>
+<td>否</td>
+</tr>
+<tr>
+<td>float3 UnityObjectToWorldNormal(float3 normal)</td>
+<td>模型空间下的法线方向</td>
+<td>世界空间中的法线方向</td>
+<td>是</td>
+</tr>
+<tr>
+<td>float3 UnityObjectToWorldDir(float3 dir)</td>
+<td>模型空间下的方向矢量</td>
+<td>世界空间中的方向矢量</td>
+<td>是</td>
+</tr>
+<tr>
+<td>float3 UnityWorldToObjectDir(float3 dir)</td>
+<td>世界空间中的方向矢量</td>
+<td>模型空间下的方向矢量</td>
+<td>是</td>
+</tr>
+</tbody>
+</table>
+<h2 id="纹理基础">纹理基础</h2>
+<h3 id="纹理的基础用法">纹理的基础用法</h3>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><span class="line">Shader &quot;ShaderLearning/Texture/MaskTex&quot;</span><br><span class="line">&#123;</span><br><span class="line">    Properties</span><br><span class="line">    &#123;</span><br><span class="line">        _Color(&quot;Color Tint&quot;,Color) = (<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line">        _Specular(&quot;Specular Color&quot;,Color) = (<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line">        _Gloss(&quot;Specular Gloss&quot;,Range(<span class="number">8.0</span>,<span class="number">256</span>)) = <span class="number">20.0</span></span><br><span class="line">        _MainTex(&quot;Main Texture&quot;,<span class="number">2</span>D) = &quot;white&quot;&#123;&#125;<span class="comment">//贴图的shaderlab属性为2D</span></span><br><span class="line">        _BumpTex(&quot;Normal Texture&quot;,<span class="number">2</span>D) = &quot;bump&quot;&#123;&#125;</span><br><span class="line">        _BumpScale(&quot;Bump Scale&quot;,<span class="type">float</span>) = <span class="number">1.0</span><span class="comment">//用于控制法线的强度</span></span><br><span class="line">        _MaskTex(&quot;Mask Texture&quot;,<span class="number">2</span>D) = &quot;white&quot;&#123;&#125;</span><br><span class="line">        _MaskScale(&quot;Mask Scale&quot;,<span class="type">float</span>) = <span class="number">1.0</span><span class="comment">//用于控制遮罩的强度</span></span><br><span class="line">    &#125;</span><br><span class="line">    SubShader</span><br><span class="line">    &#123;</span><br><span class="line">        pass</span><br><span class="line">        &#123;</span><br><span class="line">            Tags &#123;&quot;LightMode&quot;=&quot;ForwardBase&quot;&#125;</span><br><span class="line">            CGPROGRAM</span><br><span class="line">            <span class="meta">#pragma vertex vert </span></span><br><span class="line">            <span class="meta">#pragma fragment frag </span></span><br><span class="line">            <span class="meta">#include &quot;Lighting.cginc&quot;</span></span><br><span class="line"></span><br><span class="line">            <span class="type">float</span> _Gloss;</span><br><span class="line">            float4 _Color;</span><br><span class="line">            float4 _Specular;</span><br><span class="line">            <span class="type">sampler2D</span> _MainTex;</span><br><span class="line">            <span class="type">sampler2D</span> _BumpTex;</span><br><span class="line">            <span class="type">sampler2D</span> _MaskTex;</span><br><span class="line">            float4 _MainTex_ST;<span class="comment">//需要使用纹理名_ST的方式来声明某个纹理的属性，ST=Scale+Translation,其中x,y表示Scale，z,w表示Transition</span></span><br><span class="line">            <span class="type">float</span> _BumpScale;</span><br><span class="line">            <span class="type">float</span> _MaskScale;</span><br><span class="line"></span><br><span class="line">						<span class="comment">//此段为在切线空间中计算光照模型</span></span><br><span class="line"></span><br><span class="line">            struct a2v</span><br><span class="line">            &#123;</span><br><span class="line">                float4 vertex : POSITION;</span><br><span class="line">                float2 texcoord : TEXCOORD;</span><br><span class="line">                float3 normal : NORMAL;</span><br><span class="line">                float4 tangent : TANGENT;<span class="comment">//是四维向量，w通道存储了副切线bitangent的方向信息</span></span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            struct v2f</span><br><span class="line">            &#123;</span><br><span class="line">                float4 pos : SV_POSITION;</span><br><span class="line">                float2 uv : TEXCOORD0;</span><br><span class="line">                float3 lightDir : TEXCOORD1;</span><br><span class="line">                float3 viewDir : TEXCOORD2;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            v2f vert(a2v v)</span><br><span class="line">            &#123;</span><br><span class="line">                v2f o;</span><br><span class="line">                o.pos = UnityObjectToClipPos(v.vertex);</span><br><span class="line">                o.uv = TRANSFORM_TEX(v.texcoord,_MainTex);<span class="comment">//进行贴图的缩放，宏内部调用了之前声明的纹理的_ST属性</span></span><br><span class="line"></span><br><span class="line">                TANGENT_SPACE_ROTATION;<span class="comment">//为UnityCG.cginc中的宏定义，等价于以下两行：</span></span><br><span class="line">								<span class="comment">//fixed3 Binormal = cross(normalize(v.normal),normalize(v.tangent.xyz)) * v.tangent.w;</span></span><br><span class="line">								<span class="comment">//float3x3 rotation = float3x3(v.tangent.xyz, binormal, v.normal);</span></span><br><span class="line">								<span class="comment">//用于得到从物体空间转换到切线空间的变换矩阵TBN矩阵</span></span><br><span class="line">                o.lightDir = mul(rotation,ObjSpaceLightDir(v.vertex)).xyz;<span class="comment">//左乘TBN矩阵：world-&gt;obj</span></span><br><span class="line">                o.viewDir = mul(rotation, ObjSpaceViewDir(v.vertex)).xyz;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> o;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            fixed4 frag(v2f i) : SV_TARGET</span><br><span class="line">            &#123;</span><br><span class="line">                fixed3 tangentLightDir = <span class="built_in">normalize</span>(i.lightDir);</span><br><span class="line">                fixed3 tangentViewDir = <span class="built_in">normalize</span>(i.viewDir);</span><br><span class="line">                fixed3 tangentNormal = UnpackNormal(tex2D(_BumpTex,i.uv));<span class="comment">//读取法线贴图信息并将映射法线信息</span></span><br><span class="line">                tangentNormal.xy *= _BumpScale;<span class="comment">//设置法线强度</span></span><br><span class="line">                tangentNormal.z = <span class="built_in">sqrt</span>(<span class="number">1</span>-<span class="built_in">dot</span>(tangentNormal.xy, tangentNormal.xy));<span class="comment">//计算法线z向量的信息</span></span><br><span class="line"></span><br><span class="line">                fixed3 albedo = tex2D(_MainTex,i.uv).rgb * _Color;</span><br><span class="line"></span><br><span class="line">                fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;</span><br><span class="line"></span><br><span class="line">                fixed3 diffuse = _LightColor0.rgb * albedo * saturate(<span class="built_in">dot</span>(tangentNormal,tangentLightDir));</span><br><span class="line"></span><br><span class="line">                fixed specularMask = tex2D(_MaskTex,i.uv)*_MaskScale;<span class="comment">//读取遮罩贴图并设置遮罩强度</span></span><br><span class="line">                fixed3 halfDir = <span class="built_in">normalize</span>(tangentLightDir + tangentViewDir);</span><br><span class="line">                fixed3 specular = _LightColor0.rgb * _Specular * <span class="built_in">pow</span>(<span class="built_in">max</span>(<span class="number">0</span>,<span class="built_in">dot</span>(halfDir,tangentNormal)),_Gloss) * specularMask;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> fixed4(ambient + diffuse + specular,<span class="number">1.0</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            ENDCG</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    FallBack &quot;Specular&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="法线贴图">法线贴图</h3>
+<h4 id="凹凸映射">凹凸映射</h4>
+<p>两种实现凹凸映射的方法：</p>
+<ul>
+<li>表面位移displacement：通过高度纹理来模拟，得到一个修改后的法线值
+<ul>
+<li>计算复杂，不能直接得到表面法线，而是需要由像素灰度值计算</li>
+</ul>
+</li>
+<li>法线纹理normal map：直接存储表面法线</li>
+</ul>
+<h4 id="法线纹理的解释">法线纹理的解释</h4>
+<ul>
+<li>存储空间：
+<ul>
+<li>每个顶点都有一个属于自己的切线空间，法线纹理往往存储在模型顶点的<strong>切线空间</strong>中</li>
+</ul>
+</li>
+<li>为什么大部分是蓝色：
+<ul>
+<li>每个法线方向所在的坐标空间是不一样的，即是在表面各自的切线空间中。这种法线纹理实际上就是存储了每个点在各自的切线空间中的法线扰动方向。法线贴图中存储的法线，在经过映射后大多指向屏幕之外，所以法线贴图大多是蓝紫色调的。</li>
+</ul>
+</li>
+</ul>
+<h4 id="法线纹理的反映射（解压）">法线纹理的反映射（解压）</h4>
+<p>法线纹理中存储的就是表面的法线方向，但是由于法线的分量范围是[-1,1]，而像素的分量范围是[0,1]，因此需要一个映射将法线信息存储到法线纹理中。并且在shader中对法线纹理采样后，还需要对结果进行<strong>反映射</strong>来得到原本的法线信息。</p>
+<p>将纹理的纹理类型标识为Normal map，对采样出的法线信息调用<code>UnpackNormal</code>函数即可完成映射</p>
+<h4 id="法线纹理属性-——-Create-from-Grayscale">法线纹理属性 —— Create from Grayscale</h4>
+<ul>
+<li>Bumpness：控制纹理凹凸程度</li>
+<li>Filtering：
+<ul>
+<li>Smooth：生成后的法线较为平滑</li>
+<li>Sharp：使用Sobel滤波（用于边缘检测的滤波器）来生成法线
+<ul>
+<li>Sobel滤波的实现：在一个3x3滤波器中计算x和y方向的导数，然后从中获取法线（考虑水平方向和竖直方向上的像素差）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="在不同空间中计算光照模型">在不同空间中计算光照模型</h4>
+<ul>
+<li>
+<p>在切线空间下计算光照模型（如上<a href="###%E7%BA%B9%E7%90%86%E7%9A%84%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95">示例代码</a>]）</p>
+</li>
+<li>
+<p>在世界空间下计算光照模型：</p>
+</li>
+</ul>
+<figure class="highlight diff"><table><tr><td class="code"><pre><span class="line">struct a2v</span><br><span class="line">            &#123;</span><br><span class="line">                float4 vertex : POSITION;</span><br><span class="line"><span class="deletion">-               float2 texcoord : TEXCOORD;</span></span><br><span class="line"><span class="addition">+				float4 texcoord : TEXCOORD0;</span></span><br><span class="line">                float3 normal : NORMAL;</span><br><span class="line">                float4 tangent : TANGENT;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            struct v2f</span><br><span class="line">            &#123;</span><br><span class="line">                float4 pos : SV_POSITION;</span><br><span class="line"><span class="deletion">-               float2 uv : TEXCOORD0;</span></span><br><span class="line"><span class="addition">+				float4 uv : TEXCOORD0;</span></span><br><span class="line"><span class="deletion">-               float3 lightDir : TEXCOORD1;</span></span><br><span class="line"><span class="deletion">-               float3 viewDir : TEXCOORD2;</span></span><br><span class="line"><span class="addition">+				float4 T2W0 : TEXCOORD1;</span></span><br><span class="line"><span class="addition">+				float4 T2W1 : TEXCOORD2;</span></span><br><span class="line"><span class="addition">+				float4 T2W2 : TEXCOORD3;</span></span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            v2f vert(a2v v)</span><br><span class="line">            &#123;</span><br><span class="line">                v2f o;</span><br><span class="line">                o.pos = UnityObjectToClipPos(v.vertex);</span><br><span class="line"><span class="deletion">-               o.uv = TRANSFORM_TEX(v.texcoord,_MainTex);//进行贴图的缩放，宏内部调用了之前声明的纹理的_ST属性</span></span><br><span class="line"><span class="addition">+				o.uv.xy = TRANSFORM_TEX(v.texcoord, _MainTex);</span></span><br><span class="line"><span class="addition">+				o,uv.zw = TRANSFORM_TEX(v.vertex, _BumpMap);</span></span><br><span class="line"></span><br><span class="line"><span class="deletion">-               TANGENT_SPACE_ROTATION;						</span></span><br><span class="line"><span class="deletion">-               o.lightDir = mul(rotation,ObjSpaceLightDir(v.vertex)).xyz;//左乘TBN矩阵：world-&gt;obj</span></span><br><span class="line"><span class="deletion">-               o.viewDir = mul(rotation, ObjSpaceViewDir(v.vertex)).xyz;</span></span><br><span class="line"></span><br><span class="line"><span class="addition">+				float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;</span></span><br><span class="line"><span class="addition">+				float3 worldNormal = UnityObjectToWorldNormal(v.normal);</span></span><br><span class="line"><span class="addition">+				fixed4 worldTangent = UnityObjectToWorldDir(v.tangent.xyz);</span></span><br><span class="line"><span class="addition">+				fixed3 worldBitangent = cross(worldNormal, worldTanget)*v.tangent.w;//tangent切线中的w通道存储了副切线bitangent的方向信息</span></span><br><span class="line"></span><br><span class="line"><span class="addition">+				o.T2W0 = float4(worldTangent.x, worldBitangent.x, worldNormal.x, worldPos.x);</span></span><br><span class="line"><span class="addition">+				o.T2W1 = float4(worldTangent.y, worldBitangent.y, worldNormal.y, worldPos.y);</span></span><br><span class="line"><span class="addition">+				o.T2W2 = float4(worldTangent.z, worldBitangent.z, worldNormal.z, worldPos.z);</span></span><br><span class="line">                return o;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            fixed4 frag(v2f i) : SV_TARGET</span><br><span class="line">            &#123;</span><br><span class="line"><span class="deletion">-               fixed3 tangentLightDir = normalize(i.lightDir);</span></span><br><span class="line"><span class="deletion">-               fixed3 tangentViewDir = normalize(i.viewDir);</span></span><br><span class="line"><span class="deletion">-               fixed3 tangentNormal = UnpackNormal(tex2D(_BumpTex,i.uv));</span></span><br><span class="line"><span class="deletion">-               tangentNormal.xy *= _BumpScale;//设置法线强度</span></span><br><span class="line"><span class="deletion">-               tangentNormal.z = sqrt(1-dot(tangentNormal.xy, tangentNormal.xy));</span></span><br><span class="line"></span><br><span class="line"><span class="deletion">-                fixed3 albedo = tex2D(_MainTex,i.uv).rgb * _Color;</span></span><br><span class="line"><span class="deletion">-                fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;</span></span><br><span class="line"><span class="deletion">-                fixed3 diffuse = _LightColor0.rgb * albedo * saturate(dot(tangentNormal,tangentLightDir));</span></span><br><span class="line"><span class="deletion">-               fixed specularMask = tex2D(_MaskTex,i.uv)*_MaskScale;</span></span><br><span class="line"><span class="deletion">-               fixed3 halfDir = normalize(tangentLightDir + tangentViewDir);</span></span><br><span class="line"><span class="deletion">-               fixed3 specular = _LightColor0.rgb * _Specular * pow(max(0,dot(halfDir,tangentNormal)),_Gloss) * specularMask;</span></span><br><span class="line"></span><br><span class="line"><span class="addition">+				float3 worldPos = float3(i.T2W0.w, i.T2W1.w, i.T2W2.w);</span></span><br><span class="line"><span class="addition">+               fixed3 lightDir = normalize(UnityWorldSpaceLightDir(worldPos));</span></span><br><span class="line"><span class="addition">+               fixed3 viewDir = normalize(UnityWorldSpaceViewDir(worldPos));</span></span><br><span class="line">                //获取法线信息</span><br><span class="line"><span class="addition">+               fixed3 bump = UnpackNormal(tex2D(_BumpMap,i.uv.zw));</span></span><br><span class="line"><span class="addition">+               bump.xy *= _BumpScale;//因为法线是单位矢量，所以可以通过xy来计算出z，同样也就可以通过缩放xy来控制z的强度（法线贴图表示的是法线的扰动）</span></span><br><span class="line"><span class="addition">+               bump.z = sqrt(1-saturate(dot(bump.xy , bump.xy)));</span></span><br><span class="line"><span class="addition">+               bump = normalize(half3(dot(i.T2W0.xyz,bump),dot(i.T2W1.xyz,bump),dot(i.T2W2.xyz,bump)));</span></span><br><span class="line">                //读取贴图</span><br><span class="line"><span class="addition">+               fixed3 albedo = tex2D(_MainTex,i.uv.xy) * _Color;</span></span><br><span class="line"><span class="addition">+               fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;</span></span><br><span class="line"><span class="addition">+               fixed3 diffuse = _LightColor0.rgb * albedo * saturate(dot(lightDir,bump));</span></span><br><span class="line"><span class="addition">+               fixed3 halfDir = normalize(viewDir + lightDir);</span></span><br><span class="line"><span class="addition">+               fixed3 specular = _LightColor0.rgb * _Specular.rgb * pow(max(0,dot(halfDir,bump)),_Gloss);</span></span><br><span class="line"></span><br><span class="line">                return fixed4(ambient + diffuse + specular,1.0);</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>两者的对比： 在切线空间中计算光照模型，需要在vertex shader中将视线向量和光线向量转换到切线空间 在世界空间中计算光照模型，需要在vertex shader中将normal和binormal转换到世界空间，以此获得法线空间到世界空间的变换矩阵(BTN矩阵)，并通过插值寄存器传递矩阵，再在fragment shader中将法线信息从切线空间转换到世界空间</p>
+</blockquote>
+<h3 id="Ramp贴图">Ramp贴图</h3>
+<p>使用贴图控制漫反射光照，得到NPR的效果：</p>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/Untitled2.png" alt="Untitled2" style="zoom: 67%;" />
+<p>Ramp贴图：</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/UnityShaderEssentials3.png" alt=""></p>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><span class="line">fixed4 frag(v2f i) : SV_TARGET</span><br><span class="line">&#123;</span><br><span class="line">		fixed3 worldLightDir = <span class="built_in">normalize</span>(UnityWorldSpaceLightDir(i.worldPos));</span><br><span class="line">		fixed3 worldViewDir = <span class="built_in">normalize</span>(UnityWorldSpaceViewDir(i.worldPos));</span><br><span class="line"></span><br><span class="line">        fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * _Color;</span><br><span class="line">        fixed3 halfDir = <span class="built_in">normalize</span>(worldLightDir + worldViewDir);</span><br><span class="line">        fixed3 specular = _LightColor0.rgb * _Color.rgb * <span class="built_in">pow</span>(<span class="built_in">max</span>(<span class="number">0</span>,<span class="built_in">dot</span>(halfDir,i.worldNormal)),_Gloss);</span><br><span class="line">                </span><br><span class="line">        fixed halfLambert = <span class="number">0.5</span> * saturate(<span class="built_in">dot</span>(i.worldNormal,worldLightDir)) + <span class="number">0.5</span>;</span><br><span class="line">        fixed3 diffuseColor = tex2D(_RampTex,fixed2(halfLambert,halfLambert)) * _Color.rgb;<span class="comment">//Key Code-&gt;根据光照计算结果读取Ramp图</span></span><br><span class="line">        fixed3 diffuse = diffuseColor * _LightColor0.rgb;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> fixed4(ambient + diffuse + specular, <span class="number">1.0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="透明效果">透明效果</h2>
+<p>两种实现方法：</p>
+<ul>
+<li>Alpha Test透明度测试
+<ul>
+<li>阈值控制，简单直接，不透明或完全透明</li>
+<li>面片草效果</li>
+</ul>
+</li>
+<li>Alpha Blend透明度混合
+<ul>
+<li>可以得到真正的透明效果</li>
+</ul>
+</li>
+</ul>
+<img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/UnityShaderEssentials4.png" alt="UnityShaderEssentials4" style="zoom: 50%;" />
+<h3 id="Unity-Shader的渲染顺序-——-Queue">Unity Shader的渲染顺序 —— Queue</h3>
+<p>Unity提前定义的5个渲染队列：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">队列索引号</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Background</td>
+<td style="text-align:center">1000</td>
+<td style="text-align:center">在其他任何队列之前渲染，用于背景</td>
+</tr>
+<tr>
+<td style="text-align:center">Geometry</td>
+<td style="text-align:center">2000</td>
+<td style="text-align:center">默认的渲染队列，不透明物体</td>
+</tr>
+<tr>
+<td style="text-align:center">AlphaTest</td>
+<td style="text-align:center">2450</td>
+<td style="text-align:center">需要使用透明度测试的物体（Unity5中分出来的，因为这用渲染更加高效）</td>
+</tr>
+<tr>
+<td style="text-align:center">Transparent</td>
+<td style="text-align:center">3000</td>
+<td style="text-align:center">按从后往前的顺序，使用了透明度混合的物体都应该使用该队列</td>
+</tr>
+<tr>
+<td style="text-align:center">Overlay</td>
+<td style="text-align:center">4000</td>
+<td style="text-align:center">实现一些叠加效果，在最后渲染的物体</td>
+</tr>
+</tbody>
+</table>
+<p>写法实例：<code>Tags &#123;”Queue”=”Transparent”&#125;</code></p>
+<p>可通过在值后加数字的形式来重新指定渲染队列：</p>
+<p>自定义渲染序列：<code>Tags &#123;”Queue”=”Transparent + 1”&#125;</code></p>
+<blockquote>
+<p>染队列会通过重复绘制直接影响性能，合理的队列可以极大提升渲染效率 Unity中，队列小于2500的对象都会被认为是不透明物体，从前往后绘制；而其他的队列则是从后往前绘制。这意味着我们需要尽可能将队列设置为不透明物体的渲染队列，尽量避免重复绘制</p>
+</blockquote>
+<h3 id="AlphaTest">AlphaTest</h3>
+<h4 id="Single-Side-Cull-back-side">Single Side(Cull back side)</h4>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><span class="line">Shader &quot;ShaderLearning/Transparency/AlphaTest&quot;</span><br><span class="line">&#123;</span><br><span class="line">    Properties</span><br><span class="line">    &#123;</span><br><span class="line">        _Color(&quot;Color Tint&quot;,Color) = (<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line">        _MainTex(&quot;Main Texture&quot;,<span class="number">2</span>D) = &quot;white&quot;&#123;&#125;<span class="comment">//通过贴图的A通道来控制透明度</span></span><br><span class="line">        _CutThreshold(&quot;Cut Alpha Threshold Value&quot;,Range(<span class="number">0</span>,<span class="number">1</span>)) = <span class="number">0.5</span><span class="comment">//通过一个阈值来控制裁剪的alpha值</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    SubShader</span><br><span class="line">    &#123;</span><br><span class="line">        Tags &#123;&quot;Queue&quot;=&quot;AlphaTest&quot; &quot;IgnoreProjector&quot;=&quot;True&quot; &quot;RenderType&quot;=&quot;TransparentCutout&quot;&#125;</span><br><span class="line">        pass</span><br><span class="line">        &#123;</span><br><span class="line">            Tags&#123;&quot;LightMode&quot;=&quot;ForwardBase&quot;&#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//...</span></span><br><span class="line"></span><br><span class="line">            fixed4 frag(v2f i) : SV_TARGET</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//...</span></span><br><span class="line"></span><br><span class="line">                fixed4 textureColor = tex2D(_MainTex,i.uv);</span><br><span class="line"></span><br><span class="line">                <span class="comment">//Alpha Test</span></span><br><span class="line">                clip(textureColor.w-_CutThreshold);<span class="comment">//比阈值小的就直接不渲染，比阈值大的作为不透明物体渲染</span></span><br><span class="line">                <span class="comment">//Equale to:</span></span><br><span class="line">                <span class="comment">//if(textureColor.w-_CutThreshold &lt; 0.0)&#123;discard;&#125;</span></span><br><span class="line"></span><br><span class="line">                <span class="comment">//...</span></span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> fixed4(ambient + diffuse, <span class="number">1.0</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            ENDCG</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    FallBack &quot;Transparent/Cutout/VertexLit&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Both-Side">Both Side</h4>
+<p>在pass内禁用Cull即可：</p>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><span class="line">Pass</span><br><span class="line">&#123;</span><br><span class="line">		<span class="comment">//关闭cull</span></span><br><span class="line">		Cull Off</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="AlphaBlend">AlphaBlend</h3>
+<h4 id="Without-ZWrite">Without ZWrite</h4>
+<p>关闭ZBuffer写入后，因为无法进行深度排序，所以渲染的半透明效果可能是错误的</p>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><span class="line">Shader &quot;ShaderLearning/Transparency/AlphaBlend&quot;</span><br><span class="line">&#123;</span><br><span class="line">    Properties</span><br><span class="line">    &#123;</span><br><span class="line">        _Color(&quot;Color Tint&quot;,Color) = (<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line">        _MainTex(&quot;Main Texture&quot;,<span class="number">2</span>D) = &quot;white&quot;&#123;&#125;<span class="comment">//通过贴图的A通道来控制透明度</span></span><br><span class="line">        _AlphaScale(&quot;Alpha Scale&quot;,Range(<span class="number">0</span>,<span class="number">1</span>)) = <span class="number">1</span><span class="comment">//控制Alpha的强弱</span></span><br><span class="line">    &#125;</span><br><span class="line">    SubShader</span><br><span class="line">    &#123;</span><br><span class="line">        Tags&#123;&quot;Queue&quot;=&quot;Transparent&quot; &quot;IgnoreProjector&quot;=&quot;True&quot; &quot;RenderType&quot;=&quot;Transparent&quot; &#125;</span><br><span class="line">        pass</span><br><span class="line">        &#123;</span><br><span class="line">            Tags &#123;&quot;LightMode&quot;=&quot;ForwardBase&quot;&#125;</span><br><span class="line"></span><br><span class="line">            ZWrite Off</span><br><span class="line">            Blend SrcAlpha OneMinusSrcAlpha</span><br><span class="line"></span><br><span class="line">           <span class="comment">//...</span></span><br><span class="line"></span><br><span class="line">            fixed4 frag(v2f i) : SV_TARGET</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//...</span></span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> fixed4(ambient + diffuse, texColor.a * _AlphaScale);<span class="comment">//通过贴图和AlphaScale来控制返回值的a通道</span></span><br><span class="line">            &#125;</span><br><span class="line">            ENDCG</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    FallBack &quot;Transparent/VertexLit&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="With-ZWrite">With ZWrite</h4>
+<p>这样得到的结果不会表现模型内部之间的半透明效果，只有整个物体的半透明效果</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/UnityShaderEssentials5.png" alt=""></p>
+<p>==在写入颜色缓冲前，多一个Pass来写入深度信息而不进行实际的渲染==</p>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><span class="line">Shader &quot;ShaderLearning/Transparency/AlphaBlendWithZWrite&quot;</span><br><span class="line">&#123;</span><br><span class="line">   <span class="comment">//...</span></span><br><span class="line">    SubShader</span><br><span class="line">    &#123;</span><br><span class="line">        Tags &#123;&quot;Queue&quot;=&quot;Transparent&quot; &quot;IgnoreProjector&quot;=&quot;True&quot; &quot;RenderType&quot;=&quot;Transparent&quot;&#125;</span><br><span class="line">        pass</span><br><span class="line">        &#123;</span><br><span class="line">            ZWrite on</span><br><span class="line">            ColorMask <span class="number">0</span><span class="comment">//ColorMask设置颜色通道的写掩码，可以写入RGBA的任意组合，当ColorMask设置为0时意味着该Pass不写入任何颜色通道，即不会输出任何颜色，用来单独做Z测试写入ZBuffer</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        pass</span><br><span class="line">        &#123;</span><br><span class="line">            Tags &#123;&quot;LightMode&quot;=&quot;ForwardBase&quot;&#125;</span><br><span class="line">            ZWrite Off</span><br><span class="line">            Blend SrcAlpha OneminusSrcAlpha</span><br><span class="line"></span><br><span class="line">            <span class="comment">//...同AlphaTest without ZWrite</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    FallBack &quot;Transparency/VertexLit&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Both-Side-2">Both Side</h4>
+<p>实现半透明效果，但是动用了两个Pass先后渲染前后面</p>
+<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/UnityShaderEssentials6.png" alt=""></p>
+<p>==核心在于分两个Pass，且先渲染背面再渲染前面==</p>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><span class="line">Shader &quot;ShaderLearning/Transparency/AlphaBlendBothSides&quot;</span><br><span class="line">&#123;</span><br><span class="line">    Properties</span><br><span class="line">    &#123;</span><br><span class="line">        _Color(&quot;Color Tint&quot;,Color) = (<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line">        _MainTex(&quot;Main Texture&quot;,<span class="number">2</span>D) = &quot;white&quot;&#123;&#125;</span><br><span class="line">        _AlphaScale(&quot;Alpha Scale&quot;,Range(<span class="number">0</span>,<span class="number">1</span>)) = <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    SubShader</span><br><span class="line">    &#123;</span><br><span class="line">        Tags &#123;&quot;Queue&quot;=&quot;Transparent&quot; &quot;IgnoreProjector&quot;=&quot;True&quot; &quot;RenderType&quot;=&quot;Transparent&quot;&#125;</span><br><span class="line"></span><br><span class="line">        BlendOp add</span><br><span class="line">        Blend SrcAlpha OneMinusSrcAlpha</span><br><span class="line">        ZWrite Off</span><br><span class="line"></span><br><span class="line">        pass</span><br><span class="line">        &#123;</span><br><span class="line">            Tags &#123;&quot;LightMode&quot;=&quot;ForwardBase&quot;&#125;</span><br><span class="line">            Cull front </span><br><span class="line"></span><br><span class="line">            CGPROGRAM</span><br><span class="line">            <span class="comment">//...</span></span><br><span class="line">            ENDCG</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        pass</span><br><span class="line">        &#123;</span><br><span class="line">            Tags &#123;&quot;LightMode&quot;=&quot;ForwardBase&quot;&#125;</span><br><span class="line">            Cull back</span><br><span class="line"></span><br><span class="line">            CGPROGRAM</span><br><span class="line">						<span class="comment">//...</span></span><br><span class="line">            ENDCG</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    Fallback &quot;Transparenct/VertexLit&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="ShaderLab的混合命令">ShaderLab的混合命令</h3>
+<h4 id="混合操作BlendOperation">混合操作BlendOperation</h4>
+<p>注：源颜色Src指的是frag中计算出来的颜色，目标颜色Dst指的是Color Buffer中读出的颜色</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">BlendOperation</th>
+<th style="text-align:center">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Add</td>
+<td style="text-align:center">默认的混合指令，相加</td>
+</tr>
+<tr>
+<td style="text-align:center">Sub</td>
+<td style="text-align:center">相减，$O_{rgb}=SrcFractor*S_{rgb}+DstFractor * D_{rgb} $</td>
+</tr>
+<tr>
+<td style="text-align:center">RevSub</td>
+<td style="text-align:center">反向相减，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>O</mi><mrow><mi>r</mi><mi>g</mi><mi>b</mi></mrow></msub><mo>=</mo><mi>D</mi><mi>s</mi><mi>t</mi><mi>F</mi><mi>r</mi><mi>a</mi><mi>c</mi><mi>t</mi><mi>o</mi><mi>r</mi><mo>∗</mo><msub><mi>O</mi><mrow><mi>r</mi><mi>g</mi><mi>b</mi></mrow></msub><mo>−</mo><mi>S</mi><mi>r</mi><mi>c</mi><mi>F</mi><mi>r</mi><mi>a</mi><mi>c</mi><mi>t</mi><mi>o</mi><mi>r</mi><mo>∗</mo><msub><mi>S</mi><mrow><mi>r</mi><mi>g</mi><mi>b</mi></mrow></msub></mrow><annotation encoding="application/x-tex">O_{rgb}=DstFractor * O_{rgb} - SrcFractor * S_{rgb}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">g</span><span class="mord mathnormal mtight">b</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">Ds</span><span class="mord mathnormal" style="margin-right:0.13889em;">tF</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">a</span><span class="mord mathnormal">c</span><span class="mord mathnormal">t</span><span class="mord mathnormal" style="margin-right:0.02778em;">or</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">g</span><span class="mord mathnormal mtight">b</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mord mathnormal">rc</span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">a</span><span class="mord mathnormal">c</span><span class="mord mathnormal">t</span><span class="mord mathnormal" style="margin-right:0.02778em;">or</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0576em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">g</span><span class="mord mathnormal mtight">b</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span></td>
+</tr>
+<tr>
+<td style="text-align:center">Min</td>
+<td style="text-align:center">取目标颜色和源颜色的最小值，混合因子无效</td>
+</tr>
+<tr>
+<td style="text-align:center">Max</td>
+<td style="text-align:center">去目标颜色和源颜色的最大值，混合因子无效</td>
+</tr>
+</tbody>
+</table>
+<h4 id="设置混合因子">设置混合因子</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">设置</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Blend SrcFactor DstFactor</td>
+<td>RGBA通道使用同样的混合因子</td>
+</tr>
+<tr>
+<td style="text-align:center">Blend SrcFactor DsrFactor, SrcFactorA DstFactorA</td>
+<td>RGB通道使用前两个混合因子，A通道使用后两个</td>
+</tr>
+</tbody>
+</table>
+<h4 id="混合因子">混合因子</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">混合因子</th>
+<th style="text-align:center">解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">One</td>
+<td style="text-align:center">因子为1</td>
+</tr>
+<tr>
+<td style="text-align:center">Zero</td>
+<td style="text-align:center">因子为0</td>
+</tr>
+<tr>
+<td style="text-align:center">SrcColor/DtColor</td>
+<td style="text-align:center">因子为源颜色/目标颜色，如果用于混合RGB，则用SrcColor的RGB去混合；如果混合A，则用SrcColor的A去混和</td>
+</tr>
+<tr>
+<td style="text-align:center">SrcApha/DstColor</td>
+<td style="text-align:center">因子为源颜色/目标颜色的Alpha值</td>
+</tr>
+<tr>
+<td style="text-align:center">OneMinus—</td>
+<td style="text-align:center">1-x</td>
+</tr>
+</tbody>
+</table>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://himoqiuhan.github.io">楸涵</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://himoqiuhan.github.io/2023/04/01/Notes-UnityShaderEssentials-1/">https://himoqiuhan.github.io/2023/04/01/Notes-UnityShaderEssentials-1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://himoqiuhan.github.io" target="_blank">楸涵の小窝</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/TA/">TA</a><a class="post-meta__tags" href="/tags/Unity/">Unity</a><a class="post-meta__tags" href="/tags/Shader/">Shader</a><a class="post-meta__tags" href="/tags/%E3%80%8AUnityShader%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81%E3%80%8B/">《UnityShader入门精要》</a></div><div class="post_share"><div class="social-share" data-image="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/41TN3CwhyZL._SY346_.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/03/01/Projects-Houdini-LearningRecord1/" title="【Houdini】Houdini程序化建模入门学习总结"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/HoudiniIcon.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">【Houdini】Houdini程序化建模入门学习总结</div></div></a></div><div class="next-post pull-right"><a href="/2023/04/01/Notes-UnityShaderEssentials-2/" title="《Unity Shader入门精要》笔记（二）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/41TN3CwhyZL._SY346_.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">《Unity Shader入门精要》笔记（二）</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/04/01/Notes-UnityShaderEssentials-2/" title="《Unity Shader入门精要》笔记（二）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/41TN3CwhyZL._SY346_.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-01</div><div class="title">《Unity Shader入门精要》笔记（二）</div></div></a></div><div><a href="/2023/04/01/Notes-UnityShaderEssentials-4/" title="《Unity Shader入门精要》笔记（四）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/41TN3CwhyZL._SY346_.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-01</div><div class="title">《Unity Shader入门精要》笔记（四）</div></div></a></div><div><a href="/2023/04/01/Notes-UnityShaderEssentials-3/" title="《Unity Shader入门精要》笔记（三）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/41TN3CwhyZL._SY346_.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-01</div><div class="title">《Unity Shader入门精要》笔记（三）</div></div></a></div><div><a href="/2023/10/28/Notes-CatlikeCoding-CustomRenderPipline/" title="【Unity】自定义渲染管线学习笔记（Updating）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/20231028195012.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-28</div><div class="title">【Unity】自定义渲染管线学习笔记（Updating）</div></div></a></div><div><a href="/2023/06/14/Notes-TA100-Ex100/" title="技术美术百人计划学习笔记（先行版-基础渲染光照介绍）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-14</div><div class="title">技术美术百人计划学习笔记（先行版-基础渲染光照介绍）</div></div></a></div><div><a href="/2023/06/13/Notes-TA100-T1400/" title="技术美术百人计划学习笔记（图形1.1-1.4）"><img class="cover" src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-13</div><div class="title">技术美术百人计划学习笔记（图形1.1-1.4）</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/images/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">楸涵</div><div class="author-info__description">嘿！一起突破次元壁吗！</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">50</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" href="/about/"><i class="fas fa-meteor"></i><span>About Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/himoqiuhan" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://www.zhihu.com/people/qiu-han-71-64/posts" target="_blank" title="Zhihu"><i class="fab fa-zhihu" style="color: #24292e;"></i></a><a class="social-icon" href="https://space.bilibili.com/374860285" target="_blank" title="Bilibili"><i class="fab fa-bilibili" style="color: #24292e;"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561198866659933" target="_blank" title="Steam"><i class="fab fa-steam" style="color: #24292e;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><p>欢迎来和我聊天！</p> <p>QQ：1419091648</p> <p>微信：Himo_qiuhan</p></div></div><div class="card-widget card_portfolio"><div class="item-headline"><i></i><span>作品集</span></div><div class="item-content"></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%80%E4%B8%8E%E6%B3%AA%E6%B0%B4"><span class="toc-number">1.</span> <span class="toc-text">血与泪水</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%B2%E6%9F%93%E6%B5%81%E6%B0%B4%E7%BA%BF"><span class="toc-number">2.</span> <span class="toc-text">渲染流水线</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E9%98%B6%E6%AE%B5-CPU"><span class="toc-number">2.1.</span> <span class="toc-text">应用阶段(CPU)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%A0%E4%BD%95%E9%98%B6%E6%AE%B5-GPU"><span class="toc-number">2.2.</span> <span class="toc-text">几何阶段(GPU)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%89%E6%A0%85%E5%8C%96%E9%98%B6%E6%AE%B5-GPU"><span class="toc-number">2.3.</span> <span class="toc-text">光栅化阶段(GPU)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vert-Frag-Shader%E5%9F%BA%E7%A1%80%E7%BB%93%E6%9E%84"><span class="toc-number">3.</span> <span class="toc-text">Vert&#x2F;Frag Shader基础结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E6%AE%B5%E7%AE%80%E6%98%93%E7%9A%84Vertex-Fragment-Shader"><span class="toc-number">3.1.</span> <span class="toc-text">一段简易的Vertex + Fragment Shader</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%99%84%E5%BD%951%EF%BC%9AProperties%E8%AF%AD%E4%B9%89%E5%9D%97%E6%94%AF%E6%8C%81%E7%9A%84%E5%B1%9E%E6%80%A7%E7%B1%BB%E5%9E%8B"><span class="toc-number">3.2.</span> <span class="toc-text">附录1：Properties语义块支持的属性类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%99%84%E5%BD%952%EF%BC%9AShaderLab%E5%B1%9E%E6%80%A7%E7%B1%BB%E5%9E%8B%E4%B8%8ECG%E5%8F%98%E9%87%8F%E7%B1%BB%E5%9E%8B%E5%8C%B9%E9%85%8D%E8%A1%A8"><span class="toc-number">3.3.</span> <span class="toc-text">附录2：ShaderLab属性类型与CG变量类型匹配表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%99%84%E5%BD%95%E4%B8%89%EF%BC%9A-Unity%E6%94%AF%E6%8C%81%E7%9A%84%E5%B8%B8%E7%94%A8%E8%AF%AD%E4%B9%89"><span class="toc-number">3.4.</span> <span class="toc-text">附录三： Unity支持的常用语义</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E9%98%B6%E6%AE%B5%E4%BC%A0%E9%80%92%E6%A8%A1%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%88%B0%E9%A1%B6%E7%82%B9%E7%9D%80%E8%89%B2%E5%99%A8%EF%BC%9A"><span class="toc-number">3.4.1.</span> <span class="toc-text">应用阶段传递模型数据到顶点着色器：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A1%B6%E7%82%B9%E7%9D%80%E8%89%B2%E5%99%A8%E5%88%B0%E7%89%87%E5%85%83%E7%9D%80%E8%89%B2%E5%99%A8%EF%BC%9A"><span class="toc-number">3.4.2.</span> <span class="toc-text">顶点着色器到片元着色器：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%87%E5%85%83%E7%9D%80%E8%89%B2%E5%99%A8%E8%BE%93%E5%87%BA"><span class="toc-number">3.4.3.</span> <span class="toc-text">片元着色器输出</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E5%85%89%E7%85%A7%E6%A8%A1%E5%9E%8B%EF%BC%9ABlinn-Phong"><span class="toc-number">4.</span> <span class="toc-text">基础光照模型：Blinn-Phong</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90"><span class="toc-number">4.1.</span> <span class="toc-text">原理解析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%BC%94%E7%A4%BA"><span class="toc-number">4.2.</span> <span class="toc-text">代码演示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UnityCG-cginc%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84%E5%B8%AE%E5%8A%A9%E5%87%BD%E6%95%B0"><span class="toc-number">4.3.</span> <span class="toc-text">UnityCG.cginc中常用的帮助函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%B9%E7%90%86%E5%9F%BA%E7%A1%80"><span class="toc-number">5.</span> <span class="toc-text">纹理基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%B9%E7%90%86%E7%9A%84%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95"><span class="toc-number">5.1.</span> <span class="toc-text">纹理的基础用法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE"><span class="toc-number">5.2.</span> <span class="toc-text">法线贴图</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%B9%E5%87%B8%E6%98%A0%E5%B0%84"><span class="toc-number">5.2.1.</span> <span class="toc-text">凹凸映射</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%95%E7%BA%BF%E7%BA%B9%E7%90%86%E7%9A%84%E8%A7%A3%E9%87%8A"><span class="toc-number">5.2.2.</span> <span class="toc-text">法线纹理的解释</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%95%E7%BA%BF%E7%BA%B9%E7%90%86%E7%9A%84%E5%8F%8D%E6%98%A0%E5%B0%84%EF%BC%88%E8%A7%A3%E5%8E%8B%EF%BC%89"><span class="toc-number">5.2.3.</span> <span class="toc-text">法线纹理的反映射（解压）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%95%E7%BA%BF%E7%BA%B9%E7%90%86%E5%B1%9E%E6%80%A7-%E2%80%94%E2%80%94-Create-from-Grayscale"><span class="toc-number">5.2.4.</span> <span class="toc-text">法线纹理属性 —— Create from Grayscale</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8%E4%B8%8D%E5%90%8C%E7%A9%BA%E9%97%B4%E4%B8%AD%E8%AE%A1%E7%AE%97%E5%85%89%E7%85%A7%E6%A8%A1%E5%9E%8B"><span class="toc-number">5.2.5.</span> <span class="toc-text">在不同空间中计算光照模型</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ramp%E8%B4%B4%E5%9B%BE"><span class="toc-number">5.3.</span> <span class="toc-text">Ramp贴图</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%8F%E6%98%8E%E6%95%88%E6%9E%9C"><span class="toc-number">6.</span> <span class="toc-text">透明效果</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Unity-Shader%E7%9A%84%E6%B8%B2%E6%9F%93%E9%A1%BA%E5%BA%8F-%E2%80%94%E2%80%94-Queue"><span class="toc-number">6.1.</span> <span class="toc-text">Unity Shader的渲染顺序 —— Queue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AlphaTest"><span class="toc-number">6.2.</span> <span class="toc-text">AlphaTest</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Single-Side-Cull-back-side"><span class="toc-number">6.2.1.</span> <span class="toc-text">Single Side(Cull back side)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Both-Side"><span class="toc-number">6.2.2.</span> <span class="toc-text">Both Side</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AlphaBlend"><span class="toc-number">6.3.</span> <span class="toc-text">AlphaBlend</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Without-ZWrite"><span class="toc-number">6.3.1.</span> <span class="toc-text">Without ZWrite</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#With-ZWrite"><span class="toc-number">6.3.2.</span> <span class="toc-text">With ZWrite</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Both-Side-2"><span class="toc-number">6.3.3.</span> <span class="toc-text">Both Side</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ShaderLab%E7%9A%84%E6%B7%B7%E5%90%88%E5%91%BD%E4%BB%A4"><span class="toc-number">6.4.</span> <span class="toc-text">ShaderLab的混合命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%B7%E5%90%88%E6%93%8D%E4%BD%9CBlendOperation"><span class="toc-number">6.4.1.</span> <span class="toc-text">混合操作BlendOperation</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E6%B7%B7%E5%90%88%E5%9B%A0%E5%AD%90"><span class="toc-number">6.4.2.</span> <span class="toc-text">设置混合因子</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%B7%E5%90%88%E5%9B%A0%E5%AD%90"><span class="toc-number">6.4.3.</span> <span class="toc-text">混合因子</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/28/Notes-TA100-A4510/" title="技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）"/></a><div class="content"><a class="title" href="/2024/07/28/Notes-TA100-A4510/" title="技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）">技术美术百人计划学习笔记（美术4.5 特效规范及拆分实现）</a><time datetime="2024-07-28T09:20:57.000Z" title="发表于 2024-07-28 17:20:57">2024-07-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/02/13/Anima-SoundEuphonium/" title="《響け！ユーフォニアム》杂谈"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/SoundEuphonium-cover.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《響け！ユーフォニアム》杂谈"/></a><div class="content"><a class="title" href="/2024/02/13/Anima-SoundEuphonium/" title="《響け！ユーフォニアム》杂谈">《響け！ユーフォニアム》杂谈</a><time datetime="2024-02-13T06:14:39.000Z" title="发表于 2024-02-13 14:14:39">2024-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-Avatar/" title="【Unity】仿原神渲染2.0技术文档-角色渲染篇"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/c29cb1345f98a9f92545947d81d692c.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Unity】仿原神渲染2.0技术文档-角色渲染篇"/></a><div class="content"><a class="title" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-Avatar/" title="【Unity】仿原神渲染2.0技术文档-角色渲染篇">【Unity】仿原神渲染2.0技术文档-角色渲染篇</a><time datetime="2023-12-07T13:17:37.000Z" title="发表于 2023-12-07 21:17:37">2023-12-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-PostProcess/" title="【Unity】仿原神渲染2.0技术文档-后处理篇"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/c29cb1345f98a9f92545947d81d692c.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Unity】仿原神渲染2.0技术文档-后处理篇"/></a><div class="content"><a class="title" href="/2023/12/07/Projects-GenshinLikeRenderingInURP2-PostProcess/" title="【Unity】仿原神渲染2.0技术文档-后处理篇">【Unity】仿原神渲染2.0技术文档-后处理篇</a><time datetime="2023-12-07T13:17:30.000Z" title="发表于 2023-12-07 21:17:30">2023-12-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/01/Anima-NaginoAsukara/" title="《来自风平浪静的明天》浅谈"><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/NaginoAsuKara-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《来自风平浪静的明天》浅谈"/></a><div class="content"><a class="title" href="/2023/12/01/Anima-NaginoAsukara/" title="《来自风平浪静的明天》浅谈">《来自风平浪静的明天》浅谈</a><time datetime="2023-12-01T13:31:58.000Z" title="发表于 2023-12-01 21:31:58">2023-12-01</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2024 By 楸涵</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">欢迎来到楸涵的小窝！</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(() => {
+  let initFn = window.walineFn || null
+
+  const initWaline = (Fn) => {
+    const waline = Fn(Object.assign({
+      el: '#waline-wrap',
+      serverURL: 'https://blog-comment-68npiieuq-himoqiuhan.vercel.app/',
+      pageview: false,
+      dark: 'html[data-theme="dark"]',
+      path: window.location.pathname,
+      comment: false,
+    }, null))
+
+    const destroyWaline = () => {
+      waline.destroy()
+    }
+
+    btf.addGlobalFn('pjax', destroyWaline, 'destroyWaline')
+  }
+
+  const loadWaline = async () => {
+    if (initFn) initWaline(initFn)
+    else {
+      await getCSS('https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.min.css')
+      const { init } = await import('https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.min.js')
+      initFn = init || Waline.init
+      initWaline(initFn)
+      window.walineFn = initFn
+    }
+  }
+
+  if ('Waline' === 'Waline' || !true) {
+    if (true) btf.loadComment(document.getElementById('waline-wrap'),loadWaline)
+    else setTimeout(loadWaline, 0)
+  } else {
+    window.loadOtherComment = loadWaline
+  }
+})()</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
