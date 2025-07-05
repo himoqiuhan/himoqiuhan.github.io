@@ -6,7 +6,7 @@
   <link href="https://himoqiuhan.github.io/atom.xml" rel="self"/>
   
   <link href="https://himoqiuhan.github.io/"/>
-  <updated>2024-07-31T17:22:41.734Z</updated>
+  <updated>2025-07-05T15:47:10.890Z</updated>
   <id>https://himoqiuhan.github.io/</id>
   
   <author>
@@ -15,6 +15,56 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>【Unity】二次元3D动作角色扮演游戏《泉流石》- V2</title>
+    <link href="https://himoqiuhan.github.io/2025/07/04/Projects-Game-Unity-QuanLiuShi-V2/"/>
+    <id>https://himoqiuhan.github.io/2025/07/04/Projects-Game-Unity-QuanLiuShi-V2/</id>
+    <published>2025-07-04T15:03:29.000Z</published>
+    <updated>2025-07-05T15:47:10.890Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="开发者信息及游戏链接">开发者信息及游戏链接</h2><ul><li>策划：<a href="https://space.bilibili.com/384388508">@曾經z</a>、<a href="https://space.bilibili.com/24969284">一帆</a></li><li>程序：<a href="https://github.com/Viking-wei">Viking-wei</a>、<a href="https://space.bilibili.com/384388508">@曾經z</a>、<a href="https://space.bilibili.com/374860285">@-楸涵-</a>、</li><li>TA：<a href="https://space.bilibili.com/374860285">@-楸涵-</a></li><li>美术：阿钟、二呈</li><li>特效：<a href="https://space.bilibili.com/374860285">@-楸涵-</a>、<a href="https://www.magesbox.com/member/22018">@诺亚梨</a></li></ul><blockquote><p>游戏链接（包含剧情版本和连战版本）： <a href="https://pan.baidu.com/s/1fDIc2lCf4K4khuSNh1OVWQ?pwd=9ya7">https://pan.baidu.com/s/1fDIc2lCf4K4khuSNh1OVWQ?pwd=9ya7</a><br>提取码：9ya7</p></blockquote><blockquote><p>游戏视频：【《泉流石》-从三创到四【2025中国传媒大学游戏设计系联创毕设】】 <a href="https://www.bilibili.com/video/BV1Ba7HzQEr4">https://www.bilibili.com/video/BV1Ba7HzQEr4</a></p></blockquote><h2 id="游戏介绍">游戏介绍</h2><p>这个毕设基于创三版本的《泉流石》进行开发，重点在提升角色表现、画面表现和战斗时的打击感，玩法并没有特别多的改动，基本可以参照前篇的介绍。</p><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/CH03_02.jpeg" alt="圆盘QIE玩法" style="zoom: 50%;" /><h2 id="游戏截图">游戏截图</h2><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/20250705233134.png" alt="角色渲染表现" style="zoom: 80%;" /><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/20250705232707.png" alt="场景渲染表现" style="zoom:80%;" /><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/20250705233001.png" alt="进入战斗后的特效表现" style="zoom:80%;" /><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/Honeycam%202025-07-05%2023-35-40.gif" alt="扫描、像素化与故障艺术进入战斗" style="zoom:80%;" /><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/Honeycam%202025-07-05%2023-36-13.gif" alt="黑白闪与故障艺术结束战斗" style="zoom:80%;" /><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/Honeycam%202025-07-05%2023-34-19.gif" alt="开打ESC选项界面" style="zoom:80%;" /><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/Honeycam%202025-07-05%2023-41-21.gif" alt="油画效果切换场景" style="zoom:80%;" /><h2 id="简短总结">简短总结</h2><p>这次由于排期和任务推进的一些问题，《泉流石》在游戏性上没有打磨好，整体剧情的完成度上有点烂尾了，算是留下了一个遗憾。不过花了很多时间去打磨的角色和一些画面表现最终还是让我很满意，角色做得比上一次要好了不少，也试着去做了一些感觉很有意思的效果，希望下次能做得更好吧！</p>]]></content>
+    
+    
+    <summary type="html">对《泉流石》的新版本开发，带来更精致的角色、更丰富的场景和更绚烂的特效！</summary>
+    
+    
+    
+    <category term="Portfolio" scheme="https://himoqiuhan.github.io/categories/Portfolio/"/>
+    
+    
+    <category term="Unity" scheme="https://himoqiuhan.github.io/tags/Unity/"/>
+    
+    <category term="游戏开发" scheme="https://himoqiuhan.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/"/>
+    
+    <category term="二次元渲染" scheme="https://himoqiuhan.github.io/tags/%E4%BA%8C%E6%AC%A1%E5%85%83%E6%B8%B2%E6%9F%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【Unity】二次元3D动作角色扮演游戏《泉流石》</title>
+    <link href="https://himoqiuhan.github.io/2024/08/31/Projects-Game-Unity-QuanLiuShi/"/>
+    <id>https://himoqiuhan.github.io/2024/08/31/Projects-Game-Unity-QuanLiuShi/</id>
+    <published>2024-08-31T07:37:03.000Z</published>
+    <updated>2025-07-05T14:54:14.890Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="开发者信息及游戏链接">开发者信息及游戏链接</h2><ul><li>策划：<a href="https://space.bilibili.com/384388508">@曾經z</a>、<a href="https://space.bilibili.com/24969284">一帆</a></li><li>程序：<a href="https://github.com/Viking-wei">Viking-wei</a>、<a href="https://space.bilibili.com/384388508">@曾經z</a>、<a href="https://space.bilibili.com/374860285">@-楸涵-</a>、</li><li>TA：<a href="https://space.bilibili.com/374860285">@-楸涵-</a>、<a href="https://github.com/Viking-wei">Viking-wei</a></li><li>美术：<a href="https://space.bilibili.com/83138176">@锦鑫</a></li><li>特效：<a href="https://www.magesbox.com/member/22018">@诺亚梨</a></li></ul><blockquote><p>游戏链接（包含剧情版本和连战版本）： <a href="https://pan.baidu.com/s/1Q1p2SN3WhJjyZnYJQPIIJQ?pwd=rb5b">https://pan.baidu.com/s/1Q1p2SN3WhJjyZnYJQPIIJQ?pwd=rb5b</a><br>提取码：rb5b</p></blockquote><blockquote><p>宣传PV：【《泉流石》宣传PV【中传大三游创结课作业】】 <a href="https://www.bilibili.com/video/BV111421y7Yz">https://www.bilibili.com/video/BV111421y7Yz</a></p><p>玩法展示：【《泉流石》部分关卡实机演示】 <a href="https://www.bilibili.com/video/BV1bLhneGEwQ">https://www.bilibili.com/video/BV1bLhneGEwQ</a></p></blockquote><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/CH03_ArtistConcept.jpg" alt="游戏概念图" style="zoom: 20%;" /><h2 id="游戏介绍">游戏介绍</h2><p>《泉流石》是一款采用卡通风格化渲染的二次元3D动作角色扮演游戏，其核心玩法为1V1的战斗中，通过鼠标左右键控制QTE指针的移动，来进行带有一定策略的快速QTE。</p><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/CH03_02.jpeg" alt="圆盘QIE玩法" style="zoom: 50%;" /><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/CH03_03.png" alt="游戏内战斗时的QTE圆盘" style="zoom: 33%;" /><h3 id="核心元素">核心元素</h3><p>《泉流石》设计的初衷，在于结合二次元角色与武士刀这两个元素，并给予玩家战斗的爽快感。</p><p>因此，二次元角色、武士刀、爽快感是《泉流石》最重要的三大要素。</p><h4 id="二次元角色">二次元角色</h4><p>角色由我们自己设计、建模、绑定、画贴图、制作风格化材质，最终借助Unity Humanoid实现对动画资产的重定向。</p><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/CH03_14.png" alt="二次元角色三视图" style="zoom:10%;" /><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/CH03_03.png" alt="游戏内角色表现" style="zoom:33%;" /><h4 id="武士刀">武士刀</h4><p>武士刀则为战斗的表现形式，主角以御剑的形式控制义手中的刀刃，挥砍向敌人，慢慢劈开这个世界的真相。</p><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/CH03_05.png" style="zoom: 25%;" /><h4 id="爽快感">爽快感</h4><p>玩法层面，我们希望玩家通过一次次QTE的尝试与学习，来达到压力积累与释放的过程，并且借助表现力足的战斗特效，来加强玩家的爽快感。</p><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/CH03_08.png" alt="借助特效强化战斗的爽快感" style="zoom:33%;" /><p>同时游戏中还加入了一些剧情CG和一场追逐战，让游戏的体验更为丰富一些。</p><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/CH03_07.png" alt="一个Boss出场的剧情CG" style="zoom:33%;" /><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/CH03_09.png" alt="与Boss的追逐战" style="zoom:33%;" /><p>最终通过战胜心中的自己，一步一步挥砍，毅然地斩出每一刀。</p><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/20250704213051.png" alt="最终阶段战胜心中黑暗的自己，斩断世界" style="zoom: 50%;" /><h2 id="游戏开发">游戏开发</h2><h3 id="分工">分工</h3><ul><li><a href="https://space.bilibili.com/374860285">@-楸涵-</a>（我）：渲染、模型、材质开发</li><li><a href="https://space.bilibili.com/83138176">@锦鑫</a>：贴图、2D特效、平面素材</li><li><a href="https://space.bilibili.com/384388508">@曾經z</a>、：系统、战斗、客户端</li><li><a href="https://space.bilibili.com/24969284">一帆</a>：动画、关卡、剧情</li><li><a href="https://github.com/Viking-wei">Viking-wei</a>：渲染、场景、GUI</li><li><a href="https://www.magesbox.com/member/22018">@诺亚梨</a>：战斗特效</li></ul><h3 id="二次元角色开发过程">二次元角色开发过程</h3><p>因为想要做3D的二次元风格卡通渲染，模型基本就需要我们自己去设计、制作。在开发的早期，我们的角色设计同学锦鑫就非常给力且迅速地出了巨量的初版设计来和我们讨论（肝帝），而且完成度都很高。</p><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/CH03_15.png" alt="初版的角色设计" style="zoom:50%;" /><p>后续锦鑫同学还在讨论出的角色身上进一步细化了很多设计。</p><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/20250704213456.png" alt="细化后的角色设定与三视图" style="zoom: 67%;" /><p>模型的设计、贴图绘制由锦鑫同学处理，其他部分由我完成。在之前我并没有人物模型制作的基础，甚至建模也没有正经学习过，做模型的过程磕磕绊绊，加上这段时间还在实习，最终花费了很长的时间，也没有获得能够让我满意的角色模型，希望下次制作的时候能有一些进步！</p><p>再简单提起一下角色的渲染，引擎内使用的是前向管线，基于URP进行开发，所以角色的一些Feature开发起来就比较方便。我已经研究过一段时间的二次元角色渲染，不过之前一直用的是现成的资产，这次算是对资产的生成流程也进行了一遍实践，也是收获了不少能够用在后面毕设的经验。</p><img src="https://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/CH03_10.png" alt="最终游戏内的模型表现" style="zoom:33%;" /><h2 id="收获">收获</h2><p>这次开发对我来说最大的收获就数对二次元角色的开发流程有了一个整体的认识，虽然走得磕磕绊绊，最终的表现效果也差强人意，但是最终也是坚持下来做完了，对整个流程有了一定的认知，这个角度上我还是比较满意的。写这篇项目总结的时候，已经是毕设都做完的状态了，以我现在的角度来看，这次的开发确实给了我后面开发不少帮助，尤其是在角色表现效果的把控方面，后面也能够看到毕设的角色模型、表现质量提升了不少档次。</p><p>所以，一定要多尝试，不要怕犯错，每一次错误、失误或是做得不够好的地方，都是下一次做得接近理想模样的基石！</p>]]></content>
+    
+    
+    <summary type="html">具有一定策略性的快速QTE游戏</summary>
+    
+    
+    
+    <category term="Portfolio" scheme="https://himoqiuhan.github.io/categories/Portfolio/"/>
+    
+    
+    <category term="Unity" scheme="https://himoqiuhan.github.io/tags/Unity/"/>
+    
+    <category term="游戏开发" scheme="https://himoqiuhan.github.io/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/"/>
+    
+    <category term="二次元渲染" scheme="https://himoqiuhan.github.io/tags/%E4%BA%8C%E6%AC%A1%E5%85%83%E6%B8%B2%E6%9F%93/"/>
+    
+  </entry>
   
   <entry>
     <title>【Unity】颜色组合塔防游戏《女巫缤纷夜》</title>
@@ -448,56 +498,6 @@
     
     
     <summary type="html">延迟渲染与前向渲染的简述，以及额外的其他光照算法的概述</summary>
-    
-    
-    
-    <category term="Notes" scheme="https://himoqiuhan.github.io/categories/Notes/"/>
-    
-    
-    <category term="TA" scheme="https://himoqiuhan.github.io/tags/TA/"/>
-    
-    <category term="百人计划" scheme="https://himoqiuhan.github.io/tags/%E7%99%BE%E4%BA%BA%E8%AE%A1%E5%88%92/"/>
-    
-    <category term="Shader" scheme="https://himoqiuhan.github.io/tags/Shader/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>技术美术百人计划学习笔记（图形3.3 曲面细分与几何着色器）</title>
-    <link href="https://himoqiuhan.github.io/2023/08/10/Notes-TA100-T3300/"/>
-    <id>https://himoqiuhan.github.io/2023/08/10/Notes-TA100-T3300/</id>
-    <published>2023-08-10T05:01:11.000Z</published>
-    <updated>2024-07-27T15:13:59.654Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100T3300.png" alt=""></p><h2 id="应用">应用</h2><h3 id="曲面细分着色器">曲面细分着色器</h3><ul><li><p>海浪、雪地等</p><p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100T3300-1.png" alt=""></p></li><li><p>与DP贴图结合</p><p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100T3300-2.png" alt=""></p></li></ul><p>相较于直接增加模型的面数，曲面细分着色器可以在游戏进行时，根据自定义的规则（距离等），动态调整模型的复杂度，可以带来更好的性能。</p><h3 id="几何着色器">几何着色器</h3><ul><li><p>几何动画</p><p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100T3300-3.png" alt=""></p></li><li><p>草地（与曲面细分着色器结合，动态调整草地的疏密）</p><p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100T3300-4.png" alt=""></p></li></ul><h2 id="着色器执行顺序">着色器执行顺序</h2><p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100T3300-5.png" alt=""></p><p>Hull Shader：可编程，定义细分的参数</p><p>Tessellation Primitive Generator：不可编程不可控制</p><p>Domain Shader：曲面细分得到的点是在重心空间的，需要在Domain Shader中将点转换到我们要用的空间中</p><h2 id="TESS">TESS</h2><h3 id="输入和输出">输入和输出</h3><ul><li>输入：Patch，可以看作是多个顶点的集合，包含每个顶点的属性，可以指定一个Patch包含的顶点数以及自己的属性</li><li>功能：将图元细分（可以是三角形、矩形等）</li><li>输出：细分后的顶点</li></ul><h3 id="TESS流程">TESS流程</h3><ul><li><p>Hull Shader</p><ul><li><p>决定细分的数量（设定Tessellation Factor和Inside Tessellation Factor）</p></li><li><p>对输入的Patch参数进行改变（按需）</p></li></ul></li><li><p>Tessellation Primitive Generation</p><ul><li>进行细分操作</li></ul></li><li><p>Domain Shader</p><ul><li>对细分后的点进行处理，从重心空间（Barycentric Coordinate System）转换到屏幕空间</li></ul></li></ul><h3 id="Hull-Shader参数解析">Hull Shader参数解析</h3><ul><li><p>Tessellation Factor：决定将一条边分成几个部分，切分方法有：</p><ul><li><p>equal_spacing：进行等分</p></li><li><p>fractional_even_spacing，fractional_odd_spacing：从两端开始细分，到中间部分逐渐平均。目的是为了让细分更平滑。两者区别在于，even一定在中点部位有一个点（点的数量是奇数），odd则没有中点（点的数量是偶数）</p><p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100T3300-6.png" alt=""></p></li></ul></li><li><p>Inner Tessellation Factor：控制内部图形的切割方式</p><p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100T3300-7.png" alt=""></p></li></ul><h2 id="GS">GS</h2><h3 id="输入与输出">输入与输出</h3><ul><li>输入：图元（三角形、矩形、线等），据图元的不同，shader中会出现对应不同数量的顶点</li><li>输出：输出同样为图元，一个或多个，需要自己从定点构建，顺序很重要；同时需要定义最大输出的顶点数</li></ul>]]></content>
-    
-    
-    <summary type="html">介绍曲面细分着色器与几何着色器，并介绍对两个着色器可配置阶段的控制</summary>
-    
-    
-    
-    <category term="Notes" scheme="https://himoqiuhan.github.io/categories/Notes/"/>
-    
-    
-    <category term="TA" scheme="https://himoqiuhan.github.io/tags/TA/"/>
-    
-    <category term="百人计划" scheme="https://himoqiuhan.github.io/tags/%E7%99%BE%E4%BA%BA%E8%AE%A1%E5%88%92/"/>
-    
-    <category term="Shader" scheme="https://himoqiuhan.github.io/tags/Shader/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>技术美术百人计划学习笔记（图形3.2 混合模式及剔除）</title>
-    <link href="https://himoqiuhan.github.io/2023/08/10/Notes-TA100-T3200/"/>
-    <id>https://himoqiuhan.github.io/2023/08/10/Notes-TA100-T3200/</id>
-    <published>2023-08-10T04:01:11.000Z</published>
-    <updated>2024-07-27T15:13:59.654Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100T3200.png" alt=""></p><h2 id="什么是混合模式">什么是混合模式</h2><h3 id="混合的定义">混合的定义</h3><p>混合就是把两种颜色混在一起，具体就是某一像素原位置的颜色与将要画上去的颜色，通过某种方式或算法混在一起，从而实现新的效果。例如PS中的叠加、正片叠底、滤色</p><h3 id="混合模式">混合模式</h3><p><strong>最终颜色 = Shader计算后的颜色值 * ScrFactor + 累计颜色 * DstFactor</strong></p><p>累计颜色可以理解为G-buffer中的像素，混合模式控制的就是ScrFactor和DstFactor</p><p>脚本中会看到的是<code>Blend SrcFactor DstFactor</code></p><p><strong>混合模式是Material层面的控制</strong></p><h2 id="混合模式的类型">混合模式的类型</h2><h3 id="PS中的混合模式">PS中的混合模式</h3><p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100T3200-1.png" alt=""></p><h3 id="ShaderLab的混合">ShaderLab的混合</h3><p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100T3200-2.png" alt=""></p><ol><li>如果颜色某一分量超过1，则会被自动截取为1，不需要考虑越界的问题</li><li>在所有着色器执行完毕，所有纹理都被应用，所有像素准备被呈现到屏幕之后，使用Blend命令来操作这些像素进行混合</li><li>语法：</li></ol><ul><li><p>Blend Off：关闭Blend（默认）</p></li><li><p>Blend SrcFactor DstFactor</p><ul><li><p>配置并启用混合</p></li><li><p>shader计算的颜色 * SrcFactor + 已经在target buffer的颜色 * DstFactor</p></li></ul></li><li><p>Blend SrcFactor DstFactor, SrcFactorA DstFactorA</p><ul><li>与上同理，但是使用不同的factor来混合alpha</li></ul></li><li><p>BlendOp Value</p><ul><li>设置Blend的计算公式，默认为Add</li></ul></li><li><p>BlendOp OpColor， OpAlpha</p><ul><li>同上，但是对Alpha进行不同处理</li></ul></li><li><p>AlphaToMaskOn</p><ul><li>常用在开启多重渲染（MSAA）的地表植被的渲染</li></ul></li></ul><p>官方文档：<a href="https://docs.unity3d.com/cn/2018.4/Manual/SL-Blend.html">https://docs.unity3d.com/cn/2018.4/Manual/SL-Blend.html</a></p><h3 id="总结">总结</h3><ol><li>Blend命令：启用会禁用GPU上的一些优化（主要是隐藏表面去除Early-Z），会导致GPU开销增加</li><li>混合操作默认为Add，如果使用BlendOp命令，则混合操作将设置为该方式</li><li>混合方程：FinalValue = SrcFactor * SrcValue [operation] DstFactor * DstValue</li><li>单独的RGB和Alpha混合与高级OpenGL混合操作不兼容</li></ol><p>【常用非高级混合命令】：</p><ul><li><p>Alpha混合：Blend SrcAlpha OneMinusSrcAlpha</p></li><li><p>Addtive相加混合：Blend One One</p></li><li><p>柔和相加混合：Blend One OneMinusDstFactor</p></li><li><p>相乘混合：Blend DstColor Zero</p></li><li><p>2倍相乘混合：Blend DstColor SrcColor</p></li><li><p>预乘透明度混合：Blend One OneMinusSrcAlpha</p></li></ul><h2 id="混合模式的实现方式">混合模式的实现方式</h2><h3 id="Unity中使用自带枚举控制">Unity中使用自带枚举控制</h3><p><img src="http://qiuhanblog-imgsubmit.oss-cn-beijing.aliyuncs.com/img/TA100T3200-3.png" alt=""></p><h3 id="PS混合模式实现方式">PS混合模式实现方式</h3><p>【以下是最常用的】</p><ul><li><p>alpha：使用当前颜色的alpha值进行混合</p></li><li><p>darken：对两个颜色乘1取两者的最小值</p><ul><li>语法：BlendOp Min，Blend One One</li></ul></li><li><p>Multipy正片叠底：当前颜色 * 缓存颜色 + 缓存颜色 * 0</p><ul><li>语法：Blend Add， Blend DstColor Zero</li></ul></li><li><p>Screen滤色：当前颜色 * （1 -  缓存颜色） + 缓存颜色 * 1</p><ul><li>语法：Blend Add，Blend OneMinusDstColor One</li></ul></li><li><p>Lighten变亮：对两个颜色乘1取最大值</p><ul><li>语法：BlendOp Max，Blend One One</li></ul></li><li><p>LinearDodge线性减淡：缓存颜色 * 1 + 当前颜色 * 1</p><ul><li>语法：Blend One One</li></ul></li><li><p>ColorBurn颜色加深：（高级OpenGL混合，只支持OpenGL平台）</p><ul><li>目前只在具有GL_KHR_blend_equaion_advanced或GL_NV_blend_equation_advanced扩展支持的OpenGL硬件上可用</li></ul></li></ul><h2 id="剔除">剔除</h2><h3 id="法线剔除">法线剔除</h3><p>也被称为<strong>背面消隐</strong>，根据法线朝向判断哪个面被剔除掉，可以控制是否双面渲染。</p><p><strong>也是Material层面的控制</strong></p><p>【语法】</p><p><code>Cull + &lt;Off/Front/Back&gt;</code>（默认为Back）</p><p>【Unity内置的剔除模式的枚举】</p><p><code>[Enum(UnityEngine.Rendering.CullMode)]_CullMode(&quot;Cull Mode&quot;, float) = 2</code></p><h3 id="面裁切">面裁切</h3><p>Clip函数会将参数小于值的片元直接在片元阶段丢弃掉，常用于制作溶解、裁剪等效果</p><p>【语法】</p><p><code>Clip();</code>（默认会切掉0.5的部分）</p><p>【Clip背后的命令实际上是if】</p><figure class="highlight glsl"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (input.posInObjectCoords.y &gt; <span class="number">0.5</span>)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">discard</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h3 id="总结-2">总结</h3><ol><li>开启双面渲染（Cull Off）相当于绘制了两次–Overdraw</li><li>Clip函数在某些PowerVR的机型上效率很低</li><li>面裁切Clip最好是使用AlphaTest的Queue（2450）</li></ol>]]></content>
-    
-    
-    <summary type="html">介绍Unity及PS中的混合模式，以及剔除相关的知识</summary>
     
     
     
